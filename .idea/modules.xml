@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AppyGoLucky.iml" filepath="$PROJECT_DIR$/AppyGoLucky.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CMPUT301F16T03-D01.iml" filepath="$PROJECT_DIR$/CMPUT301F16T03-D01.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
