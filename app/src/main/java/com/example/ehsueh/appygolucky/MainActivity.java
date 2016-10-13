@@ -1,3 +1,23 @@
+/*
+AppyGoLucky: Simple application that allows for those who need rides to and from locations to
+connect with a driver who could take them. This application permits for simple coordination,
+payment agreement, and route agreement.
+
+Copyright (C) 2016 J Maxwell Douglas jmdougla@ualberta.ca, Eric Hsueh, Corey Hunt, Vinson Lai
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
 package com.example.ehsueh.appygolucky;
 
 import android.os.Bundle;
