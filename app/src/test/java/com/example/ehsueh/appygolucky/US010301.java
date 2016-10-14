@@ -1,5 +1,7 @@
 package com.example.ehsueh.appygolucky;
 
+import android.test.ActivityInstrumentationTestCase2;
+
 import java.sql.Driver;
 import java.util.Collection;
 
@@ -16,7 +18,9 @@ import java.util.Collection;
  *
  */
 
-public class US010301 {
+public class US010301 extends ActivityInstrumentationTestCase2 {
+    public US010301 () {super(MainActivity.class); }
+
     DriversWhoHaveAcceptedList driversWhoHaveAcceptedList = new DriversWhoHaveAcceptedList();
     Collection<Driver> Drivers = driversWhoHaveAcceptedList.getDrivers();
 

@@ -1,6 +1,8 @@
 package com.example.ehsueh.appygolucky;
 
 
+import android.test.ActivityInstrumentationTestCase2;
+
 import org.junit.Assert.*;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
@@ -14,12 +16,12 @@ import static org.junit.Assert.assertTrue;
  *     <li>I want to be able specify the starting place and destination</li>
  * </ul>
  *
+ *
+ *
  */
 
-public class US010101{
-    public US010101() {
-        super();
-    }
+public class US010101 extends ActivityInstrumentationTestCase2 {
+    public US010101 () {super(MainActivity.class); }
 
     @Test
     public void createRideTest() {

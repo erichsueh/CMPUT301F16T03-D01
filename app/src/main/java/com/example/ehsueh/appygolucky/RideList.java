@@ -28,4 +28,8 @@ public class RideList {
     public void addRide(Ride ride) {
 
     }
+
+    public void deleteRide(Ride ride) {
+
+    }
 }

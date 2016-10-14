@@ -5,6 +5,8 @@ import java.util.Collection;
 
 /**
  * Created by Maxwell on 2016-10-11.
+ * An instance of this list will be had by every ride-request as soon as the first driver accepts
+ * the ride-request.
  */
 public class DriversWhoHaveAcceptedList {
 
