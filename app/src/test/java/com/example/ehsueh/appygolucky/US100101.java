@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 
 public class US100101 extends TestCase {
 
-    public void testLocation(){
+    public void SpecifyStartandEndLocation(){
 
         Map themap = new Map("-100.29N,311.23E","-110.23N,330.34E");
         assertTrue(themap.getStart()=="-100.29N,311.23E");
