@@ -23,6 +23,8 @@ public class RideList {
         return new ArrayList<Ride>();
     }
 
+    public Collection<Ride> getRidesAcceptedByDriver(Driver driver) {return null;}
+
     public void addRide(Ride ride) {
 
     }
