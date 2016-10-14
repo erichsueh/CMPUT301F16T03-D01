@@ -5,4 +5,8 @@ package com.example.ehsueh.appygolucky;
  */
 
 public class Rider extends User {
+    public Rider() {
+        //TODO: replace this with something useful
+        super(null, null, null, null);
+    }
 }

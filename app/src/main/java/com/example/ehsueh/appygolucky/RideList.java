@@ -15,6 +15,14 @@ public class RideList {
         return new ArrayList<Ride>();
     }
 
+    public Collection<Ride> getRidesByLocation(String location) {
+        return new ArrayList<Ride>();
+    }
+
+    public Collection<Ride> getRidesByName(String name) {
+        return new ArrayList<Ride>();
+    }
+
     public void addRide(Ride ride) {
 
     }

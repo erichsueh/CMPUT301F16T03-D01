@@ -5,4 +5,8 @@ package com.example.ehsueh.appygolucky;
  */
 
 public class Driver extends User {
+    public Driver() {
+        //TODO: replace this with something useful
+        super(null, null, null, null);
+    }
 }
