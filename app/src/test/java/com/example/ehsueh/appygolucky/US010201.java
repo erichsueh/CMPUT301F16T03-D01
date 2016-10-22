@@ -1,5 +1,8 @@
 package com.example.ehsueh.appygolucky;
 
+import android.app.Activity;
+import android.test.ActivityInstrumentationTestCase2;
+
 import java.util.Collection;
 
 import static junit.framework.Assert.assertTrue;
@@ -14,7 +17,9 @@ import static junit.framework.Assert.assertTrue;
  *
  */
 
-public class US010201 {
+public class US010201 extends ActivityInstrumentationTestCase2{
+    public US010201 () {super(MainActivity.class); }
+
     public void rideListTest() {
         RideList rideList = new RideList();
         Collection<Ride> Rides = rideList.getRides();

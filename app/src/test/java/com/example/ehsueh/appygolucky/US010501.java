@@ -1,5 +1,12 @@
 package com.example.ehsueh.appygolucky;
 
+import android.test.ActivityInstrumentationTestCase2;
+
+import java.sql.*;
+import java.sql.Driver;
+import java.util.Collection;
+
+
 /**
  * Created by Maxwell on 2016-10-11.
  * User Story US 01.05.01 - As a rider, I want to be able to phone or email the driver who
@@ -15,5 +22,9 @@ package com.example.ehsueh.appygolucky;
  *
  */
 
-public class US010501 {
+public class US010501 extends ActivityInstrumentationTestCase2 {
+    public US010501 () {super(MainActivity.class); }
+
+    DriversWhoHaveAcceptedList driversWhoHaveAcceptedList = new DriversWhoHaveAcceptedList();
+    Collection<Driver> Drivers = driversWhoHaveAcceptedList.getDrivers();
 }
