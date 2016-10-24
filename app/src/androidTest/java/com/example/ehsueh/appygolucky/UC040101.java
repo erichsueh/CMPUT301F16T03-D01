@@ -19,8 +19,8 @@ import java.util.List;
  * </ul>
  */
 
-public class US040101 extends ActivityInstrumentationTestCase2 {
-    public US040101() {
+public class UC040101 extends ActivityInstrumentationTestCase2 {
+    public UC040101() {
         super(MainActivity.class);
     }
 

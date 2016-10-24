@@ -15,8 +15,8 @@ import java.util.Collection;
  *</ul>
  */
 
-public class US050101 extends ActivityInstrumentationTestCase2 {
-    public US050101() {
+public class UC050101 extends ActivityInstrumentationTestCase2 {
+    public UC050101() {
         super(MainActivity.class);
     }
 

@@ -15,9 +15,9 @@ import android.test.ActivityInstrumentationTestCase2;
  * </ul>
  */
 
-public class US030101 extends ActivityInstrumentationTestCase2{
+public class UC030101 extends ActivityInstrumentationTestCase2{
 
-    public US030101() {
+    public UC030101() {
         super(MainActivity.class);
     }
 
