@@ -20,8 +20,8 @@ import static org.junit.Assert.assertTrue;
  *
  */
 
-public class US010101 extends ActivityInstrumentationTestCase2 {
-    public US010101 () {super(MainActivity.class); }
+public class UC010101 extends ActivityInstrumentationTestCase2 {
+    public UC010101() {super(MainActivity.class); }
 
     @Test
     public void createRideTest() {

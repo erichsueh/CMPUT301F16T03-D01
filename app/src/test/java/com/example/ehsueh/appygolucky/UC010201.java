@@ -1,40 +1,26 @@
 package com.example.ehsueh.appygolucky;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.app.Activity;
+import android.test.ActivityInstrumentationTestCase2;
 
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
-import java.util.UUID;
 
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 /**
- * Created by Vinson on 2016-10-13.
- * US 08.01.01 As an driver, I want to see requests that I already accepted while offline.
+ * Created by Maxwell on 2016-10-11.
+ * User Story US 01.02.01 - As a rider, I want to see current requests I have open.
  * Related tests for this use case include:
  * <ul>
- *     <li>As a Driver, I want to see the requests that I already accepted while offline</li>
+ *     <li>I want to be able to see a list of my created rides</li>
  * </ul>
+ *
  */
 
-public class US080101 {
-    /**
-     * Test the if the app is storing the request locally, and presenting in the list correctly when offline
-     */
-   /** MainActivity mactivity = new MainActivity();
-    @Test
-    //references from US010201.rideListTest()
-    public void offlineridelistTest() {
-        //making sure the network is offline
-        assertFalse(mactivity.isNetworkAvailable());
+public class UC010201 extends ActivityInstrumentationTestCase2{
+    public UC010201() {super(MainActivity.class); }
+
+    public void rideListTest() {
         RideList rideList = new RideList();
         Collection<Ride> Rides = rideList.getRides();
         String rideNameA = "I need a ride to West Ed!!";
@@ -59,6 +45,4 @@ public class US080101 {
         assertTrue("The rides are in the list", Rides.contains(rideB));
         assertTrue("The rides are in the list", Rides.contains(rideC));
     }
-    */
-
 }

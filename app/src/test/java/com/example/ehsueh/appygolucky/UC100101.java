@@ -15,7 +15,7 @@ import junit.framework.TestCase;
  * and check to make sure its the same as the new set location
  */
 
-public class US100101 extends TestCase {
+public class UC100101 extends TestCase {
 
     public void SpecifyStartandEndLocation(){
 

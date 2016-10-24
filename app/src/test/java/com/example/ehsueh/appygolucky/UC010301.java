@@ -18,8 +18,8 @@ import java.util.Collection;
  *
  */
 
-public class US010301 extends ActivityInstrumentationTestCase2 {
-    public US010301 () {super(MainActivity.class); }
+public class UC010301 extends ActivityInstrumentationTestCase2 {
+    public UC010301() {super(MainActivity.class); }
 
     DriversWhoHaveAcceptedList driversWhoHaveAcceptedList = new DriversWhoHaveAcceptedList();
     Collection<Driver> Drivers = driversWhoHaveAcceptedList.getDrivers();

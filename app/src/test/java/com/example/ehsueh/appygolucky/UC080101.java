@@ -1,28 +1,40 @@
 package com.example.ehsueh.appygolucky;
 
-import android.test.ActivityInstrumentationTestCase2;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
+import java.util.UUID;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 /**
- * Created by Maxwell on 2016-10-11.
- * User Story US 01.04.01 - As a rider, I want to cancel requests.
+ * Created by Vinson on 2016-10-13.
+ * US 08.01.01 As an driver, I want to see requests that I already accepted while offline.
  * Related tests for this use case include:
  * <ul>
- *     <li>I want to be able to call a delete function to remove a ride from the list of "my
- *     ride requests"</li>
+ *     <li>As a Driver, I want to see the requests that I already accepted while offline</li>
  * </ul>
- *
- * This test will likely be combined at some future point in time with a more general test of the
- * rideList structure.
  */
 
-public class US010401 extends ActivityInstrumentationTestCase2 {
-    public US010401 () {super(MainActivity.class); }
-
-    public void rideListTest() {
+public class UC080101 {
+    /**
+     * Test the if the app is storing the request locally, and presenting in the list correctly when offline
+     */
+   /** MainActivity mactivity = new MainActivity();
+    @Test
+    //references from UC010201.rideListTest()
+    public void offlineridelistTest() {
+        //making sure the network is offline
+        assertFalse(mactivity.isNetworkAvailable());
         RideList rideList = new RideList();
         Collection<Ride> Rides = rideList.getRides();
         String rideNameA = "I need a ride to West Ed!!";
@@ -46,14 +58,7 @@ public class US010401 extends ActivityInstrumentationTestCase2 {
         assertTrue("The rides are in the list", Rides.contains(rideA));
         assertTrue("The rides are in the list", Rides.contains(rideB));
         assertTrue("The rides are in the list", Rides.contains(rideC));
-
-        rideList.deleteRide(rideA);
-        rideList.deleteRide(rideB);
-        rideList.deleteRide(rideC);
-
-        assertFalse("This ride-list contains three elements!", Rides.size() == 3);
-        assertFalse("The rides are in the list", Rides.contains(rideA));
-        assertFalse("The rides are in the list", Rides.contains(rideB));
-        assertFalse("The rides are in the list", Rides.contains(rideC));
     }
+    */
+
 }

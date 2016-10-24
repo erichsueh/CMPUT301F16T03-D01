@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
  * </ul>
  */
 
-public class US020101 {
+public class UC020101 {
     /**For rider:
      * Test the colour of each ride request item is in fact at the planning stage it is at.
      * (green means good to go, yellow means Driver is waiting for driver to accept, grey means waiting the user to go online to get/send updates)

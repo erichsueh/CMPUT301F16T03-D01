@@ -9,7 +9,7 @@ package com.example.ehsueh.appygolucky;
  * </ul>
  */
 
-public class US080401 {
+public class UC080401 {
     /**
      * In the list of request that driver have searched in online mode, there should be an int(1,0) where it shows it was sent to the
      * server or not, we change it to 0 if the app is offline, then we test all the offline ones gets send out when the app detects internet connection

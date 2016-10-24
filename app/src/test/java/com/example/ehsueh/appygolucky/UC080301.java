@@ -9,7 +9,7 @@ package com.example.ehsueh.appygolucky;
  * </ul>
  */
 
-public class US080301 {
+public class UC080301 {
     /**
      * In the list of request that rider have, there should be an int(1,0) where it shows it was sent to
      * the server or not, then we test all the offline ones gets send out when the app detects internet connection

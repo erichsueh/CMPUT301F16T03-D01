@@ -16,9 +16,9 @@ import static junit.framework.Assert.assertTrue;
  * </ul>
  */
 
-public class US080201 {
+public class UC080201 {
     /**
-     * Same as US080101, but we use a different list instead since it's rider now.
+     * Same as UC080101, but we use a different list instead since it's rider now.
      */
 
 

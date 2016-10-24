@@ -22,8 +22,8 @@ import java.util.Collection;
  *
  */
 
-public class US010501 extends ActivityInstrumentationTestCase2 {
-    public US010501 () {super(MainActivity.class); }
+public class UC010501 extends ActivityInstrumentationTestCase2 {
+    public UC010501() {super(MainActivity.class); }
 
     DriversWhoHaveAcceptedList driversWhoHaveAcceptedList = new DriversWhoHaveAcceptedList();
     Collection<Driver> Drivers = driversWhoHaveAcceptedList.getDrivers();

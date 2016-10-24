@@ -9,8 +9,8 @@ import android.test.ActivityInstrumentationTestCase2;
  *
  */
 
-public class US010701 extends ActivityInstrumentationTestCase2 {
-    public US010701 () {super(MainActivity.class); }
+public class UC010701 extends ActivityInstrumentationTestCase2 {
+    public UC010701() {super(MainActivity.class); }
 
     public void testConfirmRideCompletion() {
 

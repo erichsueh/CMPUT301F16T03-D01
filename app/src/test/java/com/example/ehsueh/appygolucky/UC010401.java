@@ -1,24 +1,26 @@
 package com.example.ehsueh.appygolucky;
 
-import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
 import java.util.Collection;
 
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 
 /**
  * Created by Maxwell on 2016-10-11.
- * User Story US 01.02.01 - As a rider, I want to see current requests I have open.
+ * User Story US 01.04.01 - As a rider, I want to cancel requests.
  * Related tests for this use case include:
  * <ul>
- *     <li>I want to be able to see a list of my created rides</li>
+ *     <li>I want to be able to call a delete function to remove a ride from the list of "my
+ *     ride requests"</li>
  * </ul>
  *
+ * This test will likely be combined at some future point in time with a more general test of the
+ * rideList structure.
  */
 
-public class US010201 extends ActivityInstrumentationTestCase2{
-    public US010201 () {super(MainActivity.class); }
+public class UC010401 extends ActivityInstrumentationTestCase2 {
+    public UC010401() {super(MainActivity.class); }
 
     public void rideListTest() {
         RideList rideList = new RideList();
@@ -44,5 +46,14 @@ public class US010201 extends ActivityInstrumentationTestCase2{
         assertTrue("The rides are in the list", Rides.contains(rideA));
         assertTrue("The rides are in the list", Rides.contains(rideB));
         assertTrue("The rides are in the list", Rides.contains(rideC));
+
+        rideList.deleteRide(rideA);
+        rideList.deleteRide(rideB);
+        rideList.deleteRide(rideC);
+
+        assertFalse("This ride-list contains three elements!", Rides.size() == 3);
+        assertFalse("The rides are in the list", Rides.contains(rideA));
+        assertFalse("The rides are in the list", Rides.contains(rideB));
+        assertFalse("The rides are in the list", Rides.contains(rideC));
     }
 }

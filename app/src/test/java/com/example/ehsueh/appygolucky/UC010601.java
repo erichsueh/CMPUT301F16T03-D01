@@ -13,8 +13,8 @@ import java.util.Collection;
  *
  */
 
-public class US010601 extends ActivityInstrumentationTestCase2 {
-    public US010601 () {super(MainActivity.class); }
+public class UC010601 extends ActivityInstrumentationTestCase2 {
+    public UC010601() {super(MainActivity.class); }
 
     public void testGivenUsersRideRequests() {
         RideList rideList = new RideList();
