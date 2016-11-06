@@ -1,6 +1,7 @@
 package com.example.ehsueh.appygolucky;
 
-import android.test.ActivityInstrumentationTestCase2;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Created by Corey on 2016-10-13.
@@ -15,12 +16,9 @@ import android.test.ActivityInstrumentationTestCase2;
  * </ul>
  */
 
-public class UC030101 extends ActivityInstrumentationTestCase2{
+public class UC030101 {
 
-    public UC030101() {
-        super(MainActivity.class);
-    }
-
+    @Test
     public void testCreateUser() {
 
         //Create new user with unique username
@@ -30,7 +28,7 @@ public class UC030101 extends ActivityInstrumentationTestCase2{
         //Attempt to create new user with same username
         try {
             User myUser2 = new User("myCoolName", "Sally", "sally@yo.com", "123-45678");
-            fail("Exception not thrown");
+            fail("Exception not thrown when attempting to use a duplicate username");
         } catch (Exception e) {
         }
     }
