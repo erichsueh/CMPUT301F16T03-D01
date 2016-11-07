@@ -20,7 +20,7 @@ public class UC030201 extends ActivityInstrumentationTestCase2{
 
     public void testEditData() {
         String newName = "Fred";
-        User myUser = new User("myCoolName", "John", "john@yo.com", "478-5632");
+        User myUser = new User("myCoolName", "John", "john@yo.com", "478-5632", "123 main");
         assertFalse(myUser.getName() == newName);
 
         //Try changing the name, and ensure that it has indeed changed

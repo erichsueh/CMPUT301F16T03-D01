@@ -7,11 +7,11 @@ import java.util.Collection;
  * Created by Corey on 2016-10-13.
  */
 
-public class Driver extends User {
+//TODO: delete this class
+public class Driver {
     Collection<Ride> acceptedRides;
     public Driver() {
         //TODO: replace this with something useful
-        super(null, null, null, null);
         this.acceptedRides = new ArrayList<Ride>();
     }
 

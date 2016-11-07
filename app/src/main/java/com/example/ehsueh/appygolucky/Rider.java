@@ -4,9 +4,10 @@ package com.example.ehsueh.appygolucky;
  * Created by Corey on 2016-10-13.
  */
 
-public class Rider extends User {
+//TODO: delete this class
+
+public class Rider {
     public Rider() {
         //TODO: replace this with something useful
-        super(null, null, null, null);
     }
 }

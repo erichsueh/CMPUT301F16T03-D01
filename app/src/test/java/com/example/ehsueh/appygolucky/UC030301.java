@@ -19,9 +19,9 @@ public class UC030301 extends ActivityInstrumentationTestCase2 {
     }
 
     public void testRetrieveInfo() {
-        User myUser = new User("myCoolName", "John", "john@yo.com", "478-5632");
+        User myUser = new User("myCoolName", "John", "john@yo.com", "478-5632", "123 main");
         UserList list = new UserList();
-        list.add(myUser);
+        list.addUser(myUser);
 
         User retrievedUser = list.getUserByUsername("myCoolName");
         assertEquals("Returned the wrong user", myUser, retrievedUser);

@@ -8,6 +8,8 @@ import java.util.Collection;
  * An instance of this list will be had by every ride-request as soon as the first driver accepts
  * the ride-request.
  */
+
+//TODO: delete this because we are using an ArrayList isntead
 public class DriversWhoHaveAcceptedList {
 
     public Collection<Driver> getDrivers() {

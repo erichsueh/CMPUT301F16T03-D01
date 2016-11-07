@@ -1,5 +1,7 @@
 package com.example.ehsueh.appygolucky;
 
+import java.util.List;
+
 /**
  * Created by Corey on 2016-10-13.
  */
@@ -9,13 +11,16 @@ public class User {
     private String name;
     private String email;
     private String phone;
+    private String address;
 
-    public User(String username, String name, String email, String phone) {
+    public User(String username, String name, String email, String phone, String address) {
         this.username = username;
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.address = address;
     }
+
 
     public String getUsername() {
         return username;
@@ -25,23 +30,23 @@ public class User {
         return name;
     }
 
-    public String getEmail() {
-        return email;
-    }
+    public List<String> getContactInfo() { return null; }
 
-    public String getPhone() {
-        return phone;
-    }
+    public List<Ride> getRideRequests() { return null; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public List<Ride> getAcceptedRides() { return null; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setUsername() {}
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    public void setName(String name) {}
+
+    public void setEmail() {}
+
+    public void setPhone() {}
+
+    public void setAddress() {}
+
+    public void addRideRequest() {}
+
+    public void addAcceptedRequest() {}
 }
