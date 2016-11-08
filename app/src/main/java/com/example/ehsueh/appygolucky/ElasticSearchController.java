@@ -34,6 +34,7 @@ public class ElasticSearchController {
                 try {
                     DocumentResult result = client.execute(index);
                     if (result.isSucceeded()) {
+                        //This doesn't seem to be adding the ID like I thought it would
                         user.setId(result.getId());
                     }
                     else {

@@ -33,6 +33,8 @@ public class ElasticSearchControllerTest extends ActivityInstrumentationTestCase
         addUsersTask.execute(myUser);
 
         //If the adding worked, myUser should now have an Id assigned by the server
+        //NOTE: it does seem to be adding the user to the server, but some reason this id is not
+        //being set.
         assertNotNull("The Id is still null, after trying to add to the server", myUser.getId());
     }
 }
