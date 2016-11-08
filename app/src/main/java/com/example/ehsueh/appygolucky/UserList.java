@@ -10,6 +10,7 @@ import java.util.List;
  */
 
 //TODO: possibly replace userList with a hashtable
+    //Also, this may be replaced entirely by the server...
 
 public class UserList {
     private List<User> userList;
