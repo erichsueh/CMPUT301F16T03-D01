@@ -36,5 +36,16 @@ public class ElasticSearchControllerTest extends ActivityInstrumentationTestCase
         //NOTE: it does seem to be adding the user to the server, but some reason this id is not
         //being set.
         assertNotNull("The Id is still null, after trying to add to the server", myUser.getId());
+
+        //Test if it is in server
+        ElasticSearchController.CheckUsernameTask checkUserTask = new ElasticSearchController.CheckUsernameTask();
+        //It checks that if it is in server
+        assertNotNull(checkUserTask.execute("test_myCoolName"));
+
+
+        ElasticSearchController.CheckUsernameTask checkUserTask1 = new ElasticSearchController.CheckUsernameTask();
+        //it checks that is is not in server
+        //It returns something regardless???
+        assertNull(checkUserTask1.execute("test_notmyCoolName"));
     }
 }
