@@ -9,8 +9,53 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ehsueh.appygolucky.MainActivity">
 
-    <TextView
+    <Button
+        android:text="Login!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/EditProfileButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Welcome to Appy Go Lucky!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView5" />
+
+    <TextView
+        android:text="Insert Cheap Slogan Here"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="114dp"
+        android:id="@+id/textView"
+        android:layout_below="@+id/UsernameInputTxt"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Username:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:textAppearance="@style/TextAppearance.AppCompat.Base.SearchResult.Title"
+        android:textSize="24sp"
+        android:layout_marginTop="51dp"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Please Enter your username here"
+        android:ems="10"
+        android:id="@+id/UsernameInputTxt"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
