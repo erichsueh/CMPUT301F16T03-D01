@@ -17,7 +17,8 @@
         android:id="@+id/AddRider"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="AddRequest"/>
 
     <TextView
         android:text="Rider Requests"
@@ -35,7 +36,8 @@
         android:layout_above="@+id/AddRider"
         android:layout_alignParentStart="true"
         android:id="@+id/BackRiderReq"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="BackRequest"/>
 
     <ListView
         android:layout_width="match_parent"

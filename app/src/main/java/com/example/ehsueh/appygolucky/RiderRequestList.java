@@ -1,7 +1,9 @@
 package com.example.ehsueh.appygolucky;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
 
 /**
  * List: RiderRequestLst
@@ -18,4 +20,10 @@ public class RiderRequestList extends ActionBarActivity {
         setContentView(R.layout.activity_rider_request_list);
     }
 
+    public void AddRequest(View view) {
+        Intent intent = new Intent(this, AddRequest.class);
+        startActivity(intent);}
+
+    public void BackRequest(View view) {
+        finish();}
 }

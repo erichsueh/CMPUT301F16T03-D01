@@ -29,7 +29,10 @@
         <activity android:name=".ListDriversChoose" />
         <activity android:name=".SearchPage" />
         <activity android:name=".DriverPending" />
-        <activity android:name=".EditProfile"></activity>
+        <activity android:name=".EditProfile" />
+        <activity
+            android:name=".AddRequest"
+            android:label="@string/title_activity_add_request"></activity>
     </application>
 
 </manifest>
