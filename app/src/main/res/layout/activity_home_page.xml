@@ -17,7 +17,8 @@
         android:id="@+id/DriverButton"
         android:layout_below="@+id/EditProfileButton"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="93dp" />
+        android:layout_marginTop="93dp"
+        android:onClick="DriverClick"/>
 
     <Button
         android:text="RIder"
@@ -26,7 +27,8 @@
         android:id="@+id/RiderButton"
         android:layout_below="@+id/DriverButton"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="48dp" />
+        android:layout_marginTop="48dp"
+        android:onClick="RiderClick"/>
 
     <Button
         android:text="Logout"
@@ -35,7 +37,8 @@
         android:id="@+id/LogoutButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="21dp" />
+        android:layout_marginBottom="21dp"
+        android:onClick="LogoutClick"/>
 
     <TextView
         android:text="Insert Their Username Here"
@@ -53,6 +56,7 @@
         android:id="@+id/EditProfileButton"
         android:layout_marginTop="72dp"
         android:layout_below="@+id/UsernameDisplayTxt"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="EditClick"/>
 
 </RelativeLayout>

@@ -21,12 +21,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package com.example.ehsueh.appygolucky;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -41,6 +43,10 @@ public class MainActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+    public void LoginClick(View view) {
+        Intent intent = new Intent(this, HomePage.class);
+        startActivity(intent);
     }
 
     @Override

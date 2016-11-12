@@ -16,7 +16,8 @@
         android:id="@+id/EditProfileButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="LoginClick"/>
 
     <TextView
         android:text="Welcome to Appy Go Lucky!"
