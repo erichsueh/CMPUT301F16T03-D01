@@ -10,7 +10,6 @@ import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import io.searchbox.core.Delete;
@@ -23,6 +22,9 @@ import io.searchbox.core.SearchResult;
  * Created by Corey on 2016-11-07.
  *
  */
+
+/*NOTE: this class may need to be split into User and Ride controller classes later.
+    However, it may be simpler to keep it as one class.  We will see how big it gets. */
 
 public class ElasticSearchUserController {
     private static JestDroidClient client;
@@ -67,8 +69,6 @@ public class ElasticSearchUserController {
     public static class CheckUsernameTask extends AsyncTask<String, Void, List<User>> {
         @Override
         protected List<User> doInBackground(String... params) {
-            android.os.Debug.waitForDebugger();
-
             verifySettings();
 
             if (params[0]=="" | params[0]==null) {
@@ -85,23 +85,30 @@ public class ElasticSearchUserController {
             try {
                 SearchResult result = client.execute(search);
                 if (result.isSucceeded()) {
+
                     List<User> users = result.getSourceAsObjectList(User.class);
-                    return users;
+
+                    if(users.size() == 0) {
+                        return null;
+                    } else {
+                        return users;
+                    }
+
                 } else {
                     return null;
-              }
+                }
             } catch (IOException e) {
                 Log.i("Error", "Failed to communicate with elasticsearch server");
                 e.printStackTrace();
-
-              return null;
+                return null;
             }
         }
     }
-
     //Called after request object has been returned by search
     //By input a user obj, this outputs the rest of user info
     //return null otherwise
+    //TODO: use the username instead of the id for this query
+    // (because we don't know how to save the user id)
     public static class retrieveUserInfo extends AsyncTask<User, Void, User> {
         @Override
         protected User doInBackground(User... users) {
@@ -139,6 +146,19 @@ public class ElasticSearchUserController {
         }
     }
 
+
+    private static void verifySettings() {
+        // if the client hasn't been initialized then we should make it!
+        if (client == null) {
+            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
+            DroidClientConfig config = builder.build();
+
+            JestClientFactory factory = new JestClientFactory();
+            factory.setDroidClientConfig(config);
+            client = (JestDroidClient) factory.getObject();
+        }
+    }
+
     public static class DeleteUserTask extends AsyncTask<String, Void, Void> {
 
         @Override
@@ -159,19 +179,6 @@ public class ElasticSearchUserController {
             }
 
             return null;
-        }
-    }
-
-
-    private static void verifySettings() {
-        // if the client hasn't been initialized then we should make it!
-        if (client == null) {
-            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
-            DroidClientConfig config = builder.build();
-
-            JestClientFactory factory = new JestClientFactory();
-            factory.setDroidClientConfig(config);
-            client = (JestDroidClient) factory.getObject();
         }
     }
 
