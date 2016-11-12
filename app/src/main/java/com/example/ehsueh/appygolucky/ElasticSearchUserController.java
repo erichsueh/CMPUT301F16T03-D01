@@ -10,7 +10,10 @@ import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -21,10 +24,7 @@ import io.searchbox.core.SearchResult;
  *
  */
 
-/*NOTE: this class may need to be split into User and Ride controller classes later.
-    However, it may be simpler to keep it as one class.  We will see how big it gets. */
-
-public class ElasticSearchController {
+public class ElasticSearchUserController {
     private static JestDroidClient client;
     private static String teamName = "cmput301f16t03";
     private static String userType = "user";
@@ -64,16 +64,16 @@ public class ElasticSearchController {
 
     //By input a username string, this outputs the user obj if it exists
     //return null otherwise
-    public static class CheckUsernameTask extends AsyncTask<String, Void, User> {
+    public static class CheckUsernameTask extends AsyncTask<String, Void, List<User>> {
         @Override
-        protected User doInBackground(String... params) {
+        protected List<User> doInBackground(String... params) {
             android.os.Debug.waitForDebugger();
 
             verifySettings();
 
-//            if (params[0]=="" | params[0]==null) {
-//                return null;
-//            }
+            if (params[0]=="" | params[0]==null) {
+                return null;
+            }
 
             String search_string = "{\"query\": {\"match\": {\"username\": \"" + params[0] + "\"}}}";
 
@@ -85,15 +85,8 @@ public class ElasticSearchController {
             try {
                 SearchResult result = client.execute(search);
                 if (result.isSucceeded()) {
-
-
-                    User user = result.getSourceAsObject(User.class);
-                    if (user!=null && user.getName().equals(params[0])) {
-                        return user;
-                    }
-                    else {
-                        return null;
-                    }
+                    List<User> users = result.getSourceAsObjectList(User.class);
+                    return users;
                 } else {
                     return null;
               }
@@ -105,11 +98,10 @@ public class ElasticSearchController {
             }
         }
     }
+
     //Called after request object has been returned by search
     //By input a user obj, this outputs the rest of user info
     //return null otherwise
-    //TODO: use the username instead of the id for this query
-    // (because we don't know how to save the user id)
     public static class retrieveUserInfo extends AsyncTask<User, Void, User> {
         @Override
         protected User doInBackground(User... users) {
@@ -144,6 +136,29 @@ public class ElasticSearchController {
                 e.printStackTrace();
                 return null;
             }
+        }
+    }
+
+    public static class DeleteUserTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... IDs) {
+
+            verifySettings();
+
+
+            try {
+                client.execute(new Delete.Builder(IDs[0])
+                        .index(teamName)
+                        .type(userType)
+                        .build());
+            }
+            catch (Exception e) {
+                Log.e("ESUser", "We failed to delete a user from elastic search!");
+                e.printStackTrace();
+            }
+
+            return null;
         }
     }
 
