@@ -1,6 +1,9 @@
 package com.example.ehsueh.appygolucky;
 
+import android.os.AsyncTask;
 import android.test.ActivityInstrumentationTestCase2;
+
+import java.util.concurrent.TimeUnit;
 
 import dalvik.annotation.TestTargetClass;
 
@@ -26,7 +29,7 @@ public class ElasticSearchControllerTest extends ActivityInstrumentationTestCase
         String phone2 = "123-4567";
 
         User myUser = new User(username, name1, email1, phone1, address1);
-        assertNull("Somehow the id is not null...", myUser.getId());
+        assertNull("ID should be null, but is not", myUser.getId());
 
         //Create a new task, and add the user to the server
         ElasticSearchController.AddUsersTask addUsersTask = new ElasticSearchController.AddUsersTask();
@@ -35,17 +38,39 @@ public class ElasticSearchControllerTest extends ActivityInstrumentationTestCase
         //If the adding worked, myUser should now have an Id assigned by the server
         //NOTE: it does seem to be adding the user to the server, but some reason this id is not
         //being set.
+
+        //Wait until the AsyncTask is finished
+        //http://stackoverflow.com/questions/7588584/android-asynctask-check-status
+        //Nov 11, 2016 DeeV
+        AsyncTask.Status taskStatus;
+        do {
+            taskStatus = addUsersTask.getStatus();
+        } while (taskStatus != AsyncTask.Status.FINISHED);
+
         assertNotNull("The Id is still null, after trying to add to the server", myUser.getId());
 
         //Test if it is in server
+        //Some reason this is failing.  Result is always null
         ElasticSearchController.CheckUsernameTask checkUserTask = new ElasticSearchController.CheckUsernameTask();
+        User result = null;
+        checkUserTask.execute(username);
+        try {
+            result = checkUserTask.get();
+        } catch(Exception e) {
+            fail("checkUserTask threw an exception");
+        }
         //It checks that if it is in server
-        assertNotNull(checkUserTask.execute("test_myCoolName"));
+        assertNotNull(result);
 
 
         ElasticSearchController.CheckUsernameTask checkUserTask1 = new ElasticSearchController.CheckUsernameTask();
         //it checks that is is not in server
-        //It returns something regardless???
-        assertNull(checkUserTask1.execute("test_notmyCoolName"));
+        checkUserTask1.execute("test_notMyCoolName");
+        try {
+            result = checkUserTask1.get();
+        } catch(Exception e) {
+            fail("checkUserTask1.get() threw an exception");
+        }
+        assertNull(result);
     }
 }

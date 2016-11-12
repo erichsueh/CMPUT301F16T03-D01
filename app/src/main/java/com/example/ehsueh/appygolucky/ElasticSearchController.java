@@ -29,21 +29,24 @@ public class ElasticSearchController {
     private static String teamName = "cmput301f16t03";
     private static String userType = "user";
 
+    /** Adds a user to the server.  Note that we could end up with duplicates.
+     *  The caller should check whether username is unique. */
     public static class AddUsersTask extends AsyncTask<User, Void, Void> {
 
         @Override
         protected Void doInBackground(User... users) {
+            //We only want to process one user at each call
+            User user = users[0];
+
             verifySettings();
-            //Vinson:I tried but still getting nothing for getID
-            Index index = new Index.Builder(users[0]).index(teamName).type(userType).build();
-            //for (User user: users) {
-                //Index index = new Index.Builder(user).index(teamName).type("user").build();
+
+            Index index = new Index.Builder(user).index(teamName).type(userType).build();
 
                 try {
                     DocumentResult result = client.execute(index);
                     if (result.isSucceeded()) {
                         //This doesn't seem to be adding the ID like I thought it would
-                        users[0].setId(result.getId());
+                        user.setId(result.getId());
 
                     }
                     else {
@@ -54,7 +57,6 @@ public class ElasticSearchController {
                     Log.e("ESUser", "We failed to add a user to elastic search!");
                     e.printStackTrace();
                 }
-            //}
 
             return null;
         }
@@ -104,7 +106,9 @@ public class ElasticSearchController {
     //Called after request object has been returned by search
     //By input a user obj, this outputs the rest of user info
     //return null otherwise
-    public static class RetriveUserInfo extends AsyncTask<User, Void, User> {
+    //TODO: use the username instead of the id for this query
+    // (because we don't know how to save the user id)
+    public static class retrieveUserInfo extends AsyncTask<User, Void, User> {
         @Override
         protected User doInBackground(User... users) {
 

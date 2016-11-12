@@ -9,7 +9,7 @@ import java.util.Collection;
  * the ride-request.
  */
 
-//TODO: delete this because we are using an ArrayList isntead
+//TODO: delete this because we are using an ArrayList instead
 public class DriversWhoHaveAcceptedList {
 
     public Collection<Driver> getDrivers() {

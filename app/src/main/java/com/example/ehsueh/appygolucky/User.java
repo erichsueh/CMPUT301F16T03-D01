@@ -9,8 +9,7 @@ import io.searchbox.annotations.JestId;
  */
 
 public class User {
-    @JestId
-    private String id;
+    @JestId private String id;
     private String username;
     private String name;
     private String email;
@@ -23,6 +22,7 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.address = address;
+        this.id = null;
     }
 
     public void setId(String id) {
