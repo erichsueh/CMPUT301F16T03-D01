@@ -5,17 +5,19 @@ package com.example.ehsueh.appygolucky;
  */
 public class UserController {
 
-    private UserList userList;
+    private static UserList userList;
 
     public UserController() {
-        this.userList = new UserList();
+        if(userList == null) {
+            userList = new UserList();
+        }
     }
 
     public void addUser(String username, String name, String email, String phone, String address)
             throws UsernameNotUniqueException {
         if(!userList.containsUsername(username)) {
             User newUser = new User(username, name, email, phone, address);
-            this.userList.addUser(newUser);
+            userList.addUser(newUser);
         }
 
         else {
@@ -24,10 +26,10 @@ public class UserController {
     }
 
     public User getUserByUsername(String username) {
-        return this.userList.getUserByUsername(username);
+        return userList.getUserByUsername(username);
     }
 
     public void deleteUser(String username) {
-        this.userList.deleteUser(username);
+        userList.deleteUser(username);
     }
 }
