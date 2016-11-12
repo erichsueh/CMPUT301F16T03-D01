@@ -67,14 +67,15 @@ public class ElasticSearchController {
     public static class CheckUsernameTask extends AsyncTask<String, Void, User> {
         @Override
         protected User doInBackground(String... params) {
+            android.os.Debug.waitForDebugger();
 
             verifySettings();
 
-            if (params[0]=="" | params[0]==null) {
-                return null;
-            }
+//            if (params[0]=="" | params[0]==null) {
+//                return null;
+//            }
 
-            String search_string = "{\"query\": {\"match\": {\"userName\": \"" + params[0] + "\"}}}";
+            String search_string = "{\"query\": {\"match\": {\"username\": \"" + params[0] + "\"}}}";
 
             Search search = new Search.Builder(search_string)
                     .addIndex(teamName)
@@ -95,11 +96,12 @@ public class ElasticSearchController {
                     }
                 } else {
                     return null;
-                }
+              }
             } catch (IOException e) {
                 Log.i("Error", "Failed to communicate with elasticsearch server");
                 e.printStackTrace();
-                return null;
+
+              return null;
             }
         }
     }
