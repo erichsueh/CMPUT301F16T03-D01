@@ -43,6 +43,9 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
         assertNotNull("The Id is still null, after trying to add to the server", myUser.getId());
 
         //Test if it is in server
+        //This is currently returning all but the most recent entry.
+        //Thus, it will fail if the index is empty when starting the test.
+        //Corey is currently looking into this.
         ElasticSearchUserController.CheckUsernameTask checkUserTask = new ElasticSearchUserController.CheckUsernameTask();
         List<User> result = null;
         checkUserTask.execute(username);
@@ -71,6 +74,7 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
         assertNull(result);
 
         //delete the user that we added
+        //Note: This will only be run if the other assertions passed
         ElasticSearchUserController.DeleteUserTask deleteUserTask = new ElasticSearchUserController.DeleteUserTask();
         deleteUserTask.execute(myUser.getId());
     }
