@@ -20,7 +20,9 @@ public class HomePage extends ActionBarActivity {
         setContentView(R.layout.activity_home_page);
 
         TextView UsernameDisplayTxt = (TextView) findViewById(R.id.UsernameDisplayTxt);
-        UsernameDisplayTxt.setText(uc.getCurrentUser().getUsername());
+        if(uc.getCurrentUser() != null) {
+            UsernameDisplayTxt.setText(uc.getCurrentUser().getUsername());
+        }
     }
 
     public void LogoutClick(View view) {
