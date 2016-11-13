@@ -46,7 +46,7 @@ public class HomePage extends ActionBarActivity {
         adb.setNeutralButton("Search", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(HomePage.this, SearchPage.class);
+                Intent intent = new Intent(HomePage.this, MapsActivity.class);
                 startActivity(intent);
             }
         });
