@@ -34,6 +34,14 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Load from file, and open the home page if user already logged in
+        UserController uc = new UserController(getApplicationContext());
+        uc.loadFromFile();
+        if(uc.getCurrentUser() != null) {
+            Intent intent = new Intent(this, HomePage.class);
+            startActivity(intent);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
@@ -45,6 +53,9 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
     public void LoginClick(View view) {
+        //TODO: If the username is on the server, load that user
+
+        //TODO: If not, create a new user
         Intent intent = new Intent(this, HomePage.class);
         startActivity(intent);
     }
