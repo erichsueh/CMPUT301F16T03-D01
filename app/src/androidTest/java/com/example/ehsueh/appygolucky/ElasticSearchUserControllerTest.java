@@ -2,6 +2,7 @@ package com.example.ehsueh.appygolucky;
 
 import android.os.AsyncTask;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -60,6 +61,15 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
         //It checks that if it is in server
         assertNotNull(result);
 
+        //Print some data to the logs for debugging
+        if(result != null) {
+            Integer i = 1;
+            for(User user: result) {
+                Log.d("ESUserController", "Result " + i + " with ID " + user.getId());
+                i++;
+            }
+        }
+
 
         ElasticSearchUserController.CheckUsernameTask checkUserTask1 = new ElasticSearchUserController.CheckUsernameTask();
         //it checks that is is not in server
@@ -75,7 +85,7 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
 
         //delete the user that we added
         //Note: This will only be run if the other assertions passed
-        ElasticSearchUserController.DeleteUserTask deleteUserTask = new ElasticSearchUserController.DeleteUserTask();
-        deleteUserTask.execute(myUser.getId());
+//        ElasticSearchUserController.DeleteUserTask deleteUserTask = new ElasticSearchUserController.DeleteUserTask();
+//        deleteUserTask.execute(myUser.getId());
     }
 }
