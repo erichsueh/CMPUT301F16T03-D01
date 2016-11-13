@@ -56,6 +56,7 @@ public class MainActivity extends ActionBarActivity {
         //TODO: If the username is on the server, load that user
 
         //TODO: If not, create a new user
+
         Intent intent = new Intent(this, HomePage.class);
         startActivity(intent);
     }

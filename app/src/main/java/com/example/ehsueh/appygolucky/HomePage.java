@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * this is our screen with 4 buttons, "EditProfileButton, DriverButton, RiderButton, LogoutButton
@@ -14,8 +15,12 @@ public class HomePage extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        UserController uc = new UserController(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        TextView UsernameDisplayTxt = (TextView) findViewById(R.id.UsernameDisplayTxt);
+        UsernameDisplayTxt.setText(uc.getCurrentUser().getUsername());
     }
 
     public void LogoutClick(View view) {

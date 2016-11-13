@@ -23,9 +23,9 @@ import java.util.List;
  */
 
 public class UserController {
-    private static User currentUser;
-    private Context applicationContext;
-    private final String USERFILENAME = "appygolucky_user.json";
+    protected static User currentUser;
+    protected Context applicationContext;
+    protected final String USERFILENAME = "appygolucky_user.json";
 
     //TODO: this userlist may be replaced entirely by the server
     private static UserList userList;
