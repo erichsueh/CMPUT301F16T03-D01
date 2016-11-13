@@ -10,6 +10,7 @@ android {
         targetSdkVersion 18
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -26,5 +27,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:18.0.0'
     compile files('src/include/jest-droid-2.0.1-SNAPSHOT.jar')
-    compile 'com.github.MKergall:osmbonuspack:6.0'
+    compile('com.github.MKergall:osmbonuspack:6.0') {
+        transitive = true;
+        exclude module: 'gson';
+        exclude module: 'commons-lang3';
+    }
 }
