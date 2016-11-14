@@ -31,7 +31,7 @@ public class HomePage extends ActionBarActivity {
         finish();}
 
     public void RiderClick(View view) {
-        Intent intent = new Intent(this, AddRequest.class);
+        Intent intent = new Intent(this, RiderRequestList.class);
         startActivity(intent);}
 
     public void DriverClick(View view) {
@@ -48,7 +48,7 @@ public class HomePage extends ActionBarActivity {
         adb.setNeutralButton("Search", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(HomePage.this, MapsActivity.class);
+                Intent intent = new Intent(HomePage.this, SearchPage.class);
                 startActivity(intent);
             }
         });

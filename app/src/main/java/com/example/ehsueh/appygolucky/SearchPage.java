@@ -26,7 +26,7 @@ public class SearchPage extends ActionBarActivity {
         finish();}
 
     public void ShowMap(View view){
-        Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(SearchPage.this, MapsActivity.class);
         startActivity(intent);
     }
 }
