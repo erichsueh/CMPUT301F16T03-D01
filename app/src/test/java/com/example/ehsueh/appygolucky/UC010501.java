@@ -2,6 +2,8 @@ package com.example.ehsueh.appygolucky;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import org.junit.Test;
+
 import java.sql.*;
 import java.sql.Driver;
 import java.util.Collection;
@@ -22,9 +24,11 @@ import java.util.Collection;
  *
  */
 
-public class UC010501 extends ActivityInstrumentationTestCase2 {
-    public UC010501() {super(MainActivity.class); }
+public class UC010501 {
 
-    DriversWhoHaveAcceptedList driversWhoHaveAcceptedList = new DriversWhoHaveAcceptedList();
-    Collection<Driver> Drivers = driversWhoHaveAcceptedList.getDrivers();
+    @Test
+    public void test() {
+        DriversWhoHaveAcceptedList driversWhoHaveAcceptedList = new DriversWhoHaveAcceptedList();
+        Collection<Driver> Drivers = driversWhoHaveAcceptedList.getDrivers();
+    }
 }

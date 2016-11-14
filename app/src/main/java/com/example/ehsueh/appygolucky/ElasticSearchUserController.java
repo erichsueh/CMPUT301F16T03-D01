@@ -23,8 +23,7 @@ import io.searchbox.core.SearchResult;
  *
  */
 
-/*NOTE: this class may need to be split into User and Ride controller classes later.
-    However, it may be simpler to keep it as one class.  We will see how big it gets. */
+//This code is based off of code we created in the labs
 
 public class ElasticSearchUserController {
     private static JestDroidClient client;

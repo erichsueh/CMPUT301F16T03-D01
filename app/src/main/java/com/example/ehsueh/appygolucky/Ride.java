@@ -17,7 +17,7 @@ import io.searchbox.annotations.JestId;
  *
  */
 public class Ride implements Parcelable {
-    private String rideName;
+    private String description;
 //    private String startLocation;
 //    private String endLocation;
     private Integer status;
@@ -50,10 +50,11 @@ public class Ride implements Parcelable {
     @JestId
     private String id;
 
-    public Ride(LatLng start, LatLng end, Number fare, User rider){
+    public Ride(LatLng start, LatLng end, Number fare, String description, User rider){
         this.startLocation = new Point(start.latitude,start.longitude);
         this.endLocation = new Point(end.latitude,end.longitude);
         this.fare = fare;
+        this.description = description;
         this.rider = rider;
         this.timeCreatedInMillis = Calendar.getInstance().getTimeInMillis();
         this.accepted = false;
@@ -129,7 +130,7 @@ public class Ride implements Parcelable {
 
 
 
-    public String getRideName() { return this.rideName; }
+    public String getDescription() { return this.description; }
     public Integer getStatus() { return this.status; }
     public Collection<Driver> getDrivers() {return null;}
     public Boolean acceptedByRider() {return null;}
@@ -138,7 +139,7 @@ public class Ride implements Parcelable {
     public void setStatus(Integer newStatus) {
         this.status = newStatus;
     }
-    public void addDriver(Driver driver) {}
+    public void addDriver(User driver) {}
     public void riderAccepts() {}
 
     // setters
@@ -165,6 +166,9 @@ public class Ride implements Parcelable {
     }
     public void setFare(Number fare) {
         this.fare = fare;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
     public void setAcceptedStatus(Boolean bool){
         accepted = bool;

@@ -2,8 +2,14 @@ package com.example.ehsueh.appygolucky;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import org.junit.Test;
+
 import java.util.Collection;
 import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
 
 /**
  * Created by Corey on 2016-10-13.
@@ -19,37 +25,41 @@ import java.util.List;
  * </ul>
  */
 
-public class UC040101 extends ActivityInstrumentationTestCase2 {
-    public UC040101() {
-        super(MainActivity.class);
-    }
+//TODO: this test should use the server
+public class UC040101 {
 
+    @Test
     public void testSearchRides() {
-        String rideName1 = "I need a ride to West Ed!!";
-        String startLocation1 = "Sherlock's on campus";
-        String endLocation1 = "West Edmonton Mall";
-        Ride ride1 = new Ride(rideName1, startLocation1, endLocation1);
+        String rideDescriptionA = "I need a ride to West Ed!!";
+        Number fareA = 2.75;
+        LatLng startLocationA = new LatLng(53.526495, -113.630327);
+        LatLng endLocationA = new LatLng(53.526495, -113.630327);
+        String rideDescriptionB = "Gotta get to South Common ASAP :)";
+        User riderA = new User("usernameA", "nameA", "emailA", "phoneA", "addressA");
+        Number fareB = 2.75;
+        LatLng startLocationB = new LatLng(53.628964, -113.477291);
+        LatLng endLocationB = new LatLng(53.628964, -113.477291);
+        User riderB = new User("usernameC", "nameC", "emailC", "phoneC", "addressC");
+        String rideDescriptionC = "Ride to Grocery Store";
+        Number fareC = 2.75;
+        User riderC = new User("usernameC", "nameC", "emailC", "phoneC", "addressC");
+        LatLng startLocationC = new LatLng(53.526495, -113.630327);
+        LatLng endLocationC = new LatLng(53.526495, -113.630327);
 
-        String rideName2 = "too drunk to drive";
-        String startLocation2 = "the bar";
-        String endLocation2 = "home";
-        Ride ride2 = new Ride(rideName2, startLocation2, endLocation2);
-
-        String rideName3 = "I want to see the game!";
-        String startLocation3 = "My house";
-        String endLocation3 = "Rogers place";
-        Ride ride3 = new Ride(rideName3, startLocation3, endLocation3);
+        Ride rideA = new Ride(startLocationA, endLocationA, fareA, rideDescriptionA, riderA);
+        Ride rideB = new Ride(startLocationB, endLocationB, fareB, rideDescriptionB, riderB);
+        Ride rideC = new Ride(startLocationC, endLocationC, fareC, rideDescriptionC, riderC);
 
         RideList list = new RideList();
 
-        list.addRide(ride1);
-        list.addRide(ride2);
-        list.addRide(ride3);
+        list.addRide(rideA);
+        list.addRide(rideB);
+        list.addRide(rideC);
 
-        List<Ride> results = (List<Ride>) list.getRidesByLocation(startLocation3);
-        assertEquals("This list is not sorted by location", ride3, results.get(0));
+        List<Ride> results = (List<Ride>) list.getRidesByLocation(startLocationC);
+        assertEquals("This list is not sorted by location", rideC, results.get(0));
 
-        results = (List<Ride>) list.getRidesByName(rideName2);
-        assertEquals("This list is not sorted by name", ride2, results.get(2));
+        results = (List<Ride>) list.getRidesByName(rideDescriptionB);
+        assertEquals("This list is not sorted by name", rideB, results.get(2));
     }
 }

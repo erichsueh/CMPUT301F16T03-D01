@@ -1,5 +1,7 @@
 package com.example.ehsueh.appygolucky;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -15,7 +17,7 @@ public class RideList {
         return new ArrayList<Ride>();
     }
 
-    public Collection<Ride> getRidesByLocation(String location) {
+    public Collection<Ride> getRidesByLocation(LatLng location) {
         return new ArrayList<Ride>();
     }
 

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.mock.MockContext;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by Corey on 2016-11-12.
  *
@@ -27,18 +29,34 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
         MockUserController mockUserController =
                 new MockUserController(getActivity().getApplicationContext(), testUser);
 
-        Ride ride0 = new Ride("ride0", "start0", "end0");
-        Ride ride1 = new Ride("ride1", "start1", "end1");
-        ride1.setStatus(1);
-        Ride ride2 = new Ride("ride2", "start2", "end2");
-        ride2.setStatus(2);
+        String rideDescriptionA = "I need a ride to West Ed!!";
+        Number fareA = 2.75;
+        LatLng startLocationA = new LatLng(53.526495, -113.630327);
+        LatLng endLocationA = new LatLng(53.526495, -113.630327);
+        String rideDescriptionB = "Gotta get to South Common ASAP :)";
+        User riderA = new User("usernameA", "nameA", "emailA", "phoneA", "addressA");
+        Number fareB = 2.75;
+        LatLng startLocationB = new LatLng(53.526495, -113.630327);
+        LatLng endLocationB = new LatLng(53.526495, -113.630327);
+        User riderB = new User("usernameC", "nameC", "emailC", "phoneC", "addressC");
+        String rideDescriptionC = "Ride to Grocery Store";
+        Number fareC = 2.75;
+        User riderC = new User("usernameC", "nameC", "emailC", "phoneC", "addressC");
+        LatLng startLocationC = new LatLng(53.526495, -113.630327);
+        LatLng endLocationC = new LatLng(53.526495, -113.630327);
 
-        testUser.addRideRequest(ride0);
-        testUser.addRideRequest(ride1);
-        testUser.addRideRequest(ride2);
-        testUser.addAcceptedRequest(ride0);
-        testUser.addAcceptedRequest(ride1);
-        testUser.addAcceptedRequest(ride2);
+        Ride rideA = new Ride(startLocationA, endLocationA, fareA, rideDescriptionA, riderA);
+        Ride rideB = new Ride(startLocationB, endLocationB, fareB, rideDescriptionB, riderB);
+        rideB.setStatus(1);
+        Ride rideC = new Ride(startLocationC, endLocationC, fareC, rideDescriptionC, riderC);
+        rideC.setStatus(2);
+
+        testUser.addRideRequest(rideA);
+        testUser.addRideRequest(rideB);
+        testUser.addRideRequest(rideC);
+        testUser.addAcceptedRequest(rideA);
+        testUser.addAcceptedRequest(rideB);
+        testUser.addAcceptedRequest(rideC);
 
         mockUserController.saveInFile();
 

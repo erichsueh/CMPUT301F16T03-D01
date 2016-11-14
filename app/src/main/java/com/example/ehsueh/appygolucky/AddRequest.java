@@ -363,8 +363,9 @@ public class AddRequest extends ActionBarActivity implements OnMapReadyCallback,
                     return;
                 }
 
+                //TODO: create a way for the user to add their own description
                 Ride request = new Ride(tripStartMarker.getPosition(), tripEndMarker.getPosition(),
-                        userFare,
+                        userFare, "my Description",
                         UserController.currentUser);
                 //RideController.addRide(request);
 

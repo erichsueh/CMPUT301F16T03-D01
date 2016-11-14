@@ -2,6 +2,10 @@ package com.example.ehsueh.appygolucky;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
+
 /**
  * Created by Corey on 2016-10-13.
  *
@@ -13,11 +17,9 @@ import android.test.ActivityInstrumentationTestCase2;
  * </ul>
  */
 
-public class UC030301 extends ActivityInstrumentationTestCase2 {
-    public UC030301() {
-        super(MainActivity.class);
-    }
+public class UC030301 {
 
+    @Test
     public void testRetrieveInfo() {
         User myUser = new User("myCoolName", "John", "john@yo.com", "478-5632", "123 main");
         UserList list = new UserList();

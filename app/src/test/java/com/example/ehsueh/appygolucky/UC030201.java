@@ -2,6 +2,11 @@ package com.example.ehsueh.appygolucky;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import org.junit.Test;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
 /**
  * Created by Corey on 2016-10-13.
  *
@@ -13,11 +18,9 @@ import android.test.ActivityInstrumentationTestCase2;
  * </ul>
  */
 
-public class UC030201 extends ActivityInstrumentationTestCase2{
-    public UC030201() {
-        super(MainActivity.class);
-    }
+public class UC030201{
 
+    @Test
     public void testEditData() {
         String newName = "Fred";
         User myUser = new User("myCoolName", "John", "john@yo.com", "478-5632", "123 main");
