@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="230dp">
+
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="0.00"
+        android:id="@+id/Fare"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop ="130dp"
+        android:layout_marginRight ="10dp"
+        android:textSize="20dp" />
+
+    <TextView
+        android:text="From Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fromText"
+        android:layout_gravity="top|left"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignStart="@+id/distance"
+        android:textStyle="bold"/>
+
+    <Button
+        android:text="@string/cancel"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:id="@+id/cancelRequest"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:text="@string/enter_fare"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:id="@+id/EnterFare"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop ="140dp"
+        android:textSize="20dp" />
+
+    <TextView
+        android:text="To Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/toText"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"/>
+
+    <Button
+        android:text="@string/confirm"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:id="@+id/confirmRequest"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:text="Distance: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/distance"
+        android:layout_gravity="top|left"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:text="Estimate Cost:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fairEstimate"
+        android:layout_gravity="top|left"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignStart="@+id/distance" />
+
+</RelativeLayout>

@@ -100,4 +100,9 @@ public class UserController {
             throw new RuntimeException();
         }
     }
+
+
+    public static boolean whatstatus(int i) {
+        return Boolean.TRUE;
+    }
 }

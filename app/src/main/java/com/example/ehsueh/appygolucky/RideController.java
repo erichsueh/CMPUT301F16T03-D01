@@ -1,5 +1,8 @@
 package com.example.ehsueh.appygolucky;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -11,7 +14,7 @@ public class RideController {
 
     public RideController() {}
 
-    public void addRide(String name, String startLocation, String endLocation) {}
+    public void addRide(LatLng start, LatLng end, Number fare, User rider) {}
 
     public void addRide(Ride ride) {}
 
@@ -27,4 +30,8 @@ public class RideController {
     public Collection<Ride> getRidesAcceptedByDriver(Driver driver) {return null;}
 
     public Boolean rideAcceptedByRider(Ride ride) {return Boolean.FALSE;}
+
+    public static ArrayList<Ride> getRideList() {
+        return null;
+    }
 }

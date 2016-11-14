@@ -31,7 +31,7 @@ public class HomePage extends ActionBarActivity {
         finish();}
 
     public void RiderClick(View view) {
-        Intent intent = new Intent(this, RiderRequestList.class);
+        Intent intent = new Intent(this, AddRequest.class);
         startActivity(intent);}
 
     public void DriverClick(View view) {

@@ -21,6 +21,7 @@ public class SearchPage extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
     }
+
     public void AcceptSearch (View view) {
         finish();}
 

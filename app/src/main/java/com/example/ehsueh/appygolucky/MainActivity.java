@@ -59,6 +59,7 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, HomePage.class);
         startActivity(intent);
     }
+
 //    I don't think we need the three dot on main screen
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

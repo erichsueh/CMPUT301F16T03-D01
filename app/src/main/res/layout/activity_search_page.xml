@@ -38,7 +38,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:onClick="ShowMap"/>
-    />
 
     <Button
         android:text="Accept"
@@ -48,7 +47,7 @@
         android:id="@+id/AcceptGeoButton"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:onClick="AcceptSearch"/>
+        android:onClick="AcceptSearch" />
 
     <ListView
         android:layout_width="match_parent"
