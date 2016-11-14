@@ -30,6 +30,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+/**
+ * This is the main activity of the app, it loads the Homepage and just verifies that a network
+ * connection is available.
+ *
+ */
 public class MainActivity extends ActionBarActivity {
 
     @Override

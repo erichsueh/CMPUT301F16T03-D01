@@ -64,8 +64,9 @@ public class ElasticSearchUserController {
         }
     }
 
-    //By input a username string, this outputs the user obj if it exists
-    //return null otherwise
+    /**
+     * By input a username string, this outputs the user obj if it exists return null otherwise.
+     */
     public static class CheckUsernameTask extends AsyncTask<String, Void, List<User>> {
         @Override
         protected List<User> doInBackground(String... params) {
@@ -109,6 +110,11 @@ public class ElasticSearchUserController {
     //return null otherwise
     //TODO: use the username instead of the id for this query
     // (because we don't know how to save the user id)
+
+    /**
+     * Called after request object has been returned by search; input is a user obj, this outputs
+     * the rest of user info, return null otherwise.
+     */
     public static class retrieveUserInfo extends AsyncTask<User, Void, User> {
         @Override
         protected User doInBackground(User... users) {
@@ -146,9 +152,10 @@ public class ElasticSearchUserController {
         }
     }
 
-
+    /**
+     * If the client hasn't been initialized then we should make it!
+     */
     private static void verifySettings() {
-        // if the client hasn't been initialized then we should make it!
         if (client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
             DroidClientConfig config = builder.build();
@@ -159,6 +166,9 @@ public class ElasticSearchUserController {
         }
     }
 
+    /**
+     * This allows us to delete a user.
+     */
     public static class DeleteUserTask extends AsyncTask<String, Void, Void> {
 
         @Override
