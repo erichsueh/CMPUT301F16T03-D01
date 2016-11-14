@@ -51,9 +51,11 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/editText"
         android:layout_alignParentStart="true"
-        android:id="@+id/SearchList" />
+        android:id="@+id/SearchList"
+        android:layout_above="@+id/AcceptGeoButton"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
