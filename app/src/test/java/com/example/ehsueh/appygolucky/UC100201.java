@@ -1,6 +1,9 @@
 package com.example.ehsueh.appygolucky;
 
-import junit.framework.TestCase;
+
+import org.junit.Test;
+
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by Eric Shay on 2016-10-14.
@@ -9,7 +12,9 @@ import junit.framework.TestCase;
  * Creates a new map then tests that all the geo locations are still in the class and entered correctly.
  */
 
-public class UC100201 extends TestCase {
+public class UC100201 {
+
+    @Test
     public void ShowMapGeo() {
         Map themap = new Map("-100.29N,311.23E", "-110.23N,330.34E");
         assertTrue(themap.getStart() == "-100.29N,311.23E");

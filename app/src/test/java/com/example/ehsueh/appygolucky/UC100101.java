@@ -4,6 +4,10 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import junit.framework.TestCase;
 
+import org.junit.Test;
+
+import static junit.framework.Assert.assertTrue;
+
 /**
  * Created by Eric Shay on 2016-10-14.
  * User Story:
@@ -15,8 +19,9 @@ import junit.framework.TestCase;
  * and check to make sure its the same as the new set location
  */
 
-public class UC100101 extends TestCase {
+public class UC100101 {
 
+    @Test
     public void SpecifyStartandEndLocation(){
 
         Map themap = new Map("-100.29N,311.23E","-110.23N,330.34E");

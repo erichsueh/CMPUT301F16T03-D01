@@ -2,6 +2,8 @@ package com.example.ehsueh.appygolucky;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import org.junit.Test;
+
 import java.util.Collection;
 
 /**
@@ -13,9 +15,9 @@ import java.util.Collection;
  *
  */
 
-public class UC010601 extends ActivityInstrumentationTestCase2 {
-    public UC010601() {super(MainActivity.class); }
+public class UC010601 {
 
+    @Test
     public void testGivenUsersRideRequests() {
         RideList rideList = new RideList();
         Collection<Ride> Rides = rideList.getRides();

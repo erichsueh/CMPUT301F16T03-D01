@@ -3,6 +3,8 @@ package com.example.ehsueh.appygolucky;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.junit.Assert.*;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
@@ -20,18 +22,19 @@ import static org.junit.Assert.assertTrue;
  *
  */
 
-public class UC010101 extends ActivityInstrumentationTestCase2 {
-    public UC010101() {super(MainActivity.class); }
+public class UC010101 {
 
     @Test
     public void createRideTest() {
-        String rideName = "I need a ride to West Ed!!";
-        String startLocation = "Sherlock's on campus";
-        String endLocation = "West Edmonton Mall";
-        Ride ride = new Ride(rideName, startLocation, endLocation);
-        assertTrue("Ride name is not correct", rideName.equals(ride.getRideName()));
-        assertTrue("Ride start is not correct", rideName.equals(ride.getStartLocation()));
-        assertTrue("Ride end is not correct", rideName.equals(ride.getEndLocation()));
+        String rideDescription = "I need a ride to West Ed!!";
+        LatLng startLocation = new LatLng(53.526495, -113.630327);
+        LatLng endLocation = new LatLng(53.526495, -113.630327);
+        Number fare = 2.75;
+        User rider = new User("rider", "John", "john@yo.com", "123-4567", "123 main");
+        Ride ride = new Ride(startLocation, endLocation, fare, rideDescription, rider);
+        assertTrue("Ride name is not correct", rideDescription.equals(ride.getDescription()));
+        assertTrue("Ride start is not correct", startLocation.equals(ride.getStartLocation()));
+        assertTrue("Ride end is not correct", endLocation.equals(ride.getEndLocation()));
     }
 
 }

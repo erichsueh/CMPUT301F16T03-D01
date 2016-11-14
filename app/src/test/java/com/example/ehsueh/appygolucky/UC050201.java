@@ -2,6 +2,15 @@ package com.example.ehsueh.appygolucky;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 /**
  * Created by Corey on 2016-10-14.
  *
@@ -16,14 +25,17 @@ import android.test.ActivityInstrumentationTestCase2;
  * </ul>
  */
 
-public class UC050201 extends ActivityInstrumentationTestCase2 {
-    public UC050201() {
-        super(MainActivity.class);
-    }
+public class UC050201 {
 
+    @Test
     public void testViewAcceptedRequests() {
         Driver myDriver = new Driver();
-        Ride myRide = new Ride("Take me to the game", "my hour", "Rogers Place");
+        String rideDescription = "I need a ride to West Ed!!";
+        LatLng startLocation = new LatLng(53.526495, -113.630327);
+        LatLng endLocation = new LatLng(53.526495, -113.630327);
+        Number fare = 2.75;
+        User rider = new User("rider", "John", "john@yo.com", "123-4567", "123 main");
+        Ride myRide = new Ride(startLocation, endLocation, fare, rideDescription, rider);
         RideController rc = new RideController();
         rc.addRide(myRide);
 
@@ -33,13 +45,18 @@ public class UC050201 extends ActivityInstrumentationTestCase2 {
         assertEquals("Acceptance unsuccessful", 0, rc.getRidesAcceptedByDriver(myDriver));
     }
 
+    @Test
     public void testRiderAcceptance() {
         //TODO: maybe also add exception if system tries to let
         // the wrong rider accept a driver offer
         Driver myDriver = new Driver();
         Rider myRider = new Rider();
-        Ride myRide = new Ride("Take me to the game", "my hour", "Rogers Place");
-        RideController rc = new RideController();
+        String rideDescription = "I need a ride to West Ed!!";
+        LatLng startLocation = new LatLng(53.526495, -113.630327);
+        LatLng endLocation = new LatLng(53.526495, -113.630327);
+        Number fare = 2.75;
+        User rider = new User("rider", "John", "john@yo.com", "123-4567", "123 main");
+        Ride myRide = new Ride(startLocation, endLocation, fare, rideDescription, rider);        RideController rc = new RideController();
         rc.addRide(myRide);
 
         assertFalse(rc.rideAcceptedByRider(myRide));

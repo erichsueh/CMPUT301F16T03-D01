@@ -32,9 +32,9 @@ public class UserController {
 
     public UserController(Context context) {
         applicationContext = context;
-//        if(userList == null) {
-//            userList = new UserList();
-//        }
+        if(userList == null) {
+            userList = new UserList();
+        }
     }
 
     //TODO: replace with server

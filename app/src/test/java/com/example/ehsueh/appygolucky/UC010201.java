@@ -3,6 +3,10 @@ package com.example.ehsueh.appygolucky;
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import org.junit.Test;
+
 import java.util.Collection;
 
 import static junit.framework.Assert.assertTrue;
@@ -17,25 +21,32 @@ import static junit.framework.Assert.assertTrue;
  *
  */
 
-public class UC010201 extends ActivityInstrumentationTestCase2{
-    public UC010201() {super(MainActivity.class); }
+public class UC010201 {
 
+    @Test
     public void rideListTest() {
         RideList rideList = new RideList();
         Collection<Ride> Rides = rideList.getRides();
-        String rideNameA = "I need a ride to West Ed!!";
-        String startLocationA = "Sherlock's on campus";
-        String endLocationA = "West Edmonton Mall";
-        String rideNameB = "Gotta get to South Common ASAP :)";
-        String startLocationB = "Sherlock's on campus";
-        String endLocationB = "South Common";
-        String rideNameC = "Ride to Grocery Store";
-        String startLocationC = "116 St & 85 Ave, Edmonton";
-        String endLocationC = "5728 111 St NW,";
+        String rideDescriptionA = "I need a ride to West Ed!!";
+        Number fareA = 2.75;
+        LatLng startLocationA = new LatLng(53.526495, -113.630327);
+        LatLng endLocationA = new LatLng(53.526495, -113.630327);
+        String rideDescriptionB = "Gotta get to South Common ASAP :)";
+        User riderA = new User("usernameA", "nameA", "emailA", "phoneA", "addressA");
+        Number fareB = 2.75;
+        LatLng startLocationB = new LatLng(53.526495, -113.630327);
+        LatLng endLocationB = new LatLng(53.526495, -113.630327);
+        User riderB = new User("usernameC", "nameC", "emailC", "phoneC", "addressC");
+        String rideDescriptionC = "Ride to Grocery Store";
+        Number fareC = 2.75;
+        User riderC = new User("usernameC", "nameC", "emailC", "phoneC", "addressC");
+        LatLng startLocationC = new LatLng(53.526495, -113.630327);
+        LatLng endLocationC = new LatLng(53.526495, -113.630327);
 
-        Ride rideA = new Ride(rideNameA, startLocationA, endLocationA);
-        Ride rideB = new Ride(rideNameB, startLocationB, endLocationB);
-        Ride rideC = new Ride(rideNameC, startLocationC, endLocationC);
+        Ride rideA = new Ride(startLocationA, endLocationA, fareA, rideDescriptionA, riderA);
+        Ride rideB = new Ride(startLocationB, endLocationB, fareB, rideDescriptionB, riderB);
+        Ride rideC = new Ride(startLocationC, endLocationC, fareC, rideDescriptionC, riderC);
+
         rideList.addRide(rideA);
         rideList.addRide(rideB);
         rideList.addRide(rideC);
