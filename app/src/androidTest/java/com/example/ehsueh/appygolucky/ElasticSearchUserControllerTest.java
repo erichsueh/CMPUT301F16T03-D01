@@ -47,7 +47,7 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
         //This is currently returning all but the most recent entry.
         //Thus, it will fail if the index is empty when starting the test.
         //Corey is currently looking into this.
-        ElasticSearchUserController.CheckUsernameTask checkUserTask = new ElasticSearchUserController.CheckUsernameTask();
+        ElasticSearchUserController.GetUsersTask checkUserTask = new ElasticSearchUserController.GetUsersTask();
         List<User> result = null;
         checkUserTask.execute(username);
 
@@ -71,7 +71,7 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
         }
 
 
-        ElasticSearchUserController.CheckUsernameTask checkUserTask1 = new ElasticSearchUserController.CheckUsernameTask();
+        ElasticSearchUserController.GetUsersTask checkUserTask1 = new ElasticSearchUserController.GetUsersTask();
         //it checks that is is not in server
         checkUserTask1.execute("test_notMyCoolName");
         try {

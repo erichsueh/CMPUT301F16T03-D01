@@ -17,19 +17,32 @@ import java.util.List;
 
 /**
  * Created by Corey on 2016-11-05.
- *
+ * <p>
  * This class handles indexing and querying user data on the server,
  * as well as operations on the currently active user on the app.
  */
-
 public class UserController {
+    /**
+     * The constant currentUser.
+     */
     protected static User currentUser;
+    /**
+     * The Application context.
+     */
     protected Context applicationContext;
+    /**
+     * The Userfilename.
+     */
     protected final String USERFILENAME = "appygolucky_user.json";
 
     //TODO: this userlist may be replaced entirely by the server
     private static UserList userList;
 
+    /**
+     * Instantiates a new User controller.
+     *
+     * @param context the context
+     */
     public UserController(Context context) {
         applicationContext = context;
         if(userList == null) {
@@ -37,7 +50,17 @@ public class UserController {
         }
     }
 
-    //TODO: replace with server
+    /**
+     * Add user.
+     *
+     * @param username the username
+     * @param name     the name
+     * @param email    the email
+     * @param phone    the phone
+     * @param address  the address
+     * @throws UsernameNotUniqueException the username not unique exception
+     */
+//TODO: replace with server
     public void addUser(String username, String name, String email, String phone, String address)
             throws UsernameNotUniqueException {
         if(!userList.containsUsername(username)) {
@@ -50,20 +73,39 @@ public class UserController {
         }
     }
 
-    //TODO: replace with server
+    /**
+     * Gets user by username.
+     *
+     * @param username the username
+     * @return the user by username
+     */
+//TODO: replace with server
     public User getUserByUsername(String username) {
         return userList.getUserByUsername(username);
     }
 
-    //TODO: replace with server
+    /**
+     * Delete user.
+     *
+     * @param username the username
+     */
+//TODO: replace with server
     public void deleteUser(String username) {
         userList.deleteUser(username);
     }
 
+    /**
+     * Gets current user.
+     *
+     * @return the current user
+     */
     public User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * Load from file.
+     */
     public void loadFromFile() {
         try {
             FileInputStream fis = applicationContext.openFileInput(USERFILENAME);
@@ -81,6 +123,9 @@ public class UserController {
 
     }
 
+    /**
+     * Save in file.
+     */
     public void saveInFile() {
         try {
             FileOutputStream fos = applicationContext.openFileOutput(USERFILENAME,0);
@@ -102,6 +147,12 @@ public class UserController {
     }
 
 
+    /**
+     * Whatstatus boolean.
+     *
+     * @param i the
+     * @return the boolean
+     */
     public static boolean whatstatus(int i) {
         return Boolean.TRUE;
     }

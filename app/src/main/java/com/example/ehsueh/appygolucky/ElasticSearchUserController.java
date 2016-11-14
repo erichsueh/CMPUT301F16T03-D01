@@ -20,9 +20,7 @@ import io.searchbox.core.SearchResult;
 
 /**
  * Created by Corey on 2016-11-07.
- *
  */
-
 //This code is based off of code we created in the labs
 
 public class ElasticSearchUserController {
@@ -30,8 +28,10 @@ public class ElasticSearchUserController {
     private static String teamName = "cmput301f16t03";
     private static String userType = "user";
 
-    /** Adds a user to the server.  Note that we could end up with duplicates.
-     *  The caller should check whether username is unique. */
+    /**
+     * Adds a user to the server.  Note that we could end up with duplicates.
+     * The caller should check whether username is unique.
+     */
     public static class AddUsersTask extends AsyncTask<User, Void, Void> {
 
         @Override
@@ -66,7 +66,7 @@ public class ElasticSearchUserController {
     /**
      * By input a username string, this outputs the user obj if it exists return null otherwise.
      */
-    public static class CheckUsernameTask extends AsyncTask<String, Void, List<User>> {
+    public static class GetUsersTask extends AsyncTask<String, Void, List<User>> {
         @Override
         protected List<User> doInBackground(String... params) {
             verifySettings();
@@ -104,11 +104,6 @@ public class ElasticSearchUserController {
             }
         }
     }
-    //Called after request object has been returned by search
-    //By input a user obj, this outputs the rest of user info
-    //return null otherwise
-    //TODO: use the username instead of the id for this query
-    // (because we don't know how to save the user id)
 
     /**
      * Called after request object has been returned by search; input is a user obj, this outputs

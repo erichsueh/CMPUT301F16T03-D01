@@ -8,7 +8,6 @@ import io.searchbox.annotations.JestId;
 /**
  * Created by Corey on 2016-10-13.
  */
-
 public class User {
     @JestId
     private String id;
@@ -20,6 +19,15 @@ public class User {
     private ArrayList<Ride> requestedRides;
     private ArrayList<Ride> acceptedRides;
 
+    /**
+     * Instantiates a new User.
+     *
+     * @param username the username
+     * @param name     the name
+     * @param email    the email
+     * @param phone    the phone
+     * @param address  the address
+     */
     public User(String username, String name, String email, String phone, String address) {
         this.username = username;
         this.name = name;
@@ -31,43 +39,105 @@ public class User {
         this.acceptedRides = new ArrayList<Ride>();
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public String getId() {
         return this.id;
     }
 
 
+    /**
+     * Gets username.
+     *
+     * @return the username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets contact info.
+     *
+     * @return the contact info
+     */
     public List<String> getContactInfo() { return null; }
 
+    /**
+     * Gets ride requests.
+     *
+     * @return the ride requests
+     */
     public List<Ride> getRideRequests() { return null; }
 
+    /**
+     * Gets accepted rides.
+     *
+     * @return the accepted rides
+     */
     public List<Ride> getAcceptedRides() { return null; }
 
+    /**
+     * Sets username.
+     */
     public void setUsername() {}
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {}
 
+    /**
+     * Sets email.
+     */
     public void setEmail() {}
 
+    /**
+     * Sets phone.
+     */
     public void setPhone() {}
 
+    /**
+     * Sets address.
+     */
     public void setAddress() {}
 
+    /**
+     * Add ride request.
+     *
+     * @param rideRequest the ride request
+     */
     public void addRideRequest(Ride rideRequest) {
         this.requestedRides.add(rideRequest);
     }
 
+    /**
+     * Add accepted request.
+     *
+     * @param acceptedRequest the accepted request
+     */
     public void addAcceptedRequest(Ride acceptedRequest) {
         this.acceptedRides.add(acceptedRequest);
     }
