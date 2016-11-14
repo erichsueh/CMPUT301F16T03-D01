@@ -10,6 +10,7 @@ android {
         targetSdkVersion 18
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -17,11 +18,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
-
+repositories {
+    maven { url "https://jitpack.io" }
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:18.0.0'
     compile files('src/include/jest-droid-2.0.1-SNAPSHOT.jar')
+    compile('com.github.MKergall:osmbonuspack:6.0') {
+        transitive = true;
+        exclude module: 'gson';
+        exclude module: 'commons-lang3';
+    }
+    compile 'com.jayway.android.robotium:robotium-solo:5.6.3'
+    // For Google Map
+    compile 'com.google.android.gms:play-services-maps:7.+'
+    // Found solution from:
+    // http://stackoverflow.com/questions/25370598/cant-import-com-google-android-gms-location-locationservices
+    compile 'com.google.android.gms:play-services-location:7.+'
+    compile 'com.google.maps.android:android-maps-utils:0.4+'
 }

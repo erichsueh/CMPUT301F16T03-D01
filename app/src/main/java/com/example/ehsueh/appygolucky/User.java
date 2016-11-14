@@ -1,5 +1,6 @@
 package com.example.ehsueh.appygolucky;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.searchbox.annotations.JestId;
@@ -9,12 +10,15 @@ import io.searchbox.annotations.JestId;
  */
 
 public class User {
-    @JestId private String id;
+    @JestId
+    private String id;
     private String username;
     private String name;
     private String email;
     private String phone;
     private String address;
+    private ArrayList<Ride> requestedRides;
+    private ArrayList<Ride> acceptedRides;
 
     public User(String username, String name, String email, String phone, String address) {
         this.username = username;
@@ -23,6 +27,8 @@ public class User {
         this.phone = phone;
         this.address = address;
         this.id = null;
+        this.requestedRides = new ArrayList<Ride>();
+        this.acceptedRides = new ArrayList<Ride>();
     }
 
     public void setId(String id) {
@@ -58,7 +64,11 @@ public class User {
 
     public void setAddress() {}
 
-    public void addRideRequest() {}
+    public void addRideRequest(Ride rideRequest) {
+        this.requestedRides.add(rideRequest);
+    }
 
-    public void addAcceptedRequest() {}
+    public void addAcceptedRequest(Ride acceptedRequest) {
+        this.acceptedRides.add(acceptedRequest);
+    }
 }

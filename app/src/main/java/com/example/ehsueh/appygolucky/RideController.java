@@ -1,5 +1,7 @@
 package com.example.ehsueh.appygolucky;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Collection;
 
 /**
@@ -11,7 +13,7 @@ public class RideController {
 
     public RideController() {}
 
-    public void addRide(String name, String startLocation, String endLocation) {}
+    public void addRide(LatLng start, LatLng end, Number fare, User rider) {}
 
     public void addRide(Ride ride) {}
 
