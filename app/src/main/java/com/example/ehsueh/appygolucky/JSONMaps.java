@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is used in create the JSON request from a list of lats and long and then parsing through
- * the results returned from hte google maps.
+ * This class is used to create the JSON request from a list of lats and longs and then to parse
+ * through the results returned from google maps.
  * Reference:http://stackoverflow.com/questions/14702621/answer-draw-path-between-two-points-using-google-maps-android-api-v2
  */
 class JSONMaps {
