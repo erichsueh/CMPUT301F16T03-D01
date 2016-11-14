@@ -2,6 +2,7 @@ package com.example.ehsueh.appygolucky;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -29,4 +30,8 @@ public class RideController {
     public Collection<Ride> getRidesAcceptedByDriver(Driver driver) {return null;}
 
     public Boolean rideAcceptedByRider(Ride ride) {return Boolean.FALSE;}
+
+    public static ArrayList<Ride> getRideList() {
+        return null;
+    }
 }
