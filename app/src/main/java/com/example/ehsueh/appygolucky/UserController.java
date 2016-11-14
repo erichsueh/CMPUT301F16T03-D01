@@ -105,4 +105,10 @@ public class UserController {
     public static boolean whatstatus(int i) {
         return Boolean.TRUE;
     }
+
+    public static void editProfile(String email, String phone, String address) {
+        User.setEmail(email);
+        User.setPhone(phone);
+        User.setAddress(address);
+    }
 }

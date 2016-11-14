@@ -58,11 +58,17 @@ public class User {
 
     public void setName(String name) {}
 
-    public void setEmail() {}
+    public static void setEmail(String mail) {
+        email = mail;
+    }
 
-    public void setPhone() {}
+    public static void setPhone(String phonenumber) {
+        phone = phonenumber;
+    }
 
-    public void setAddress() {}
+    public static void setAddress(String adress) {
+        address = adress;
+    }
 
     public void addRideRequest(Ride rideRequest) {
         this.requestedRides.add(rideRequest);
@@ -71,4 +77,5 @@ public class User {
     public void addAcceptedRequest(Ride acceptedRequest) {
         this.acceptedRides.add(acceptedRequest);
     }
+
 }
