@@ -21,10 +21,12 @@ public class SearchPage extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
     }
+
     public void AcceptSearch (View view) {
         finish();}
 
     public void ShowMap(View view){
-
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 }
