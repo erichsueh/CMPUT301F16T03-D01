@@ -59,7 +59,7 @@ public class User {
 
 
     /**
-     * Gets username.
+     * Gets username./
      *
      * @return the username
      */
@@ -109,20 +109,17 @@ public class User {
      */
     public void setName(String name) {}
 
-    /**
-     * Sets email.
-     */
-    public void setEmail() {}
+    public void setEmail(String mail) {
+        email = mail;
+    }
 
-    /**
-     * Sets phone.
-     */
-    public void setPhone() {}
+    public void setPhone(String phonenumber) {
+        phone = phonenumber;
+    }
 
-    /**
-     * Sets address.
-     */
-    public void setAddress() {}
+    public void setAddress(String adress) {
+        address = adress;
+    }
 
     /**
      * Add ride request.
@@ -141,4 +138,5 @@ public class User {
     public void addAcceptedRequest(Ride acceptedRequest) {
         this.acceptedRides.add(acceptedRequest);
     }
+
 }
