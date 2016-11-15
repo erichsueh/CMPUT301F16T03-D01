@@ -13,7 +13,7 @@ import android.view.MenuItem;
 /**
  * this is our screen with 4 buttons, "EditProfileButton, DriverButton, RiderButton, LogoutButton
  */
-public class HomePage extends ActionBarActivity {
+public class HomePageActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,24 +31,24 @@ public class HomePage extends ActionBarActivity {
         finish();}
 
     public void RiderClick(View view) {
-        Intent intent = new Intent(this, RiderRequestList.class);
+        Intent intent = new Intent(this, RiderRequestListActivity.class);
         startActivity(intent);}
 
     public void DriverClick(View view) {
-        AlertDialog.Builder adb = new AlertDialog.Builder(HomePage.this);
+        AlertDialog.Builder adb = new AlertDialog.Builder(HomePageActivity.this);
         adb.setMessage("What would you like to do?");
         adb.setCancelable(true);
         adb.setPositiveButton("Pending", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(HomePage.this, DriverPending.class);
+                Intent intent = new Intent(HomePageActivity.this, DriverPendingActivity.class);
                 startActivity(intent);
             }
         });
         adb.setNeutralButton("Search", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(HomePage.this, SearchPage.class);
+                Intent intent = new Intent(HomePageActivity.this, SearchPageActivity.class);
                 startActivity(intent);
             }
         });
@@ -61,7 +61,7 @@ public class HomePage extends ActionBarActivity {
         adb.show();
     }
     public void EditClick(View view) {
-        Intent intent = new Intent(this, EditProfile.class);
+        Intent intent = new Intent(this, EditProfileActivity.class);
         startActivity(intent);}
 
     @Override

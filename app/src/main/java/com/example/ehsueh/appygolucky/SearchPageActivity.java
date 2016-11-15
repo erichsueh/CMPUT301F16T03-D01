@@ -14,7 +14,7 @@ import android.view.View;
  * This is our "can look for riders by geolocation or by a keyword
  */
 
-public class SearchPage extends ActionBarActivity {
+public class SearchPageActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class SearchPage extends ActionBarActivity {
         finish();}
 
     public void ShowMap(View view){
-        Intent intent = new Intent(SearchPage.this, MapsActivity.class);
+        Intent intent = new Intent(SearchPageActivity.this, MapsActivity.class);
         startActivity(intent);
     }
 }

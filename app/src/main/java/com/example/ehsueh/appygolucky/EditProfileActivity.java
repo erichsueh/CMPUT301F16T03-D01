@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-public class EditProfile extends ActionBarActivity {
+public class EditProfileActivity extends ActionBarActivity {
     private EditText bodyText1;
     private EditText bodyText2;
     private EditText bodyText3;

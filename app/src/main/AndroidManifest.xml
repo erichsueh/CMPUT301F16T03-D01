@@ -28,14 +28,14 @@
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
         </activity>
         <activity android:name=".MapsActivity" />
-        <activity android:name=".HomePage" />
+        <activity android:name=".HomePageActivity" />
         <activity
-            android:name=".RiderRequestList"
+            android:name=".RiderRequestListActivity"
             android:label="@string/title_activity_rider_request_list" />
-        <activity android:name=".ListDriversChoose" />
-        <activity android:name=".SearchPage" />
-        <activity android:name=".DriverPending" />
-        <activity android:name=".EditProfile" />
+        <activity android:name=".ListDriversChooseActivity" />
+        <activity android:name=".SearchPageActivity" />
+        <activity android:name=".DriverPendingActivity" />
+        <activity android:name=".EditProfileActivity" />
         <activity
             android:name=".AddRequest"
             android:label="@string/title_activity_add_request"></activity>

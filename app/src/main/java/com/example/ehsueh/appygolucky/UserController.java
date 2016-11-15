@@ -153,11 +153,11 @@ public class UserController {
      * @param i the
      * @return the boolean
      */
-    public boolean whatstatus(int i) {
+    public static boolean whatstatus(int i) {
         return Boolean.TRUE;
     }
 
-    public void editProfile(String email, String phone, String address) {
+    public static void editProfile(String email, String phone, String address) {
         currentUser.setEmail(email);
         currentUser.setPhone(phone);
         currentUser.setAddress(address);

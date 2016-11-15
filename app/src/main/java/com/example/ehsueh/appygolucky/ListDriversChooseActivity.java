@@ -10,7 +10,7 @@ import android.os.Bundle;
  * it shows the list of driver that have requested to pick you up
  */
 
-public class ListDriversChoose extends ActionBarActivity {
+public class ListDriversChooseActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

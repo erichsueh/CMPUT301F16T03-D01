@@ -2,7 +2,6 @@ package com.example.ehsueh.appygolucky;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  * The pending shows the lsit of riders you've proposed a price to
  */
 
-public class DriverPending extends ActionBarActivity {
+public class DriverPendingActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class DriverPending extends ActionBarActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                AlertDialog.Builder adb = new AlertDialog.Builder(DriverPending.this);
+                AlertDialog.Builder adb = new AlertDialog.Builder(DriverPendingActivity.this);
 
                 if (UserController.whatstatus(1)) {
                     adb.setMessage("Do you want to select this driver?");

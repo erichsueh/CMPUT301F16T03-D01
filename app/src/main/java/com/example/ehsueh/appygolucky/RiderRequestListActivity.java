@@ -1,16 +1,9 @@
 package com.example.ehsueh.appygolucky;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import java.util.ArrayList;
 
 /**
  * List: RiderRequestLst
@@ -19,7 +12,7 @@ import java.util.ArrayList;
  *
  * This is our rider request page, with each colour different status
  */
-public class RiderRequestList extends ActionBarActivity {
+public class RiderRequestListActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +29,7 @@ public class RiderRequestList extends ActionBarActivity {
 //        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 //            @Override
 //            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                AlertDialog.Builder adb = new AlertDialog.Builder(RiderRequestList.this);
+//                AlertDialog.Builder adb = new AlertDialog.Builder(RiderRequestListActivity.this);
 //
 //                if (UserController.whatstatus(1)) {
 //                    adb.setMessage("What would you like to do?");
@@ -52,7 +45,7 @@ public class RiderRequestList extends ActionBarActivity {
 //                    adb.setNeutralButton("See List", new DialogInterface.OnClickListener() {
 //                        @Override
 //                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            Intent intent = new Intent(RiderRequestList.this, DriverPending.class);
+//                            Intent intent = new Intent(RiderRequestListActivity.this, DriverPendingActivity.class);
 //                            startActivity(intent);
 //                        }
 //                    });
@@ -104,7 +97,7 @@ public class RiderRequestList extends ActionBarActivity {
 
 
     public void AddRequest(View view) {
-        Intent intent = new Intent(RiderRequestList.this, AddRequest.class);
+        Intent intent = new Intent(RiderRequestListActivity.this, AddRequest.class);
         startActivity(intent);}
 
     public void BackRequest(View view) {

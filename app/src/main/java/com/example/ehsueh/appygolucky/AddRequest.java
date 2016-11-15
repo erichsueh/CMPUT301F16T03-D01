@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -15,23 +14,17 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Place;
 //import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 //import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -302,7 +295,7 @@ public class AddRequest extends ActionBarActivity implements OnMapReadyCallback,
 
     void displayRideConfirmationDlg(String distance){
         final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.requestconfirm);
+        dialog.setContentView(R.layout.activity_requestconfirm);
 
         final TextView from = (TextView)dialog.findViewById(R.id.fromText);
         final TextView to = (TextView)dialog.findViewById(R.id.toText);
