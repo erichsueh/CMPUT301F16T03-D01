@@ -38,9 +38,11 @@ dependencies {
     }
     compile 'com.jayway.android.robotium:robotium-solo:5.6.3'
     // For Google Map
-    compile 'com.google.android.gms:play-services-maps:7.+'
+    compile 'com.google.android.gms:play-services-maps:9.8.0'
     // Found solution from:
     // http://stackoverflow.com/questions/25370598/cant-import-com-google-android-gms-location-locationservices
-    compile 'com.google.android.gms:play-services-location:7.+'
+    compile 'com.google.android.gms:play-services-location:9.8.0'
+    compile 'com.google.android.gms:play-services-places:9.8.0'
+    //compile 'com.google.android.gms:play-services:9.8.0'
     compile 'com.google.maps.android:android-maps-utils:0.4+'
 }
