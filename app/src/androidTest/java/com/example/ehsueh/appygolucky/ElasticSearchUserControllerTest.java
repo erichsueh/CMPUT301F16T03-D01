@@ -43,6 +43,10 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
         //If the adding worked, myUser should now have an Id assigned by the server
         assertNotNull("The Id is still null, after trying to add to the server", myUser.getId());
 
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (Exception e) {}
+
         //Test if it is in server
         //This is currently returning all but the most recent entry.
         //Thus, it will fail if the index is empty when starting the test.
@@ -85,7 +89,7 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
 
         //delete the user that we added
         //Note: This will only be run if the other assertions passed
-//        ElasticSearchUserController.DeleteUserTask deleteUserTask = new ElasticSearchUserController.DeleteUserTask();
-//        deleteUserTask.execute(myUser.getId());
+        ElasticSearchUserController.DeleteUserTask deleteUserTask = new ElasticSearchUserController.DeleteUserTask();
+        deleteUserTask.execute(myUser.getId());
     }
 }
