@@ -117,8 +117,6 @@ public class UserController {
 
         } catch (FileNotFoundException e) {
             currentUser = null;
-        } catch (IOException e) {
-            throw new RuntimeException();
         }
 
     }

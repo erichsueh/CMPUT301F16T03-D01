@@ -41,7 +41,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView4"
-        android:textAppearance="@style/TextAppearance.AppCompat.Base.SearchResult.Title"
         android:textSize="24sp"
         android:layout_marginTop="51dp"
         android:layout_below="@+id/textView5"
