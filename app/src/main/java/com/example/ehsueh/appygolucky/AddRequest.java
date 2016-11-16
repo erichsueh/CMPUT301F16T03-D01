@@ -12,15 +12,16 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBarActivity;
 
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-//import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-//import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.common.api.Status;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -40,7 +42,7 @@ import java.util.Scanner;
 /**
  * Main activity for riders to select their pickup and drop off locations.
  */
-public class AddRequest extends ActionBarActivity implements OnMapReadyCallback,
+public class AddRequest extends AppCompatActivity implements OnMapReadyCallback,
             DrawingLocationActivity {
 
     private GoogleMap mMap;
@@ -69,8 +71,8 @@ public class AddRequest extends ActionBarActivity implements OnMapReadyCallback,
     private void setButtonListeners(){
         final Button setLocation = (Button)findViewById(R.id.setLocationButton);
         final Button cancelTrip = (Button)findViewById(R.id.cancelTrip);
-//        final PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-//                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        final PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_fragment);
         cancelTrip.setEnabled(false);
 
         cancelTrip.setOnClickListener(new View.OnClickListener() {
@@ -99,35 +101,35 @@ public class AddRequest extends ActionBarActivity implements OnMapReadyCallback,
             }
         });
 
-//        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-//            @Override
-//            public void onPlaceSelected(Place place) {
-//                LatLng location = place.getLatLng();
-//                if(currentMarker != null){
-//                    currentMarker.remove();
-//                }
-//
-//                currentMarker = mMap.addMarker(new MarkerOptions()
-//                        .position(location)
-//                        .title(place.getAddress().toString())
-//                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-//                currentMarker.showInfoWindow();
-//            }
-//
-//            @Override
-//            public void onError(Status status) {
-//                AlertDialog markerWarning = new AlertDialog.Builder(context).create();
-//                markerWarning.setMessage("Something went wrong in trying to search address.");
-//                markerWarning.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        });
-//
-//                markerWarning.show();
-//            }
-//        });
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                LatLng location = place.getLatLng();
+                if(currentMarker != null){
+                    currentMarker.remove();
+                }
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,12));
+                currentMarker = mMap.addMarker(new MarkerOptions()
+                        .position(location)
+                        .title(place.getAddress().toString())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                currentMarker.showInfoWindow();
+            }
+
+            @Override
+            public void onError(Status status) {
+                AlertDialog markerWarning = new AlertDialog.Builder(context).create();
+                markerWarning.setMessage("Something went wrong in trying to search address.");
+                markerWarning.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                markerWarning.show();
+            }
+        });
 //        new AlertDialog.Builder(context)
 //                .setTitle("Delete entry")
 //                .setMessage("Are you sure you want to delete this entry?")
@@ -245,7 +247,7 @@ public class AddRequest extends ActionBarActivity implements OnMapReadyCallback,
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(edmonton)      // Sets the center of the map to location user
-                .zoom(11)
+                .zoom(10)
                 .bearing(0)
                 .tilt(0)
                 .build();
@@ -374,6 +376,7 @@ public class AddRequest extends ActionBarActivity implements OnMapReadyCallback,
         //Show the dialog
         dialog.show();
     }
+
 
     static class FairEstimation{
 
