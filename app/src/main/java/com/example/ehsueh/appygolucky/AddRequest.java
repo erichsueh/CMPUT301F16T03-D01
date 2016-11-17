@@ -14,9 +14,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -24,8 +26,10 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -46,6 +50,7 @@ public class AddRequest extends AppCompatActivity implements OnMapReadyCallback,
             DrawingLocationActivity {
 
     private GoogleMap mMap;
+    private UiSettings mUiSettings;
     private Marker tripStartMarker;
     private Marker tripEndMarker;
     private Marker currentMarker;
@@ -241,16 +246,22 @@ public class AddRequest extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mUiSettings = mMap.getUiSettings();
 
         //Set the initial spot to edmonton for now
         LatLng edmonton = new LatLng(53.5444, -113.4909);
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        mUiSettings.setZoomControlsEnabled(true);
+        mUiSettings.setCompassEnabled(true);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(edmonton)      // Sets the center of the map to location user
                 .zoom(10)
                 .bearing(0)
                 .tilt(0)
                 .build();
+
+
 
         ensureLocationPermissions();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -288,7 +299,7 @@ public class AddRequest extends AppCompatActivity implements OnMapReadyCallback,
         mMap.addPolyline( new PolylineOptions()
                 .addAll(drawPoints)
                 .width(12)
-                .color(Color.parseColor("#696969"))//color of line
+                .color(Color.parseColor("#4885ed"))//color of line
                 .geodesic(true)
         );
 
