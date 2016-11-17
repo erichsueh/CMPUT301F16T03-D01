@@ -251,9 +251,11 @@ public class AddRequest extends AppCompatActivity implements OnMapReadyCallback,
         //Set the initial spot to edmonton for now
         LatLng edmonton = new LatLng(53.5444, -113.4909);
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
-        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mUiSettings.setZoomControlsEnabled(true);
         mUiSettings.setCompassEnabled(true);
+        mUiSettings.setTiltGesturesEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(edmonton)      // Sets the center of the map to location user
                 .zoom(10)

@@ -21,7 +21,7 @@
         tools:layout="@android:layout/list_content">
 
         <Button
-            android:layout_width="175dp"
+            android:layout_width="150dp"
             android:layout_height="50dp"
             android:id="@+id/setLocationButton"
             android:layout_gravity="bottom|center"
@@ -29,7 +29,7 @@
             android:layout_marginBottom="5dp" />
 
         <Button
-            android:layout_width="110dp"
+            android:layout_width="100dp"
             android:layout_height="50dp"
             android:id="@+id/cancelTrip"
             android:layout_gravity="bottom|left"
