@@ -66,9 +66,7 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
             fail("threw InterruptedException");
         } catch(ExecutionException e) {
             fail("threw ExecutionExceptionn");
-        } catch(UsernameNotUniqueException e) {
-            fail("Threw UsernameNotUniqueException");
-        }
+        } 
         assertTrue(Boolean.TRUE);
     }
 

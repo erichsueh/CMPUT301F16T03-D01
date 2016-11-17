@@ -55,20 +55,8 @@ public class UserController {
      * @throws UsernameNotUniqueException If there already exists a user with this username.
      */
     public void newUserLogin(String username, String name, String email, String phone, String address)
-            throws UsernameNotUniqueException, InterruptedException, ExecutionException {
-        //Query to server to see if the desired username already exists.
-        //NOTE: Currently this will freeze the UI.  We may want to implement this differently,
-        //but I"m not sure how yet.  Considering the small size of our server, it may not matter.
-        ESQueryListener myQueryListener = new ESQueryListener();
-        new ElasticSearchUserController.GetUserByUsernameTask(myQueryListener).execute(username);
+            throws InterruptedException, ExecutionException {
 
-        List<User> returnedUsers = null;
-        do {
-            returnedUsers = myQueryListener.getResults();
-        } while(returnedUsers == null);
-
-        //If the username is unique, create the user.  Otherwise throw an exception.
-        if(returnedUsers.size() == 0) {
             User newUser = new User(username, name, email, phone, address);
 
             //Add the user to the server
@@ -76,21 +64,22 @@ public class UserController {
                     new ElasticSearchUserController.AddUsersTask();
             addUsersTask.execute(newUser);
 
-            //Log in, and save the user informatin to file
+            //Log in, and save the user information to file
             currentUser = newUser;
             saveInFile();
-        }
 
-        else {
-            throw new UsernameNotUniqueException();
-        }
     }
 
-    public void newUserLogin(User user) throws UsernameNotUniqueException, InterruptedException,
-            ExecutionException{
+    public void newUserLogin(User user) throws InterruptedException, ExecutionException{
         this.newUserLogin(user.getUsername(), user.getName(), user.getEmail(),
                 user.getPhone(), user.getAddress());
     }
+
+    public void setCurrentUser(User user) {
+        currentUser = user;
+        saveInFile();
+    }
+
 
     /**
      * Gets user by username.  This method is handles creating and executing the relevant
@@ -104,6 +93,7 @@ public class UserController {
                 new ElasticSearchUserController.GetUserByUsernameTask(new ESQueryListener());
         getUserByUsernameTask.execute(username);
     }
+
 
     /**
      * Delete user.

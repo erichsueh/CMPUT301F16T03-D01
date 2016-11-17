@@ -1,12 +1,8 @@
 package com.example.ehsueh.appygolucky;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.android.gms.common.api.Result;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
@@ -33,7 +29,7 @@ public class ElasticSearchUserController {
 
     /**
      * Adds a user to the server.  Note that we could end up with duplicates.
-     * The caller should check whether username is unique.
+     * The queryListener should check whether username is unique.
      */
     public static class AddUsersTask extends AsyncTask<User, Void, Void> {
 
@@ -75,10 +71,10 @@ public class ElasticSearchUserController {
     //http://stackoverflow.com/questions/7618614/return-data-from-asynctask-class
     //Nov 16 Adil Soomro
     public static class GetUserByUsernameTask extends AsyncTask<String, Void, List<User>> {
-        private ESQueryListener caller;
+        private ESQueryListener queryListener;
 
-        public GetUserByUsernameTask(ESQueryListener caller) {
-            this.caller = caller;
+        public GetUserByUsernameTask(ESQueryListener queryListener) {
+            this.queryListener = queryListener;
         }
 
         @Override
@@ -114,7 +110,7 @@ public class ElasticSearchUserController {
 
         @Override
         protected void onPostExecute(List<User> retrievedUsers) {
-            caller.onQueryCompletion(retrievedUsers);
+            queryListener.onQueryCompletion(retrievedUsers);
         }
     }
 

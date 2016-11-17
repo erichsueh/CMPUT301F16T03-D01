@@ -14,18 +14,19 @@ import android.view.MenuItem;
  * this is our screen with 4 buttons, "EditProfileButton, DriverButton, RiderButton, LogoutButton
  */
 public class HomePageActivity extends ActionBarActivity {
+    UserController uc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        UserController uc = new UserController(getApplicationContext());
+        uc = new UserController(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
         TextView UsernameDisplayTxt = (TextView) findViewById(R.id.UsernameDisplayTxt);
         if(uc.getCurrentUser() != null) {
             UsernameDisplayTxt.setText(uc.getCurrentUser().getUsername());
         }
     }
+
 
     public void LogoutClick(View view) {
         finish();}

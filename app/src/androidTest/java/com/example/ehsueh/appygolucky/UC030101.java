@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
  * Related tests for this use case include:
  * <ul>
  *     <li>Create a new user object with a unique username and other relevant information</li>
- *     <li>Ensure an exception is thrown if the username is not unique</li>
  * </ul>
  */
 
@@ -46,8 +45,6 @@ public class UC030101 extends ActivityInstrumentationTestCase2{
             fail("GetUserByUsernameTask was interrupted");
         } catch(ExecutionException e) {
             fail("GetUserByUsernameTask threw ExecutionException");
-        } catch(UsernameNotUniqueException e) {
-            Assert.fail("Threw UsernameNotUniqueException");
         }
 
 
@@ -69,20 +66,6 @@ public class UC030101 extends ActivityInstrumentationTestCase2{
 
         assertEquals("The query returned the wrong number of users", 1, returnedUsers.size());
         Assert.assertEquals("Username does not match", username, returnedUsers.get(0).getUsername());
-
-        //Attempt to create new user with same username
-        try {
-            uc.newUserLogin(username, name2, email2, phone2, address1);
-            Assert.fail("Exception not thrown when attempting to use a duplicate username");
-        } catch(InterruptedException e) {
-            fail("uc.newUserLogin was interruped");
-        } catch(ExecutionException e) {
-            fail("uc.newUserLogin threw ExecutionException");
-        } catch(UsernameNotUniqueException e) {
-            //The test passed!
-        }catch(Exception e) {
-            fail(e.toString());
-        }
         uc.deleteUser(returnedUsers.get(0).getId());
 
         //Pause to ensure the server is ready
@@ -101,8 +84,6 @@ public class UC030101 extends ActivityInstrumentationTestCase2{
             fail("uc.newUserLogin threw interrupedException");
         } catch(ExecutionException e) {
             fail("uc.newUserLogin threw ExecutionException");
-        } catch(UsernameNotUniqueException e) {
-            Assert.fail("Threw UsernameNotUnique exception");
         }
         uc.deleteUser(myUser.getId());
     }
