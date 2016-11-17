@@ -31,6 +31,8 @@ public class ElasticSearchUserController {
      * Adds a user to the server.  Note that we could end up with duplicates.
      * The queryListener should check whether username is unique.
      */
+    //Instead of calling this directly, we should use UserController.newUserLogin
+    //This function will take care of adding to the server, as well as saving to file.
     public static class AddUsersTask extends AsyncTask<User, Void, Void> {
 
         @Override
@@ -65,14 +67,22 @@ public class ElasticSearchUserController {
     /**
      * Given a username, this will query the server for the corresponding user.  In order to avoid
      * freezing the UI thread, this uses a callback function to return the users.
+     * This task should be initiated from an activity, and should be given an
+     * ESQueryListener that does something meaningful in that particular context.
+     * For example, depending on the data that is returned, the program may decide whether
+     * or not to create a new user account.
      */
-    //TODO: find a way to return the user without stalling the UI
-    //Method is returning data without freezing UI taken from
+//Method to returning data without freezing UI taken from
     //http://stackoverflow.com/questions/7618614/return-data-from-asynctask-class
     //Nov 16 Adil Soomro
     public static class GetUserByUsernameTask extends AsyncTask<String, Void, List<User>> {
         private ESQueryListener queryListener;
 
+        /**
+         * Instantiates a new Get user by username task.
+         *
+         * @param queryListener Query listener that handles the returned data.
+         */
         public GetUserByUsernameTask(ESQueryListener queryListener) {
             this.queryListener = queryListener;
         }
@@ -108,6 +118,10 @@ public class ElasticSearchUserController {
             }
         }
 
+        /**
+         * Called at the completion of the task.  Feeds the retrieved data to the ESQueryListener
+         * to do any further computation/action.
+         */
         @Override
         protected void onPostExecute(List<User> retrievedUsers) {
             queryListener.onQueryCompletion(retrievedUsers);
@@ -117,6 +131,8 @@ public class ElasticSearchUserController {
     /**
      * Given an ID, deletes the corresponding user from the server.
      */
+    //Instead of calling this method directly, we can use UserController.deleteUser(id).
+    //This may be a little simpler, and may also deal with deleting relevant local data.
     public static class DeleteUserTask extends AsyncTask<String, Void, Void> {
 
         @Override
