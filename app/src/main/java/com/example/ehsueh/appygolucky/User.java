@@ -81,7 +81,17 @@ public class User {
      *
      * @return the contact info
      */
-    public List<String> getContactInfo() { return null; }
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getPhone() {
+        return this.phone;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
 
     /**
      * Gets ride requests.

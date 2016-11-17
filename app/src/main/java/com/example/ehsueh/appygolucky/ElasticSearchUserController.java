@@ -1,8 +1,10 @@
 package com.example.ehsueh.appygolucky;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.common.api.Result;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.searchly.jestdroid.DroidClientConfig;
@@ -10,6 +12,7 @@ import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.searchbox.core.Delete;
@@ -64,14 +67,25 @@ public class ElasticSearchUserController {
     }
 
     /**
-     * By input a username string, this outputs the user obj if it exists return null otherwise.
+     * Given a username, this will query the server for the corresponding user.  In order to avoid
+     * freezing the UI thread, this uses a callback function to return the users.
      */
-    public static class GetUsersTask extends AsyncTask<String, Void, List<User>> {
+    //TODO: find a way to return the user without stalling the UI
+    //Method is returning data without freezing UI taken from
+    //http://stackoverflow.com/questions/7618614/return-data-from-asynctask-class
+    //Nov 16 Adil Soomro
+    public static class GetUserByUsernameTask extends AsyncTask<String, Void, List<User>> {
+        private ESQueryListener caller;
+
+        public GetUserByUsernameTask(ESQueryListener caller) {
+            this.caller = caller;
+        }
+
         @Override
         protected List<User> doInBackground(String... params) {
             verifySettings();
 
-            if (params[0]=="" | params[0]==null) {
+            if (params[0] == null || params[0].equals("")) {
                 return null;
             }
 
@@ -86,16 +100,10 @@ public class ElasticSearchUserController {
                 SearchResult result = client.execute(search);
                 if (result.isSucceeded()) {
 
-                    List<User> users = result.getSourceAsObjectList(User.class);
-
-                    if(users.size() == 0) {
-                        return null;
-                    } else {
-                        return users;
-                    }
+                    return result.getSourceAsObjectList(User.class);
 
                 } else {
-                    return null;
+                    return (List<User>) new ArrayList<User>();
                 }
             } catch (IOException e) {
                 Log.i("Error", "Failed to communicate with elasticsearch server");
@@ -103,65 +111,15 @@ public class ElasticSearchUserController {
                 return null;
             }
         }
-    }
 
-    /**
-     * Called after request object has been returned by search; input is a user obj, this outputs
-     * the rest of user info, return null otherwise.
-     */
-    public static class retrieveUserInfo extends AsyncTask<User, Void, User> {
         @Override
-        protected User doInBackground(User... users) {
-
-            verifySettings();
-
-            String search_string = "{\"query\": {\"match\": {\"id\": \"" + users[0].getId() + "\"}}}";
-
-            Search search = new Search.Builder(search_string)
-                    .addIndex(teamName)
-                    .addType(userType)
-                    .build();
-
-            try {
-                SearchResult result = client.execute(search);
-                if (result.isSucceeded()) {
-
-
-                    User user = result.getSourceAsObject(User.class);
-
-                    if (user.getId().equals(users[0].getId())) {
-                        return user;
-                    }
-                    else {
-                        return null;
-                    }
-                } else {
-                    return null;
-                }
-            } catch (IOException e) {
-                Log.i("Error", "Failed to communicate with elasticsearch server");
-                e.printStackTrace();
-                return null;
-            }
+        protected void onPostExecute(List<User> retrievedUsers) {
+            caller.onQueryCompletion(retrievedUsers);
         }
     }
 
     /**
-     * If the client hasn't been initialized then we should make it!
-     */
-    private static void verifySettings() {
-        if (client == null) {
-            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
-            DroidClientConfig config = builder.build();
-
-            JestClientFactory factory = new JestClientFactory();
-            factory.setDroidClientConfig(config);
-            client = (JestDroidClient) factory.getObject();
-        }
-    }
-
-    /**
-     * This allows us to delete a user.
+     * Given an ID, deletes the corresponding user from the server.
      */
     public static class DeleteUserTask extends AsyncTask<String, Void, Void> {
 
@@ -186,6 +144,19 @@ public class ElasticSearchUserController {
         }
     }
 
+    /**
+     * If the client hasn't been initialized then we should make it!
+     */
+    private static void verifySettings() {
+        if (client == null) {
+            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
+            DroidClientConfig config = builder.build();
+
+            JestClientFactory factory = new JestClientFactory();
+            factory.setDroidClientConfig(config);
+            client = (JestDroidClient) factory.getObject();
+        }
+    }
 
 
 }

@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-/**
- * Created by Corey on 2016-11-07.
- */
 
 
 public class ElasticSearchUserControllerTest extends ActivityInstrumentationTestCase2 {
@@ -18,6 +15,7 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
         super(MainActivity.class);
     }
 
+    //In order to test AddUsersTask, also tests GetUserByUsernameTask and DeleteUserTask
     public void testAddUsersTask() {
         String username = "test_myCoolName";
         String name = "John";
@@ -29,7 +27,8 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
         assertNull("ID should be null, but is not", myUser.getId());
 
         //Create a new task, and add the user to the server
-        ElasticSearchUserController.AddUsersTask addUsersTask = new ElasticSearchUserController.AddUsersTask();
+        ElasticSearchUserController.AddUsersTask addUsersTask =
+                new ElasticSearchUserController.AddUsersTask();
         addUsersTask.execute(myUser);
 
         //Wait until the AsyncTask is finished
@@ -48,48 +47,34 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
         } catch (Exception e) {}
 
         //Test if it is in server
-        //This is currently returning all but the most recent entry.
-        //Thus, it will fail if the index is empty when starting the test.
-        //Corey is currently looking into this.
-        ElasticSearchUserController.GetUsersTask checkUserTask = new ElasticSearchUserController.GetUsersTask();
-        List<User> result = null;
-        checkUserTask.execute(username);
+        ESQueryListener myQueryListener = new ESQueryListener();
+        ElasticSearchUserController.GetUserByUsernameTask getUserByUsernameTask =
+                new ElasticSearchUserController.GetUserByUsernameTask(myQueryListener);
+        getUserByUsernameTask.execute(username);
 
         try {
-            result = checkUserTask.get(10000, TimeUnit.MILLISECONDS);
-        } catch(TimeoutException e) {
-            fail("checkUserTask timed out");
-        } catch (Exception e) {
-            fail("checkUserTask threw an exception");
-        }
+            TimeUnit.SECONDS.sleep(5);
+        } catch (Exception e) {}
+
+
+        List<User> result = myQueryListener.getResults();
+
         //It checks that if it is in server
-        assertNotNull(result);
-
-        //Print some data to the logs for debugging
-        if(result != null) {
-            Integer i = 1;
-            for(User user: result) {
-                Log.d("ESUserController", "Result " + i + " with ID " + user.getId());
-                i++;
-            }
-        }
+        assertEquals("Returned more or less than one user", 1, result.size());
 
 
-        ElasticSearchUserController.GetUsersTask checkUserTask1 = new ElasticSearchUserController.GetUsersTask();
+        myQueryListener = new ESQueryListener();
+        ElasticSearchUserController.GetUserByUsernameTask checkUserTask1 =
+                new ElasticSearchUserController.GetUserByUsernameTask(myQueryListener);
         //it checks that is is not in server
         checkUserTask1.execute("test_notMyCoolName");
-        try {
-            result = checkUserTask1.get(10000, TimeUnit.MILLISECONDS);
-        } catch(TimeoutException e) {
-            fail("checkUserTask1 timed out");
-        } catch(Exception e) {
-            fail("checkUserTask1 threw an exception");
-        }
+        result = myQueryListener.getResults();
         assertNull(result);
 
         //delete the user that we added
         //Note: This will only be run if the other assertions passed
-        ElasticSearchUserController.DeleteUserTask deleteUserTask = new ElasticSearchUserController.DeleteUserTask();
+        ElasticSearchUserController.DeleteUserTask deleteUserTask =
+                new ElasticSearchUserController.DeleteUserTask();
         deleteUserTask.execute(myUser.getId());
     }
 }

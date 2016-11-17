@@ -12,8 +12,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Corey on 2016-11-05.
@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class UserController {
     /**
-     * The constant currentUser.
+     * The User currently logged in.
      */
     protected static User currentUser;
     /**
@@ -31,12 +31,9 @@ public class UserController {
      */
     protected Context applicationContext;
     /**
-     * The Userfilename.
+     * The filename to save user data.
      */
     protected final String USERFILENAME = "appygolucky_user.json";
-
-    //TODO: this userlist may be replaced entirely by the server
-    private static UserList userList;
 
     /**
      * Instantiates a new User controller.
@@ -45,27 +42,43 @@ public class UserController {
      */
     public UserController(Context context) {
         applicationContext = context;
-        if(userList == null) {
-            userList = new UserList();
-        }
     }
 
     /**
-     * Add user.
+     * Add a new user to to the server, and save to file.
      *
      * @param username the username
      * @param name     the name
      * @param email    the email
      * @param phone    the phone
      * @param address  the address
-     * @throws UsernameNotUniqueException the username not unique exception
+     * @throws UsernameNotUniqueException If there already exists a user with this username.
      */
-//TODO: replace with server
-    public void addUser(String username, String name, String email, String phone, String address)
-            throws UsernameNotUniqueException {
-        if(!userList.containsUsername(username)) {
+    public void newUserLogin(String username, String name, String email, String phone, String address)
+            throws UsernameNotUniqueException, InterruptedException, ExecutionException {
+        //Query to server to see if the desired username already exists.
+        //NOTE: Currently this will freeze the UI.  We may want to implement this differently,
+        //but I"m not sure how yet.  Considering the small size of our server, it may not matter.
+        ESQueryListener myQueryListener = new ESQueryListener();
+        new ElasticSearchUserController.GetUserByUsernameTask(myQueryListener).execute(username);
+
+        List<User> returnedUsers = null;
+        do {
+            returnedUsers = myQueryListener.getResults();
+        } while(returnedUsers == null);
+
+        //If the username is unique, create the user.  Otherwise throw an exception.
+        if(returnedUsers.size() == 0) {
             User newUser = new User(username, name, email, phone, address);
-            userList.addUser(newUser);
+
+            //Add the user to the server
+            ElasticSearchUserController.AddUsersTask addUsersTask =
+                    new ElasticSearchUserController.AddUsersTask();
+            addUsersTask.execute(newUser);
+
+            //Log in, and save the user informatin to file
+            currentUser = newUser;
+            saveInFile();
         }
 
         else {
@@ -73,38 +86,47 @@ public class UserController {
         }
     }
 
+    public void newUserLogin(User user) throws UsernameNotUniqueException, InterruptedException,
+            ExecutionException{
+        this.newUserLogin(user.getUsername(), user.getName(), user.getEmail(),
+                user.getPhone(), user.getAddress());
+    }
+
     /**
-     * Gets user by username.
+     * Gets user by username.  This method is handles creating and executing the relevant
+     * asynchronous task.  This function does not return a value, to avoid freezing the UI.
+     * Instead, the Asynchronous task will use a callback function.
      *
      * @param username the username
-     * @return the user by username
      */
-//TODO: replace with server
-    public User getUserByUsername(String username) {
-        return userList.getUserByUsername(username);
+    public void getUserByUsername(String username) {
+        ElasticSearchUserController.GetUserByUsernameTask getUserByUsernameTask =
+                new ElasticSearchUserController.GetUserByUsernameTask(new ESQueryListener());
+        getUserByUsernameTask.execute(username);
     }
 
     /**
      * Delete user.
      *
-     * @param username the username
+     * @param ID the ID of the user to be removed
      */
-//TODO: replace with server
-    public void deleteUser(String username) {
-        userList.deleteUser(username);
+    public void deleteUser(String ID) {
+        ElasticSearchUserController.DeleteUserTask deleteUserTask =
+                new ElasticSearchUserController.DeleteUserTask();
+        deleteUserTask.execute(ID);
     }
 
     /**
      * Gets current user.
      *
-     * @return the current user
+     * @return User object for the user who is currently logged in
      */
     public User getCurrentUser() {
         return currentUser;
     }
 
     /**
-     * Load from file.
+     * Load the currently logged in user, including user profile and relevant rides, from file.
      */
     public void loadFromFile() {
         try {
@@ -122,9 +144,9 @@ public class UserController {
     }
 
     /**
-     * Save in file.
+     * Save the currently logged in user, including user info and relevant rides, to file.
      */
-    public void saveInFile() {
+    private void saveInFile() {
         try {
             FileOutputStream fos = applicationContext.openFileOutput(USERFILENAME,0);
 
@@ -151,11 +173,11 @@ public class UserController {
      * @param i the
      * @return the boolean
      */
-    public static boolean whatstatus(int i) {
+    public boolean whatstatus(int i) {
         return Boolean.TRUE;
     }
 
-    public static void editProfile(String email, String phone, String address) {
+    public void editProfile(String email, String phone, String address) {
         currentUser.setEmail(email);
         currentUser.setPhone(phone);
         currentUser.setAddress(address);

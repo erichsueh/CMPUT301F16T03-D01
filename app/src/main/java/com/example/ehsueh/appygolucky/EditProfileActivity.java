@@ -10,11 +10,13 @@ public class EditProfileActivity extends ActionBarActivity {
     private EditText bodyText1;
     private EditText bodyText2;
     private EditText bodyText3;
+    private UserController uc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        uc = new UserController(getApplicationContext());
     }
 
     public void AddRequest(View view) {
@@ -27,7 +29,7 @@ public class EditProfileActivity extends ActionBarActivity {
         bodyText3 = (EditText) findViewById(R.id.editText3);
         String address = bodyText3.getText().toString();
 
-        UserController.editProfile(email,phone,address);
+        uc.editProfile(email,phone,address);
 
         finish();
     }

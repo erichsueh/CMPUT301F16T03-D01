@@ -6,6 +6,8 @@ import android.test.mock.MockContext;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.concurrent.ExecutionException;
+
 /**
  * Created by Corey on 2016-11-12.
  *
@@ -17,17 +19,17 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
         super(MainActivity.class);
     }
 
-    private class MockUserController extends UserController {
-        public MockUserController(Context context, User user) {
-            super(context);
-            currentUser = user;
-        }
-    }
+//    private class MockUserController extends UserController {
+//        public MockUserController(Context context, User user) {
+//            super(context);
+//            currentUser = user;
+//        }
+//    }
 
     public void testSaveInfo() {
         User testUser = new User("myUsername", "myName", "myEmail", "myPhone", "myAddress");
-        MockUserController mockUserController =
-                new MockUserController(getActivity().getApplicationContext(), testUser);
+        UserController userController =
+                new UserController(getActivity().getApplicationContext());
 
         String rideDescriptionA = "I need a ride to West Ed!!";
         Number fareA = 2.75;
@@ -58,8 +60,15 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
         testUser.addAcceptedRequest(rideB);
         testUser.addAcceptedRequest(rideC);
 
-        mockUserController.saveInFile();
-
+        try {
+            userController.newUserLogin(testUser);
+        } catch(InterruptedException e) {
+            fail("threw InterruptedException");
+        } catch(ExecutionException e) {
+            fail("threw ExecutionExceptionn");
+        } catch(UsernameNotUniqueException e) {
+            fail("Threw UsernameNotUniqueException");
+        }
         assertTrue(Boolean.TRUE);
     }
 

@@ -36,8 +36,8 @@ public class DriverPendingActivity extends ActionBarActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 AlertDialog.Builder adb = new AlertDialog.Builder(DriverPendingActivity.this);
-
-                if (UserController.whatstatus(1)) {
+                UserController uc = new UserController(getApplicationContext());
+                if (uc.whatstatus(1)) {
                     adb.setMessage("Do you want to select this driver?");
                     adb.setCancelable(true);
                     final int finalPosition = position;
