@@ -17,7 +17,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.cmput301f16t11.a2b.RiderLocationActivity"
+        tools:context="com.example.ehsueh.appygolucky.AddRequestActivity"
         tools:layout="@android:layout/list_content">
 
         <Button
