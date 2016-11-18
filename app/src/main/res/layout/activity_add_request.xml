@@ -5,7 +5,7 @@
     android:id="@+id/activity_add_request"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ehsueh.appygolucky.AddRequest"
+    tools:context="com.example.ehsueh.appygolucky.AddRequestActivity"
     map:uiZoomControls="true"
     map:uiZoomGestures="true"
     map:mapType="normal">

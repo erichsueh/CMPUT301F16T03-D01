@@ -97,7 +97,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
 
 
     public void AddRequest(View view) {
-        Intent intent = new Intent(RiderRequestListActivity.this, AddRequest.class);
+        Intent intent = new Intent(RiderRequestListActivity.this, AddRequestActivity.class);
         startActivity(intent);}
 
     public void BackRequest(View view) {

@@ -14,11 +14,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import android.support.v7.app.AppCompatActivity;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -26,7 +24,6 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
@@ -46,7 +43,7 @@ import java.util.Scanner;
 /**
  * Main activity for riders to select their pickup and drop off locations.
  */
-public class AddRequest extends AppCompatActivity implements OnMapReadyCallback,
+public class AddRequestActivity extends AppCompatActivity implements OnMapReadyCallback,
             DrawingLocationActivity {
 
     private GoogleMap mMap;
@@ -198,7 +195,7 @@ public class AddRequest extends AppCompatActivity implements OnMapReadyCallback,
 
                 } else {
 
-                    JSONMaps helper = new JSONMaps((AddRequest) context);
+                    JSONMaps helper = new JSONMaps((AddRequestActivity) context);
                     helper.drawPathCoordinates(tripStartMarker, tripEndMarker);
                 }
 

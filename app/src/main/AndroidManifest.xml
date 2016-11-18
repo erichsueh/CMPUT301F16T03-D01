@@ -38,7 +38,7 @@
         <activity android:name=".DriverPendingActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity
-            android:name=".AddRequest"
+            android:name=".AddRequestActivity"
             android:label="@string/title_activity_add_request"></activity>
         <!--AIzaSyCsF_t4VNATAc0QtC3jKPnpSglUWhpSwCM won't work for places idk why'-->
         <meta-data
