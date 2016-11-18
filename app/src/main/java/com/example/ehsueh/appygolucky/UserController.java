@@ -75,6 +75,12 @@ public class UserController {
                 user.getPhone(), user.getAddress());
     }
 
+    /**
+     * Set the currently logged in user, and save to file.
+     * This method may be called after retrieving the user's information from the server.
+     *
+     * @param user Object for the user who is logging in
+     */
     public void setCurrentUser(User user) {
         currentUser = user;
         saveInFile();
@@ -95,16 +101,16 @@ public class UserController {
     }
 
 
-    /**
-     * Delete user.
-     *
-     * @param ID the ID of the user to be removed
-     */
-    public void deleteUser(String ID) {
-        ElasticSearchUserController.DeleteUserTask deleteUserTask =
-                new ElasticSearchUserController.DeleteUserTask();
-        deleteUserTask.execute(ID);
-    }
+//    /**
+//     * Delete user.
+//     *
+//     * @param ID the ID of the user to be removed
+//     */
+//    public void deleteUser(String ID) {
+//        ElasticSearchUserController.DeleteUserTask deleteUserTask =
+//                new ElasticSearchUserController.DeleteUserTask();
+//        deleteUserTask.execute(ID);
+//    }
 
     /**
      * Gets current user.
@@ -167,9 +173,22 @@ public class UserController {
         return Boolean.TRUE;
     }
 
+    /**
+     * Modifies the profile for the currently logged in user.
+     * This change will be reflected in the server, the locally saved file,
+     * and in the object representing the current user.
+     *
+     * @param email The user's desired email
+     * @param phone The user's desired phone number
+     * @param address The user's desired address
+     */
     public void editProfile(String email, String phone, String address) {
         currentUser.setEmail(email);
         currentUser.setPhone(phone);
         currentUser.setAddress(address);
+
+        saveInFile();
+
+        new ElasticSearchUserController.AddUsersTask().execute(currentUser);
     }
 }

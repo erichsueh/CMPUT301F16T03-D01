@@ -28,8 +28,7 @@ public class ElasticSearchUserController {
     private static String userType = "user";
 
     /**
-     * Adds a user to the server.  Note that we could end up with duplicates.
-     * The queryListener should check whether username is unique.
+     * Adds a user to the server.  If the user already has an ID, will update that user record.
      */
     //Instead of calling this directly, we should use UserController.newUserLogin
     //This function will take care of adding to the server, as well as saving to file.

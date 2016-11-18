@@ -26,6 +26,7 @@ public class UC030101 extends ActivityInstrumentationTestCase2{
         super(MainActivity.class);
     }
 
+    //TODO: test whether the user is successfully saved to file
     public void testCreateUser() {
         UserController uc = new UserController(getActivity().getApplicationContext());
         String username = "test_myCoolName";
@@ -66,7 +67,7 @@ public class UC030101 extends ActivityInstrumentationTestCase2{
 
         assertEquals("The query returned the wrong number of users", 1, returnedUsers.size());
         Assert.assertEquals("Username does not match", username, returnedUsers.get(0).getUsername());
-        uc.deleteUser(returnedUsers.get(0).getId());
+        new ElasticSearchUserController.DeleteUserTask().execute(returnedUsers.get(0).getId());
 
         //Pause to ensure the server is ready
         try {
@@ -85,7 +86,7 @@ public class UC030101 extends ActivityInstrumentationTestCase2{
         } catch(ExecutionException e) {
             fail("uc.newUserLogin threw ExecutionException");
         }
-        uc.deleteUser(myUser.getId());
+        new ElasticSearchUserController.DeleteUserTask().execute(myUser.getId());
     }
 
 }
