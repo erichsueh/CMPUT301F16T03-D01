@@ -18,8 +18,6 @@ import io.searchbox.annotations.JestId;
  */
 public class Ride implements Parcelable {
     private String description;
-//    private String startLocation;
-//    private String endLocation;
     private Integer status;
     private Collection<Driver> drivers;
     Boolean finalAcceptance;
@@ -60,9 +58,10 @@ public class Ride implements Parcelable {
         this.accepted = false;
         this.completed = false;
         this.paymentReceived = false;
+        this.status = 0;
         //RideController.addRide(this);
         this.id = null;
-        acceptedDrivers = new ArrayList<User>();
+        //acceptedDrivers = new ArrayList<User>();
 
     }
 
@@ -76,9 +75,10 @@ public class Ride implements Parcelable {
         this.accepted = false;
         this.completed = false;
         this.paymentReceived = false;
+        this.status = 0;
         //RideController.addRide(this);
         this.id = null;
-        acceptedDrivers = new ArrayList<User>();
+        //acceptedDrivers = new ArrayList<User>();
 
     }
 
