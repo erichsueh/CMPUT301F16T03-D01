@@ -36,5 +36,7 @@
         android:layout_marginTop="19dp"
         android:id="@+id/PendingList"
         android:layout_above="@+id/PendingBack"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:animateLayoutChanges="false"
+        android:background="?attr/actionModeSplitBackground" />
 </RelativeLayout>

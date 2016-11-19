@@ -182,11 +182,11 @@ public class UserController {
      * @param phone The user's desired phone number
      * @param address The user's desired address
      */
-    public void editProfile(String email, String phone, String address) {
+    public void editProfile(String email, String phone, String address,String name) {
         currentUser.setEmail(email);
         currentUser.setPhone(phone);
         currentUser.setAddress(address);
-
+        currentUser.setName(name);
         saveInFile();
 
         new ElasticSearchUserController.AddUsersTask().execute(currentUser);
