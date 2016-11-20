@@ -325,7 +325,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         to.setText(tripEndMarker.getTitle());
         distanceDlg.setText("Distance: "+ distance);
         fairEstimate.setText("Estimate Cost: $"+ Double.toString(fairAmount));
-
+        amount.setText(Double.toString(fairAmount));
         //set up the on click listeners for dialog
 
 
