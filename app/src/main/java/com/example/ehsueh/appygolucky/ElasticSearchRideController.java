@@ -54,19 +54,7 @@ public class ElasticSearchRideController {
 
 
 
-    /**
-     * If the client hasn't been initialized then we should make it!
-     */
-    private static void verifySettings() {
-        if (client == null) {
-            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
-            DroidClientConfig config = builder.build();
 
-            JestClientFactory factory = new JestClientFactory();
-            factory.setDroidClientConfig(config);
-            client = (JestDroidClient) factory.getObject();
-        }
-    }
 
     /**
      * This allows us to delete a ride.
@@ -94,5 +82,18 @@ public class ElasticSearchRideController {
         }
     }
 
+    /**
+     * If the client hasn't been initialized then we should make it!
+     */
+    private static void verifySettings() {
+        if (client == null) {
+            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
+            DroidClientConfig config = builder.build();
+
+            JestClientFactory factory = new JestClientFactory();
+            factory.setDroidClientConfig(config);
+            client = (JestDroidClient) factory.getObject();
+        }
+    }
 
 }

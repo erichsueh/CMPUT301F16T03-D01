@@ -102,14 +102,44 @@ public class UserController {
         return currentUser;
     }
 
+    /**
+     * Add the request to the rider's list, upload to the server,
+     * and save to file
+     *
+     * @param rideRequest
+     */
     public void addRideRequest(Ride rideRequest) {
         currentUser.addRideRequest(rideRequest);
         saveInFile();
+
+        ElasticSearchRideController.AddRidesTask addRidesTask =
+                new ElasticSearchRideController.AddRidesTask();
+        addRidesTask.execute(rideRequest);
     }
 
+
+    /**
+     * Driver accepts a ride request.  Add to the user's list, upload, and save to file
+     *
+     * @param acceptedRequest
+     */
+    //TODO: this should notify the rider
     public void addAcceptedRequest(Ride acceptedRequest) {
         currentUser.addAcceptedRequest(acceptedRequest);
         saveInFile();
+    }
+
+
+    /**
+     * Rider confirms a specific driver's acceptance.  Add that driver as the accepted driver,
+     * make changes on the server, and save to file
+     *
+     * @param ride
+     * @param Driver
+     */
+    //TODO: this should notify the driver
+    public void confirmDriverAcceptance(Ride ride, User Driver) {
+
     }
 
     /**
