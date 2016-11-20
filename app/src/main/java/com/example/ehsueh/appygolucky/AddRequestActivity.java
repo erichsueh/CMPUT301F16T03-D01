@@ -394,11 +394,15 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
             Scanner sc = new Scanner(strDistance);
             double distanceKm = sc.nextDouble();
 
-            //Rate starts at 2.50
-            double rate = 2.50;
+            // Rate starts at about 3.50 Canadian Dollars. Rates in New York usually start at 2.50
+            // American as a comparison.
+            double rate = 3.50;
 
-            //add 1.25 for each km
-            rate += distanceKm * 1.25;
+            //A fairly standard cab fare is 1.50$ for kilometer travelled. But for a rideshare
+            // platform like Uber or the like, the rate is considerably lower, closer to 90cents
+            // or so per kilometer.
+            // This will not take into account the number of riders.
+            rate += distanceKm * 0.90;
 
             DecimalFormat df = new DecimalFormat("#.##");
             String dx=df.format(rate);
