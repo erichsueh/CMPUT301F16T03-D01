@@ -98,14 +98,14 @@ public class User {
      *
      * @return the ride requests
      */
-    public List<Ride> getRideRequests() { return null; }
+    public ArrayList<Ride> getRideRequests() { return requestedRides; }
 
     /**
      * Gets accepted rides.
      *
      * @return the accepted rides
      */
-    public List<Ride> getAcceptedRides() { return null; }
+    public ArrayList<Ride> getAcceptedRides() { return acceptedRides; }
 
     /**
      * Sets username.
@@ -148,5 +148,4 @@ public class User {
     public void addAcceptedRequest(Ride acceptedRequest) {
         this.acceptedRides.add(acceptedRequest);
     }
-
 }

@@ -169,9 +169,9 @@ public class UserController {
      * @param i the
      * @return the boolean
      */
-    public boolean whatstatus(int i) {
-        return Boolean.TRUE;
-    }
+//    public boolean whatstatus(int i) {
+//        return Boolean.TRUE;
+//    }
 
     /**
      * Modifies the profile for the currently logged in user.
