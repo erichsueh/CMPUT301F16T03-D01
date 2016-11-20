@@ -325,7 +325,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         to.setText(tripEndMarker.getTitle());
         distanceDlg.setText("Distance: "+ distance);
         fairEstimate.setText("Estimate Cost: $"+ Double.toString(fairAmount));
-
+        amount.setText(Double.toString(fairAmount));
         //set up the on click listeners for dialog
 
 
@@ -396,11 +396,19 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
             Scanner sc = new Scanner(strDistance);
             double distanceKm = sc.nextDouble();
 
+<<<<<<< HEAD
             //base rate is at 3.5
+=======
+            // Rate starts at about 3.50 Canadian Dollars. Rates in New York usually start at 2.50
+            // American as a comparison.
+>>>>>>> 50bc3d1cd0cc00167258406e04aa865cfbc9b17a
             double rate = 3.50;
 
-            //add 1.25 for each km
-            rate += distanceKm * 1.25;
+            //A fairly standard cab fare is 1.50$ for kilometer travelled. But for a rideshare
+            // platform like Uber or the like, the rate is considerably lower, closer to 90cents
+            // or so per kilometer.
+            // This will not take into account the number of riders.
+            rate += distanceKm * 0.90;
 
             DecimalFormat df = new DecimalFormat("#.##");
             String dx=df.format(rate);

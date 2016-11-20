@@ -43,7 +43,7 @@ public class UC030201 extends ActivityInstrumentationTestCase2 {
 
         //Edit the user information, which should be reflected across the server,
         //currentUser, and the save file.
-        uc.editProfile(newEmail, myUser.getPhone(), myUser.getAddress());
+        uc.editProfile(myUser.getName(), newEmail, myUser.getPhone(), myUser.getAddress());
 
         //Give the server time to process the user
         try {

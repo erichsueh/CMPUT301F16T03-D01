@@ -19,43 +19,18 @@ import java.util.ArrayList;
  */
 
 public class DriverPendingActivity extends ActionBarActivity {
-
+    private UserController uc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_pending);
-
+        uc = new UserController(getApplicationContext());
         ListView listView = (ListView) findViewById(R.id.PendingList);
 
-        ArrayList<Ride> rides = RideController.getRideList();
+        ArrayList<Ride> rides = uc.getCurrentUser().getAcceptedRides();
         final ArrayList<Ride> list = new ArrayList<Ride>(rides);
-        final ArrayAdapter<Ride> rideAdapter = new ArrayAdapter<Ride>(this,android.R.layout.simple_list_item_1, list);
+        final ArrayAdapter rideAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
         listView.setAdapter(rideAdapter);
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                AlertDialog.Builder adb = new AlertDialog.Builder(DriverPendingActivity.this);
-                UserController uc = new UserController(getApplicationContext());
-                if (uc.whatstatus(1)) {
-                    adb.setMessage("Do you want to select this driver?");
-                    adb.setCancelable(true);
-                    final int finalPosition = position;
-                    adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            finish();
-                        }
-                    });
-                    adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                        }
-                    });
-                }
-                return false;
-            }
-        });
     }
 
 

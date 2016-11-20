@@ -131,7 +131,7 @@ public class Ride implements Parcelable {
 
 
     public String getDescription() { return this.description; }
-    public Integer getStatus() { return this.status; }
+    public Integer getStatus() { return status; }
     public Collection<Driver> getDrivers() {return null;}
     public Boolean acceptedByRider() {return null;}
     public Boolean acceptedByDriver(Driver driver) {return Boolean.FALSE;}

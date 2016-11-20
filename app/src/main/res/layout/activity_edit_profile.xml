@@ -10,14 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ehsueh.appygolucky.EditProfileActivity">
 
-    <TextView
-        android:text="Your Current Email Address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView8" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,5 +67,32 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:onClick="SaveEdits"/>
+
+    <TextView
+        android:text="Your Current Username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView8"
+        android:id="@+id/textView9" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/textView9"
+        android:layout_alignStart="@+id/textView9"
+        android:id="@+id/editText2"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Your Current Email Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView8"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/editText2"
+        android:layout_alignEnd="@+id/PhoneNumber" />
 
 </RelativeLayout>
