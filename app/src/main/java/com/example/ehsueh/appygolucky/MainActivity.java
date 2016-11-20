@@ -58,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
         EditText usernameEditTxt = (EditText) findViewById(R.id.usernameInputTxt);
         final String desiredUsername = usernameEditTxt.getText().toString();
 
+        //Only continue if the username field contains text
         if(desiredUsername.equals("")) {
             Toast toast = Toast.makeText(this, "Please enter a username", Toast.LENGTH_SHORT);
             toast.show();
