@@ -58,41 +58,49 @@ public class MainActivity extends ActionBarActivity {
         EditText usernameEditTxt = (EditText) findViewById(R.id.usernameInputTxt);
         final String desiredUsername = usernameEditTxt.getText().toString();
 
-        //Create a GetUserByUsernameTask which includes an anonymous listener class to act on the data that
-        //is retrieved from the server
-        ElasticSearchUserController.GetUserByUsernameTask getUserByUsernameTask =
-                new ElasticSearchUserController.GetUserByUsernameTask(
-                new ESQueryListener() {
-                    @Override
-                    public void onQueryCompletion(List<?> results) {
-                        //If that username already exists on the server, we've already downloaded
-                        // their user object.  Set them to the current user.
-                        //results holds the user returned from the database.
-                        if (results.size() != 0) {
-                            User newUser = (User) results.get(0);
-                            uc.setCurrentUser(newUser);
-                        }
-                        //Else allow the user to create a new profile
-                        else {
-                            try {
-                                //Create a user with the desired username, and send them to
-                                //the edit profile activity
-                                uc.newUserLogin(desiredUsername, "", "", "", "");
-                                Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
-                                startActivity(intent);
-                            } catch (Exception e) {
-                                Toast toast = Toast.makeText(getApplicationContext(),
-                                        "We've experienced a problem with the server.  Please" +
-                                                "try again", Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
-                        }
-                    }
-        });
-        getUserByUsernameTask.execute(desiredUsername);
+        if(desiredUsername.equals("")) {
+            Toast toast = Toast.makeText(this, "Please enter a username", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else {
+            //Create a GetUserByUsernameTask which includes an anonymous listener class to act on the data that
+            //is retrieved from the server
+            ElasticSearchUserController.GetUserByUsernameTask getUserByUsernameTask =
+                    new ElasticSearchUserController.GetUserByUsernameTask(
+                            new ESQueryListener() {
+                                @Override
+                                public void onQueryCompletion(List<?> results) {
+                                    //If that username already exists on the server, we've already downloaded
+                                    // their user object.  Set them to the current user.
+                                    //results holds the user returned from the database.
+                                    if (results.size() != 0) {
+                                        User newUser = (User) results.get(0);
+                                        uc.setCurrentUser(newUser);
+                                    }
+                                    //Else allow the user to create a new profile
+                                    else {
+                                        try {
+                                            //Create a user with the desired username, and send them to
+                                            //the edit profile activity
+                                            uc.newUserLogin(desiredUsername, "", "", "", "");
+                                            Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
+                                            startActivity(intent);
+                                        } catch (Exception e) {
+                                            Toast toast = Toast.makeText(getApplicationContext(),
+                                                    "We've experienced a problem with the server.  Please" +
+                                                            "try again", Toast.LENGTH_SHORT);
+                                            toast.show();
+                                        }
+                                    }
+                                }
+                            });
+            getUserByUsernameTask.execute(desiredUsername);
 
-        Intent intent = new Intent(this, HomePageActivity.class);
-        startActivity(intent);
+            Intent intent = new Intent(this, HomePageActivity.class);
+            startActivity(intent);
+        }
+
+
     }
 
 //    I don't think we need the three dot on main screen
