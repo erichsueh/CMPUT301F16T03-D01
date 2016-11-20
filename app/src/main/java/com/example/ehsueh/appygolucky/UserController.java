@@ -22,23 +22,15 @@ import java.util.concurrent.ExecutionException;
  * as well as operations on the currently active user on the app.
  */
 public class UserController {
-    /**
-     * The User currently logged in.
-     */
+
     protected static User currentUser;
-    /**
-     * The Application context.
-     */
     protected Context applicationContext;
-    /**
-     * The filename to save user data.
-     */
     protected final String USERFILENAME = "appygolucky_user.json";
 
     /**
      * Instantiates a new User controller.
      *
-     * @param context the context
+     * @param context Context used for file I/O
      */
     public UserController(Context context) {
         applicationContext = context;
@@ -101,17 +93,6 @@ public class UserController {
     }
 
 
-//    /**
-//     * Delete user.
-//     *
-//     * @param ID the ID of the user to be removed
-//     */
-//    public void deleteUser(String ID) {
-//        ElasticSearchUserController.DeleteUserTask deleteUserTask =
-//                new ElasticSearchUserController.DeleteUserTask();
-//        deleteUserTask.execute(ID);
-//    }
-
     /**
      * Gets current user.
      *
@@ -119,6 +100,16 @@ public class UserController {
      */
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public void addRideRequest(Ride rideRequest) {
+        currentUser.addRideRequest(rideRequest);
+        saveInFile();
+    }
+
+    public void addAcceptedRequest(Ride acceptedRequest) {
+        currentUser.addAcceptedRequest(acceptedRequest);
+        saveInFile();
     }
 
     /**

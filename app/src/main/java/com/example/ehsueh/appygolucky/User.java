@@ -6,8 +6,12 @@ import java.util.List;
 import io.searchbox.annotations.JestId;
 
 /**
- * Created by Corey on 2016-10-13.
+ *
  */
+
+//NOTE: Methods that add data (setters etc.) should rarely be used directly.
+//UserController should be used instead, as it deals with saving.
+
 public class User {
     @JestId
     private String id;

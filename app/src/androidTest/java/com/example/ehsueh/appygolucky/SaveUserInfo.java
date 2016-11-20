@@ -19,17 +19,18 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
         super(MainActivity.class);
     }
 
-//    private class MockUserController extends UserController {
-//        public MockUserController(Context context, User user) {
-//            super(context);
-//            currentUser = user;
-//        }
-//    }
 
     public void testSaveInfo() {
-        User testUser = new User("myUsername", "myName", "myEmail", "myPhone", "myAddress");
-        UserController userController =
+        UserController uc =
                 new UserController(getActivity().getApplicationContext());
+
+        try {
+            uc.newUserLogin("myUsername", "myName", "myEmail", "myPhone", "myAddress");
+        } catch(InterruptedException e) {
+            fail("threw InterruptedException");
+        } catch(ExecutionException e) {
+            fail("threw ExecutionException");
+        }
 
         String rideDescriptionA = "I need a ride to West Ed!!";
         Number fareA = 2.75;
@@ -53,21 +54,14 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
         Ride rideC = new Ride(startLocationC, endLocationC, fareC, rideDescriptionC, riderC);
         rideC.setStatus(2);
 
-        testUser.addRideRequest(rideA);
-        testUser.addRideRequest(rideB);
-        testUser.addRideRequest(rideC);
-        testUser.addAcceptedRequest(rideA);
-        testUser.addAcceptedRequest(rideB);
-        testUser.addAcceptedRequest(rideC);
+        uc.addRideRequest(rideA);
+        uc.addRideRequest(rideB);
+        uc.addRideRequest(rideC);
+        uc.addAcceptedRequest(rideA);
+        uc.addAcceptedRequest(rideB);
+        uc.addAcceptedRequest(rideC);
 
-        try {
-            userController.newUserLogin(testUser);
-        } catch(InterruptedException e) {
-            fail("threw InterruptedException");
-        } catch(ExecutionException e) {
-            fail("threw ExecutionExceptionn");
-        } 
-        assertTrue(Boolean.TRUE);
+        assertEquals(3,uc.getCurrentUser().getRideRequests().size());
     }
 
 }
