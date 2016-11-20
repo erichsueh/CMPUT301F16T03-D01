@@ -380,11 +380,13 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
 //                startService(intent);
 
                 dialog.dismiss();
+                finish();
             }
         });
 
         //Show the dialog
         dialog.show();
+
     }
 
 
@@ -394,8 +396,12 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
             Scanner sc = new Scanner(strDistance);
             double distanceKm = sc.nextDouble();
 
+<<<<<<< HEAD
+            //base rate is at 3.5
+=======
             // Rate starts at about 3.50 Canadian Dollars. Rates in New York usually start at 2.50
             // American as a comparison.
+>>>>>>> 50bc3d1cd0cc00167258406e04aa865cfbc9b17a
             double rate = 3.50;
 
             //A fairly standard cab fare is 1.50$ for kilometer travelled. But for a rideshare
