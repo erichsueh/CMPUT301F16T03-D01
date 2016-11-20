@@ -1,143 +1,132 @@
 package com.example.ehsueh.appygolucky;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.location.NominatimPOIProvider;
-import org.osmdroid.bonuspack.location.POI;
-import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
-import org.osmdroid.bonuspack.routing.OSRMRoadManager;
-import org.osmdroid.bonuspack.routing.Road;
-import org.osmdroid.bonuspack.routing.RoadManager;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.FolderOverlay;
-import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.OverlayItem;
-import org.osmdroid.views.overlay.Polyline;
-import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+
 
         import java.util.ArrayList;
         import java.util.List;
 
-public class MapsActivity extends ActionBarActivity {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
+        DrawingLocationActivity {
+    private GoogleMap mMap;
+    private UiSettings mUiSettings;
+    private Marker tripStartMarker;
+    private Marker tripEndMarker;
+    private Marker currentMarker;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         //important! set your user agent to prevent getting banned from the osm servers
-        org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants.setUserAgentValue(BuildConfig.APPLICATION_ID);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
-        map = (MapView) findViewById(R.id.map);
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        map.setBuiltInZoomControls(true);
-        map.setMultiTouchControls(true);
+        context = this;
+    }
+    /**
+     * initialize map to edmonton by default
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mUiSettings = mMap.getUiSettings();
+        LatLng start_location= new LatLng(53.5444, -113.4909);
+        LatLng end_location= new LatLng(53.525288, -113.525454);
+        //String address = getString(R.string.start_location) + ": " + currentMarker.getTitle();
+        tripStartMarker = mMap.addMarker(new MarkerOptions()
+                .position(start_location)
+                .title(getString(R.string.start_location))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        //String address1 = getString(R.string.start_location) + ": " + currentMarker.getTitle();
+        tripEndMarker = mMap.addMarker(new MarkerOptions()
+                .position(end_location)
+                .title(getString(R.string.end_location))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        //Set the initial spot to edmonton for now
+        LatLng edmonton = new LatLng(53.5444, -113.4909);
+        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mUiSettings.setZoomControlsEnabled(true);
+        mUiSettings.setCompassEnabled(true);
+        mUiSettings.setTiltGesturesEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(edmonton)      // Sets the center of the map to location user
+                .zoom(10)
+                .bearing(0)
+                .tilt(0)
+                .build();
 
-        startPoint = new GeoPoint(53.5444, -113.4909);
-        destinationPoint = new GeoPoint(53.5232, -113.5263);
 
 
-        Marker startMarker = new Marker(map);
-        startMarker.setPosition(startPoint);
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        map.getOverlays().add(startMarker);
-        startMarker.setIcon(getResources().getDrawable(R.drawable.marker_icon));
-        startMarker.setTitle("Start point");
-
-
-        Marker DestinationMarker = new Marker(map);
-        DestinationMarker.setPosition(destinationPoint);
-        DestinationMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        map.getOverlays().add(startMarker);
-        DestinationMarker.setIcon(getResources().getDrawable(R.drawable.marker_icon));
-        DestinationMarker.setTitle("Destination");
-
-        IMapController mapController = map.getController();
-        mapController.setZoom(12);
-        mapController.setCenter(startPoint);
-
-        // to get a key http://developer.mapquest.com/
-        roadManager = new MapQuestRoadManager("FkqdPzynN9A9CqUwW46PxRijwehKdbgx");
-        //roadManager = new OSRMRoadManager(myActivity);
-
-        ArrayList<OverlayItem> overlayItemArray;
-        overlayItemArray = new ArrayList<>();
-
-        overlayItemArray.add(new OverlayItem("Starting Point", "This is the starting point", startPoint));
-        overlayItemArray.add(new OverlayItem("Destination", "This is the detination point", destinationPoint));
-        getRoadAsync();
+        ensureLocationPermissions();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        JSONMaps helper = new JSONMaps((MapsActivity) context);
+        helper.drawPathCoordinates(tripStartMarker, tripEndMarker);
     }
 
-    // Global variables for testing
-    // TODO refactor
-    RoadManager roadManager;
-    MapView map;
-    Activity myActivity = this;
-    Road[] mRoads;
-    GeoPoint startPoint;
-    GeoPoint destinationPoint;
-
-    public void getRoadAsync() {
-        mRoads = null;
-        GeoPoint roadStartPoint = startPoint;
-
-        ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>(2);
-        waypoints.add(roadStartPoint);
-
-        waypoints.add(destinationPoint);
-        new UpdateRoadTask().execute(waypoints);
-    }
-
-    private class UpdateRoadTask extends AsyncTask<Object, Void, Road[]> {
-
-        protected Road[] doInBackground(Object... params) {
-            @SuppressWarnings("unchecked")
-            ArrayList<GeoPoint> waypoints = (ArrayList<GeoPoint>) params[0];
-
-            return roadManager.getRoads(waypoints);
+    /**
+     * A quick permission check to ensure that we location services enabled
+     */
+    private void ensureLocationPermissions(){
+        //Check if we have the right permissions to use location
+        Boolean i = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        if (i) {
+            mMap.setMyLocationEnabled(true);
         }
 
-        @Override
-        protected void onPostExecute(Road[] roads) {
-            mRoads = roads;
-            if (roads == null)
-                return;
-            if (roads[0].mStatus == Road.STATUS_TECHNICAL_ISSUE)
-                Toast.makeText(map.getContext(), "Technical issue when getting the route", Toast.LENGTH_SHORT).show();
-            else if (roads[0].mStatus > Road.STATUS_TECHNICAL_ISSUE) //functional issues
-                Toast.makeText(map.getContext(), "No possible route here", Toast.LENGTH_SHORT).show();
-            Polyline[] mRoadOverlays = new Polyline[roads.length];
-            List<Overlay> mapOverlays = map.getOverlays();
-            for (int i = 0; i < roads.length; i++) {
-                Polyline roadPolyline = RoadManager.buildRoadOverlay(roads[i]);
-                mRoadOverlays[i] = roadPolyline;
-                String routeDesc = roads[i].getLengthDurationText(myActivity.getBaseContext(), -1);
-                roadPolyline.setTitle(getString(R.string.app_name) + " - " + routeDesc);
-                roadPolyline.setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, map));
-                roadPolyline.setRelatedObject(i);
-
-                mapOverlays.add(0, roadPolyline);
-                map.invalidate();
-                //we insert the road overlays at the "bottom", just above the MapEventsOverlay,
-                //to avoid covering the other overlays.
-            }
+        else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    0);
+            mMap.setMyLocationEnabled(true);
         }
+
     }
+
+    public void drawRouteOnMap(List<LatLng> drawPoints, String distance){
+        //Draw the lines on the map
+        mMap.addPolyline( new PolylineOptions()
+                .addAll(drawPoints)
+                .width(12)
+                .color(Color.parseColor("#4885ed"))//color of line
+                .geodesic(true)
+        );
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

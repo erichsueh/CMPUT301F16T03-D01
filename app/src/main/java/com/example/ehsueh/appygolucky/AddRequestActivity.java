@@ -380,11 +380,13 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
 //                startService(intent);
 
                 dialog.dismiss();
+                finish();
             }
         });
 
         //Show the dialog
         dialog.show();
+
     }
 
 
@@ -394,8 +396,8 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
             Scanner sc = new Scanner(strDistance);
             double distanceKm = sc.nextDouble();
 
-            //Rate starts at 2.50
-            double rate = 2.50;
+            //base rate is at 3.5
+            double rate = 3.50;
 
             //add 1.25 for each km
             rate += distanceKm * 1.25;
