@@ -52,6 +52,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
     private Marker tripEndMarker;
     private Marker currentMarker;
     private Context context;
+    private String Distance = "? km";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,11 +193,12 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                     tripEndMarker.showInfoWindow();
                     currentMarker = null;
                     setLocation.setText(R.string.confirm_trip);
+                    JSONMaps helper = new JSONMaps((AddRequestActivity) context);
+                    helper.drawPathCoordinates(tripStartMarker, tripEndMarker);
 
                 } else {
 
-                    JSONMaps helper = new JSONMaps((AddRequestActivity) context);
-                    helper.drawPathCoordinates(tripStartMarker, tripEndMarker);
+                    displayRideConfirmationDlg(Distance);
                 }
 
             }
@@ -294,6 +296,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
      * @param distance
      */
     public void drawRouteOnMap(List<LatLng> drawPoints, String distance){
+        Distance = distance;
         //Draw the lines on the map
         mMap.addPolyline( new PolylineOptions()
                 .addAll(drawPoints)
@@ -302,7 +305,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 .geodesic(true)
         );
 
-        displayRideConfirmationDlg(distance);
+
     }
 
     void displayRideConfirmationDlg(String distance){
@@ -313,19 +316,19 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         final TextView to = (TextView)dialog.findViewById(R.id.toText);
         final TextView distanceDlg = (TextView)dialog.findViewById(R.id.distance);
         final TextView fairEstimate = (TextView)dialog.findViewById(R.id.fairEstimate);
-
         final Button cancel = (Button)dialog.findViewById(R.id.cancelRequest);
         final Button confirm = (Button)dialog.findViewById(R.id.confirmRequest);
         final EditText amount= (EditText)dialog.findViewById(R.id.Fare);
+        final EditText description = (EditText)dialog.findViewById(R.id.note_to_driver);
 
-        //Set all the right values in the dialog
+        //Set up info for dialog
         final double fairAmount = FairEstimation.estimateFair(distance);
         dialog.setTitle( "Enter Details" );
         from.setText(tripStartMarker.getTitle());
         to.setText(tripEndMarker.getTitle());
         distanceDlg.setText("Distance: "+ distance);
         fairEstimate.setText("Estimate Cost: $"+ Double.toString(fairAmount));
-        amount.setText(Double.toString(fairAmount));
+
         //set up the on click listeners for dialog
 
 
@@ -343,12 +346,21 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 amount.setText("");
             }
         });
+
+        description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                description.setText("");
+            }
+        });
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 double userFare = 0.00;
+                String note = "";
                 try {
                     userFare = Double.parseDouble(amount.getText().toString());
+                    note = description.getText().toString();
 
                 } catch (NumberFormatException e) {
                     //Tell them they have not entered a double
@@ -370,11 +382,10 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
 
                 //TODO: create a way for the user to add their own description
                 Ride request = new Ride(tripStartMarker.getPosition(), tripEndMarker.getPosition(),
-                        userFare, "my Description",
+                        userFare, note,
                         UserController.currentUser);
                 //RideController.addRide(request);
 
-// TODO: will add this once we have a way to terminate the service when the user requests
 // Start the service for rider notifications
 //                Intent intent = RiderNotificationService.createIntentStartNotificationService(context);
 //                startService(intent);
@@ -396,19 +407,11 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
             Scanner sc = new Scanner(strDistance);
             double distanceKm = sc.nextDouble();
 
-<<<<<<< HEAD
             //base rate is at 3.5
-=======
-            // Rate starts at about 3.50 Canadian Dollars. Rates in New York usually start at 2.50
-            // American as a comparison.
->>>>>>> 50bc3d1cd0cc00167258406e04aa865cfbc9b17a
             double rate = 3.50;
 
-            //A fairly standard cab fare is 1.50$ for kilometer travelled. But for a rideshare
-            // platform like Uber or the like, the rate is considerably lower, closer to 90cents
-            // or so per kilometer.
-            // This will not take into account the number of riders.
-            rate += distanceKm * 0.90;
+            //add 1.25 for each km
+            rate += distanceKm * 1.25;
 
             DecimalFormat df = new DecimalFormat("#.##");
             String dx=df.format(rate);

@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -82,7 +81,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mUiSettings.setZoomControlsEnabled(true);
         mUiSettings.setCompassEnabled(true);
         mUiSettings.setTiltGesturesEnabled(true);
-        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setMapToolbarEnabled(true);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(edmonton)      // Sets the center of the map to location user
                 .zoom(10)
