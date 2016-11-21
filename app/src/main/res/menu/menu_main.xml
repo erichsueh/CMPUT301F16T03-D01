@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.ehsueh.appygolucky.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/LogoutButton"
         android:orderInCategory="100"
         android:title="Logout"
         app:showAsAction="never" />
