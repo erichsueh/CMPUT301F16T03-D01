@@ -17,9 +17,7 @@ import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
-/**
- * Created by Corey on 2016-11-07.
- */
+
 //This code is based off of code we created in the labs
 
 public class ElasticSearchUserController {

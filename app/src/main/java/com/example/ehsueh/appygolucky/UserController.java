@@ -2,6 +2,7 @@ package com.example.ehsueh.appygolucky;
 
 import android.content.Context;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -44,7 +45,6 @@ public class UserController {
      * @param email    the email
      * @param phone    the phone
      * @param address  the address
-     * @throws UsernameNotUniqueException If there already exists a user with this username.
      */
     public void newUserLogin(String username, String name, String email, String phone, String address)
             throws InterruptedException, ExecutionException {
@@ -62,10 +62,6 @@ public class UserController {
 
     }
 
-    public void newUserLogin(User user) throws InterruptedException, ExecutionException{
-        this.newUserLogin(user.getUsername(), user.getName(), user.getEmail(),
-                user.getPhone(), user.getAddress());
-    }
 
     /**
      * Set the currently logged in user, and save to file.
@@ -106,9 +102,9 @@ public class UserController {
      * Add the request to the rider's list, upload to the server,
      * and save to file
      *
-     * @param rideRequest
      */
-    public void addRideRequest(Ride rideRequest) {
+    public void addRideRequest(LatLng start, LatLng end, Number fare, String description) {
+        Ride rideRequest = new Ride(start, end, fare, description, currentUser);
         currentUser.addRideRequest(rideRequest);
         saveInFile();
 

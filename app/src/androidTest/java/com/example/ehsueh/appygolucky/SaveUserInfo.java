@@ -1,8 +1,6 @@
 package com.example.ehsueh.appygolucky;
 
-import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.mock.MockContext;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -54,9 +52,9 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
         Ride rideC = new Ride(startLocationC, endLocationC, fareC, rideDescriptionC, riderC);
         rideC.setStatus(2);
 
-        uc.addRideRequest(rideA);
-        uc.addRideRequest(rideB);
-        uc.addRideRequest(rideC);
+        uc.addRideRequest(startLocationA, endLocationA, fareA, rideDescriptionA);
+        uc.addRideRequest(startLocationB, endLocationB, fareB, rideDescriptionB);
+        uc.addRideRequest(startLocationC, endLocationC, fareC, rideDescriptionC);
         uc.addAcceptedRequest(rideA);
         uc.addAcceptedRequest(rideB);
         uc.addAcceptedRequest(rideC);

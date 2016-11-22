@@ -7,9 +7,15 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
+import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
 
 /**
  * Created by Corey on 2016-11-14.
@@ -49,6 +55,54 @@ public class ElasticSearchRideController {
             }
 
             return null;
+        }
+    }
+
+    public static class GetRidesByKeywordTask extends AsyncTask<String, Void, List<Ride>> {
+        private ESQueryListener queryListener;
+
+
+        public GetRidesByKeywordTask(ESQueryListener queryListener) {
+            this.queryListener = queryListener;
+        }
+
+        @Override
+        protected List<Ride> doInBackground(String... params) {
+            verifySettings();
+
+            if (params[0] == null || params[0].equals("")) {
+                return null;
+            }
+
+            String search_string =
+                    "{\"query\":\n" +
+                    "   {\n" +
+                    "       \"query_string\" : \n" +
+                    "           {\n" +
+                    "               \"query\" : \"abcd\"\n"+
+                    "           }\n" +
+                    "   }\n" +
+                    "}";
+
+            Search search = new Search.Builder(search_string)
+                    .addIndex(teamName)
+                    .addType(rideType)
+                    .build();
+
+            try {
+                SearchResult result = client.execute(search);
+                if (result.isSucceeded()) {
+
+                    return result.getSourceAsObjectList(Ride.class);
+
+                } else {
+                    return (List<Ride>) new ArrayList<Ride>();
+                }
+            } catch (IOException e) {
+                Log.i("Error", "Failed to communicate with elasticsearch server");
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
