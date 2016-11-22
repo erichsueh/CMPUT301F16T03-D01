@@ -1,7 +1,6 @@
 package com.example.ehsueh.appygolucky;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.searchbox.annotations.JestId;
 
@@ -20,8 +19,8 @@ public class User {
     private String email;
     private String phone;
     private String address;
-    private ArrayList<Ride> requestedRides;
-    private ArrayList<Ride> acceptedRides;
+    private ArrayList<String> requestedRideIDs;
+    private ArrayList<String> acceptedRideIDs;
 
     /**
      * Instantiates a new User.
@@ -39,8 +38,8 @@ public class User {
         this.phone = phone;
         this.address = address;
         this.id = null;
-        this.requestedRides = new ArrayList<Ride>();
-        this.acceptedRides = new ArrayList<Ride>();
+        this.requestedRideIDs = new ArrayList<String>();
+        this.acceptedRideIDs = new ArrayList<String>();
     }
 
     /**
@@ -102,14 +101,14 @@ public class User {
      *
      * @return the ride requests
      */
-    public ArrayList<Ride> getRideRequests() { return requestedRides; }
+    public ArrayList<String> getRideRequests() { return requestedRideIDs; }
 
     /**
      * Gets accepted rides.
      *
      * @return the accepted rides
      */
-    public ArrayList<Ride> getAcceptedRides() { return acceptedRides; }
+    public ArrayList<String> getAcceptedRideIDs() { return acceptedRideIDs; }
 
     /**
      * Sets username.
@@ -138,18 +137,18 @@ public class User {
     /**
      * Add ride request.
      *
-     * @param rideRequest the ride request
+     * @param rideRequestID the ride request ID
      */
-    public void addRideRequest(Ride rideRequest) {
-        this.requestedRides.add(rideRequest);
+    public void addRideRequestID(String rideRequestID) {
+        this.requestedRideIDs.add(rideRequestID);
     }
 
     /**
      * Add accepted request.
      *
-     * @param acceptedRequest the accepted request
+     * @param acceptedRequestID the accepted request
      */
-    public void addAcceptedRequest(Ride acceptedRequest) {
-        this.acceptedRides.add(acceptedRequest);
+    public void addAcceptedRequestID(String acceptedRequestID) {
+        this.acceptedRideIDs.add(acceptedRequestID);
     }
 }

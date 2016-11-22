@@ -99,13 +99,14 @@ public class UserController {
     }
 
     /**
-     * Add the request to the rider's list, upload to the server,
-     * and save to file
+     * Add the request to the user's list of requests, update both ride list and user list
+     * on the server, and save to file.
      *
      */
+    //TODO: make needed changes to the user as well.
     public void addRideRequest(LatLng start, LatLng end, Number fare, String description) {
         Ride rideRequest = new Ride(start, end, fare, description, currentUser);
-        currentUser.addRideRequest(rideRequest);
+        //currentUser.addRideRequestID(rideRequest);
         saveInFile();
 
         ElasticSearchRideController.AddRidesTask addRidesTask =
@@ -120,8 +121,9 @@ public class UserController {
      * @param acceptedRequest
      */
     //TODO: this should notify the rider
+    //TODO: Update the user and ride list both locally and on the server
     public void addAcceptedRequest(Ride acceptedRequest) {
-        currentUser.addAcceptedRequest(acceptedRequest);
+        //currentUser.addAcceptedRequest(acceptedRequest);
         saveInFile();
     }
 
@@ -159,6 +161,7 @@ public class UserController {
     /**
      * Save the currently logged in user, including user info and relevant rides, to file.
      */
+    //TODO: save the relevant ride lists too
     private void saveInFile() {
         try {
             FileOutputStream fos = applicationContext.openFileOutput(USERFILENAME,0);

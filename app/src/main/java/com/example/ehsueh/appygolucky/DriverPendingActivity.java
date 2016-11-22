@@ -1,13 +1,10 @@
 package com.example.ehsueh.appygolucky;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -29,31 +26,32 @@ public class DriverPendingActivity extends ActionBarActivity {
         uc = new UserController(getApplicationContext());
         ListView listView = (ListView) findViewById(R.id.PendingList);
 
-        ArrayList<Ride> rides = uc.getCurrentUser().getAcceptedRides();
-        final ArrayList<Ride> list = new ArrayList<Ride>(rides);
-        final ArrayAdapter rideAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list) {
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent){
-                View view = super.getView(position,convertView,parent);
-                Ride ride = list.get(position);
-                if(ride.getStatus()==2)
-                {
-                    view.setBackgroundColor(Color.parseColor("#00FF00"));
-                }
-                else if(ride.getStatus()==1)
-                {
-                    view.setBackgroundColor(Color.parseColor("#FFFF00"));
-                }
-                else
-                {
-                    view.setBackgroundColor(Color.parseColor("#000000"));
-                }
-                return view;
-            }
-        };
-
-        listView.setAdapter(rideAdapter);
+        //TODO: Use the new local list of rides.
+//        ArrayList<Ride> rides = uc.getCurrentUser().getAcceptedRideIDs();
+//        final ArrayList<Ride> list = new ArrayList<Ride>(rides);
+//        final ArrayAdapter rideAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list) {
+//
+//            @Override
+//            public View getView(int position, View convertView, ViewGroup parent){
+//                View view = super.getView(position,convertView,parent);
+//                Ride ride = list.get(position);
+//                if(ride.getStatus()==2)
+//                {
+//                    view.setBackgroundColor(Color.parseColor("#00FF00"));
+//                }
+//                else if(ride.getStatus()==1)
+//                {
+//                    view.setBackgroundColor(Color.parseColor("#FFFF00"));
+//                }
+//                else
+//                {
+//                    view.setBackgroundColor(Color.parseColor("#000000"));
+//                }
+//                return view;
+//            }
+//        };
+//
+//        listView.setAdapter(rideAdapter);
     }
 
 

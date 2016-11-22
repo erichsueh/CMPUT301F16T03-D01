@@ -22,12 +22,12 @@ import java.util.concurrent.TimeUnit;
 //TODO: this test should use the server
 public class UC040101 extends ActivityInstrumentationTestCase2 {
     public UC040101() {
-        super(MainActivity.class);
+        super(HomePageActivity.class);
     }
 
-    public void testGetRidesByLocation() {
+    public void testGetRidesByKeyword() {
         //Some rides with unique descriptions
-        String rideDescriptionA = "abcd efgh ijkl mnop";
+        String rideDescriptionA = "abcd efgh ijkl mnop 648523";
         Number fareA = 2.75;
         LatLng startLocationA = new LatLng(53.526495, -113.630327);
         LatLng endLocationA = new LatLng(53.526495, -113.630327);
@@ -35,7 +35,7 @@ public class UC040101 extends ActivityInstrumentationTestCase2 {
         Number fareB = 2.75;
         LatLng startLocationB = new LatLng(53.628964, -113.477291);
         LatLng endLocationB = new LatLng(53.628964, -113.477291);
-        String rideDescriptionC = "abcd efgh 0987";
+        String rideDescriptionC = "abcd efgh 0987 648523";
         Number fareC = 2.75;
         LatLng startLocationC = new LatLng(53.526495, -113.630327);
         LatLng endLocationC = new LatLng(53.526495, -113.630327);
@@ -67,15 +67,25 @@ public class UC040101 extends ActivityInstrumentationTestCase2 {
         List<Ride> results = queryListener.getResults();
 
         //Make sure we get a list of results in the right order.
-        assertEquals("Returned the wrong number of rides", 2, results.size());
+        assertEquals("Returned the wrong number of rides", 3, results.size());
         assertEquals("Returned rides in the wrong order", rideDescriptionA,
                 results.get(0).getDescription());
         assertEquals(rideDescriptionC, results.get(1).getDescription());
 
 
-        //Try retrieving a list of rides by a keyword from the description
+        //Retrieve all three rides (to get their IDs), and delete them from the server
         queryListener = new ESQueryListener();
-        getRidesByKeywordTask = new ElasticSearchRideController.GetRidesByKeywordTask(queryListener);
-        getRidesByKeywordTask.execute("abcd 0987");
+        new ElasticSearchRideController.GetRidesByKeywordTask(queryListener)
+                .execute("648523");
+        while(queryListener.getResults() == null) {
+            /*wait*/
+        }
+        Ride ride1 = (Ride) queryListener.getResults().get(0);
+        Ride ride2 = (Ride) queryListener.getResults().get(1);
+        Ride ride3 = (Ride) queryListener.getResults().get(2);
+        new ElasticSearchRideController.DeleteRideTask().execute(ride1.getId());
+        new ElasticSearchRideController.DeleteRideTask().execute(ride2.getId());
+        new ElasticSearchRideController.DeleteRideTask().execute(ride3.getId());
+
     }
 }

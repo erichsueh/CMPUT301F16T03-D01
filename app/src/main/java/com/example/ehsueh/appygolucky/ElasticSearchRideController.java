@@ -75,13 +75,13 @@ public class ElasticSearchRideController {
             }
 
             String search_string =
-                    "{\"query\":\n" +
-                    "   {\n" +
-                    "       \"query_string\" : \n" +
-                    "           {\n" +
-                    "               \"query\" : \"abcd\"\n"+
-                    "           }\n" +
-                    "   }\n" +
+                    "{\"query\":" +
+                    "   {" +
+                    "       \"query_string\" : " +
+                    "           {" +
+                    "               \"query\" : \"" + params[0] +"\""+
+                    "           }" +
+                    "   }" +
                     "}";
 
             Search search = new Search.Builder(search_string)
@@ -103,6 +103,15 @@ public class ElasticSearchRideController {
                 e.printStackTrace();
                 return null;
             }
+        }
+
+        /**
+         * Called at the completion of the task.  Feeds the retrieved data to the ESQueryListener
+         * to do any further computation/action.
+         */
+        @Override
+        protected void onPostExecute(List<Ride> retrievedRides) {
+            queryListener.onQueryCompletion(retrievedRides);
         }
     }
 
