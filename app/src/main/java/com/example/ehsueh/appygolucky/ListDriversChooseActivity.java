@@ -17,4 +17,8 @@ public class ListDriversChooseActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_drivers_choose);
     }
+
+    /**
+     * i forgot how to pass information back and forth...
+     */
 }

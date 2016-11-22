@@ -12,5 +12,6 @@
     <string name="end_location">End Location</string>
     <string name="confirm_trip">Request!</string>
     <string name="amout_warning_message">Please enter correct amount</string>
+    <string name="note_to_driver">Note to driver:</string>
 
 </resources>

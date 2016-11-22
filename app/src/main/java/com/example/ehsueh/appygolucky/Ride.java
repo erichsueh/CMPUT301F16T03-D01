@@ -59,7 +59,7 @@ public class Ride implements Parcelable {
         this.completed = false;
         this.paymentReceived = false;
         this.status = 0;
-        //RideController.addRide(this);
+        //UserController.addRideRequest(this);
         this.id = null;
         //acceptedDrivers = new ArrayList<User>();
 
