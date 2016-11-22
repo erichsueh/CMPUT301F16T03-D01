@@ -25,8 +25,20 @@ import java.util.concurrent.ExecutionException;
 public class UserController {
 
     protected static User currentUser;
+
+    /**
+     * Holds a list of actual ride objects associated with the current user.
+     */
+    protected static RideList requestedRides;
+
+    /**
+     * Holds a list of actual ride objects associated with the current user.
+     */
+    protected static RideList acceptedRides;
     protected Context applicationContext;
-    protected final String USERFILENAME = "appygolucky_user.json";
+    protected final String USERFILENAME = "current_user.json";
+    protected final String REQUESTEDRIDESFILENAME = "requested_rides.json";
+    protected final String ACCEPTEDRIDESFILENAME = "accepted_rides.json";
 
     /**
      * Instantiates a new User controller.
@@ -58,6 +70,8 @@ public class UserController {
 
             //Log in, and save the user information to file
             currentUser = newUser;
+            requestedRides = new RideList();
+            acceptedRides = new RideList();
             saveInFile();
 
     }
@@ -69,25 +83,11 @@ public class UserController {
      *
      * @param user Object for the user who is logging in
      */
+    //TODO: download requested rides and accepted rides.
     public void setCurrentUser(User user) {
         currentUser = user;
         saveInFile();
     }
-
-
-    /**
-     * Gets user by username.  This method is handles creating and executing the relevant
-     * asynchronous task.  This function does not return a value, to avoid freezing the UI.
-     * Instead, the Asynchronous task will use a callback function.
-     *
-     * @param username the username
-     */
-    public void getUserByUsername(String username) {
-        ElasticSearchUserController.GetUserByUsernameTask getUserByUsernameTask =
-                new ElasticSearchUserController.GetUserByUsernameTask(new ESQueryListener());
-        getUserByUsernameTask.execute(username);
-    }
-
 
     /**
      * Gets current user.
@@ -99,6 +99,24 @@ public class UserController {
     }
 
     /**
+     * This method may be used to retrieve the LOCALLY saved ride list
+     *
+     * @return requestedRides the LOCALLY saved ride list
+     */
+    public RideList getRequestedRides() {
+        return requestedRides;
+    }
+
+    /**
+     *
+     * @return acceptedRides The LOCALLY saved ride list
+     */
+    public RideList getAcceptedRides() {
+        return acceptedRides;
+    }
+
+
+    /**
      * Add the request to the user's list of requests, update both ride list and user list
      * on the server, and save to file.
      *
@@ -106,12 +124,24 @@ public class UserController {
     //TODO: make needed changes to the user as well.
     public void addRideRequest(LatLng start, LatLng end, Number fare, String description) {
         Ride rideRequest = new Ride(start, end, fare, description, currentUser);
+        requestedRides.addRide(rideRequest);
         //currentUser.addRideRequestID(rideRequest);
-        saveInFile();
 
-        ElasticSearchRideController.AddRidesTask addRidesTask =
-                new ElasticSearchRideController.AddRidesTask();
-        addRidesTask.execute(rideRequest);
+        //Add the ride to the server.  When the query has completed, make the necessary changes
+        //locally, using the returned ride ID
+        ElasticSearchRideController.AddRideTask addRideTask =
+                new ElasticSearchRideController.AddRideTask(new ESQueryListener() {
+
+                    @Override
+                    public void onQueryCompletion(List<?> results) {
+                        String rideId = (String) results.get(0);
+                        currentUser.addRideRequestID(rideId);
+                        saveInFile();
+                    }
+
+                });
+
+        addRideTask.execute(rideRequest);
     }
 
 
@@ -143,6 +173,7 @@ public class UserController {
     /**
      * Load the currently logged in user, including user profile and relevant rides, from file.
      */
+    //TODO: We should probably queue a query to the server too, in case something changed.
     public void loadFromFile() {
         try {
             FileInputStream fis = applicationContext.openFileInput(USERFILENAME);
@@ -164,6 +195,7 @@ public class UserController {
     //TODO: save the relevant ride lists too
     private void saveInFile() {
         try {
+            //Save the user
             FileOutputStream fos = applicationContext.openFileOutput(USERFILENAME,0);
 
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
@@ -172,6 +204,8 @@ public class UserController {
             gson.toJson(currentUser, out);
             out.flush();
             fos.close();
+
+
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block

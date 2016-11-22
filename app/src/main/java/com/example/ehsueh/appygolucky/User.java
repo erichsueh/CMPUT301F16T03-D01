@@ -101,7 +101,7 @@ public class User {
      *
      * @return the ride requests
      */
-    public ArrayList<String> getRideRequests() { return requestedRideIDs; }
+    public ArrayList<String> getRideRequestIDs() { return requestedRideIDs; }
 
     /**
      * Gets accepted rides.

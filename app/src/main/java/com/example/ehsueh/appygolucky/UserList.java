@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Corey on 2016-10-13.
  */
-//TODO: possibly replace userList with a hashtable
+//TODO: delete this class, if not in use
     //Also, this may be replaced entirely by the server...
 
 public class UserList {

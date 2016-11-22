@@ -59,7 +59,7 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
         uc.addAcceptedRequest(rideB);
         uc.addAcceptedRequest(rideC);
 
-        assertEquals(3,uc.getCurrentUser().getRideRequests().size());
+        assertEquals(3,uc.getCurrentUser().getRideRequestIDs().size());
     }
 
 }
