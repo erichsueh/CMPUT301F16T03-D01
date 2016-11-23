@@ -67,8 +67,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         mUiSettings = mMap.getUiSettings();
         Intent intent = getIntent();
-        //LatLng start_location= new LatLng(53.5444, -113.4909);
-        //LatLng end_location= new LatLng(53.525288, -113.525454);
         LatLng start_location = intent.getParcelableExtra("start");
         LatLng end_location = intent.getParcelableExtra("end");
 
