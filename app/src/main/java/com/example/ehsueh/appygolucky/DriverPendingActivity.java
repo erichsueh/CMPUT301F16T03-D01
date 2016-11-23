@@ -28,7 +28,7 @@ public class DriverPendingActivity extends ActionBarActivity {
 
         ArrayList<Ride> rides = (ArrayList<Ride>) uc.getAcceptedRides().getRides();
         final ArrayList<Ride> list = new ArrayList<Ride>(rides);
-        final ArrayAdapter rideAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list) {
+        final ArrayAdapter rideAdapter = new ArrayAdapter<Ride>(this,android.R.layout.simple_list_item_1, list) {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent){

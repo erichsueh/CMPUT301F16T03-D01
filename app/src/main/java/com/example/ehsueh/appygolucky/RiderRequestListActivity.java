@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SeekBar;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
 
         ArrayList<Ride> rides = (ArrayList<Ride>) uc.getRequestedRides().getRides();
         final ArrayList<Ride> list = new ArrayList<Ride>(rides);
-        final ArrayAdapter rideAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list) {
+        final ArrayAdapter rideAdapter = new ArrayAdapter<Ride>(this,android.R.layout.simple_list_item_1, list) {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent){
@@ -103,7 +104,11 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         }
                     });
                 } else {
-                    adb.setMessage("Confirm Completion");
+                    final SeekBar seek = new SeekBar(RiderRequestListActivity.this);
+                    seek.setMax(5);
+                    seek.setKeyProgressIncrement(1);
+                    adb.setMessage("Confirm Completion & Rate your Driver");
+                    adb.setView(seek);
                     adb.setCancelable(true);
                     adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
