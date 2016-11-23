@@ -29,13 +29,16 @@ public class UC030201 extends ActivityInstrumentationTestCase2 {
 
     public void testEditData() {
         UserController uc = new UserController(getActivity().getApplicationContext());
+        String username = "test_myCoolName";
+        String name = "John";
         String email = "john@yo.com";
         String newEmail = "h4cker@yo.com";
-        User myUser = new User("test_myCoolName", "John", email, "478-5632", "123 main");
+        String phone = "123-4567";
+        String address = "123 main";
 
         //Add the user to the server, set currentUser, and save to file
         try {
-            uc.newUserLogin(myUser);
+            uc.newUserLogin(username, name, email, phone, address);
         } catch(Exception e) {
             fail("Encountered error when attempting to add new user");
         }
@@ -43,7 +46,7 @@ public class UC030201 extends ActivityInstrumentationTestCase2 {
 
         //Edit the user information, which should be reflected across the server,
         //currentUser, and the save file.
-        uc.editProfile(myUser.getName(), newEmail, myUser.getPhone(), myUser.getAddress());
+        uc.editProfile(newEmail, phone, address, name);
 
         //Give the server time to process the user
         try {
@@ -65,7 +68,7 @@ public class UC030201 extends ActivityInstrumentationTestCase2 {
         //Check whether the update was saved to the server
         ESQueryListener queryListener = new ESQueryListener();
         new ElasticSearchUserController.GetUserByUsernameTask(queryListener)
-                .execute(myUser.getUsername());
+                .execute(username);
 
         while(queryListener.getResults() == null) {
             //Wait for results to be returned from the server
@@ -78,7 +81,7 @@ public class UC030201 extends ActivityInstrumentationTestCase2 {
 
 
         //Delete the user from the server
-        new ElasticSearchUserController.DeleteUserTask().execute(myUser.getId());
+        new ElasticSearchUserController.DeleteUserTask().execute(uc.getCurrentUser().getId());
 
     }
 

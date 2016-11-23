@@ -1,12 +1,12 @@
 package com.example.ehsueh.appygolucky;
 
-import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.mock.MockContext;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Corey on 2016-11-12.
@@ -61,7 +61,13 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
         uc.addAcceptedRequest(rideB);
         uc.addAcceptedRequest(rideC);
 
-        assertEquals(3,uc.getCurrentUser().getRideRequests().size());
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch(Exception e) {
+            fail("Timer interrupted");
+        }
+
+        assertEquals(3,uc.getCurrentUser().getRideRequestIDs().size());
     }
 
 }

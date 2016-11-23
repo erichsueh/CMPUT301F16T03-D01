@@ -1,13 +1,10 @@
 package com.example.ehsueh.appygolucky;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -29,9 +26,9 @@ public class DriverPendingActivity extends ActionBarActivity {
         uc = new UserController(getApplicationContext());
         ListView listView = (ListView) findViewById(R.id.PendingList);
 
-        ArrayList<Ride> rides = uc.getCurrentUser().getAcceptedRides();
+        ArrayList<Ride> rides = (ArrayList<Ride>) uc.getAcceptedRides().getRides();
         final ArrayList<Ride> list = new ArrayList<Ride>(rides);
-        final ArrayAdapter rideAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list) {
+        final ArrayAdapter rideAdapter = new ArrayAdapter<Ride>(this,android.R.layout.simple_list_item_1, list) {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent){

@@ -3,6 +3,7 @@ package com.example.ehsueh.appygolucky;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -65,8 +66,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mUiSettings = mMap.getUiSettings();
-        LatLng start_location= new LatLng(53.5444, -113.4909);
-        LatLng end_location= new LatLng(53.525288, -113.525454);
+        Intent intent = getIntent();
+        //LatLng start_location= new LatLng(53.5444, -113.4909);
+        //LatLng end_location= new LatLng(53.525288, -113.525454);
+        LatLng start_location = intent.getParcelableExtra("start");
+        LatLng end_location = intent.getParcelableExtra("end");
 
         currentMarker = mMap.addMarker(new MarkerOptions()
                 .position(start_location));
@@ -86,6 +90,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             e.printStackTrace();
         }
         String startaddress = getString(R.string.start_location) + ": " + currentMarker.getTitle();
+
+
         tripStartMarker = mMap.addMarker(new MarkerOptions()
                 .position(start_location)
                 .title(startaddress)

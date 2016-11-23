@@ -2,6 +2,7 @@ package com.example.ehsueh.appygolucky;
 
 import android.content.Context;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -24,8 +25,20 @@ import java.util.concurrent.ExecutionException;
 public class UserController {
 
     protected static User currentUser;
+
+    /**
+     * Holds a list of actual ride objects associated with the current user.
+     */
+    protected static RideList requestedRides;
+
+    /**
+     * Holds a list of actual ride objects associated with the current user.
+     */
+    protected static RideList acceptedRides;
     protected Context applicationContext;
-    protected final String USERFILENAME = "appygolucky_user.json";
+    protected final String USERFILENAME = "current_user.json";
+    protected final String REQUESTEDRIDESFILENAME = "requested_rides.json";
+    protected final String ACCEPTEDRIDESFILENAME = "accepted_rides.json";
 
     /**
      * Instantiates a new User controller.
@@ -34,6 +47,10 @@ public class UserController {
      */
     public UserController(Context context) {
         applicationContext = context;
+        if(requestedRides == null) {
+            requestedRides = new RideList();
+            acceptedRides = new RideList();
+        }
     }
 
     /**
@@ -44,7 +61,6 @@ public class UserController {
      * @param email    the email
      * @param phone    the phone
      * @param address  the address
-     * @throws UsernameNotUniqueException If there already exists a user with this username.
      */
     public void newUserLogin(String username, String name, String email, String phone, String address)
             throws InterruptedException, ExecutionException {
@@ -58,14 +74,12 @@ public class UserController {
 
             //Log in, and save the user information to file
             currentUser = newUser;
+            requestedRides = new RideList();
+            acceptedRides = new RideList();
             saveInFile();
 
     }
 
-    public void newUserLogin(User user) throws InterruptedException, ExecutionException{
-        this.newUserLogin(user.getUsername(), user.getName(), user.getEmail(),
-                user.getPhone(), user.getAddress());
-    }
 
     /**
      * Set the currently logged in user, and save to file.
@@ -73,25 +87,38 @@ public class UserController {
      *
      * @param user Object for the user who is logging in
      */
+    //TODO: download requested rides and accepted rides.
     public void setCurrentUser(User user) {
         currentUser = user;
         saveInFile();
+
+        List<String> requestedRideIds = currentUser.getRideRequestIDs();
+        //http://stackoverflow.com/questions/9572795/convert-list-to-array-in-java
+        //November 22, 2016  Eng.Fouad
+        //Convert list to array so we can use it as a varargs for the task
+        String[] requestedIdsArray = new String[requestedRideIds.size()];
+        requestedRideIds.toArray(requestedIdsArray);
+        new ElasticSearchRideController.GetRidesByIdTask(new ESQueryListener() {
+            @Override
+            public void onQueryCompletion(List<?> results) {
+                List<Ride> rides = (List<Ride>) results;
+                requestedRides = new RideList(rides);
+            }
+        }).execute(requestedIdsArray);
+
+
+        List<String> acceptedRideIds = currentUser.getAcceptedRideIDs();
+        //Convert to array
+        String[] acceptedIdsArray = new String[acceptedRideIds.size()];
+        acceptedRideIds.toArray(acceptedIdsArray);
+        new ElasticSearchRideController.GetRidesByIdTask(new ESQueryListener() {
+            @Override
+            public void onQueryCompletion(List<?> results) {
+                List<Ride> rides = (List<Ride>) results;
+                acceptedRides = new RideList(rides);
+            }
+        }).execute(acceptedIdsArray);
     }
-
-
-    /**
-     * Gets user by username.  This method is handles creating and executing the relevant
-     * asynchronous task.  This function does not return a value, to avoid freezing the UI.
-     * Instead, the Asynchronous task will use a callback function.
-     *
-     * @param username the username
-     */
-    public void getUserByUsername(String username) {
-        ElasticSearchUserController.GetUserByUsernameTask getUserByUsernameTask =
-                new ElasticSearchUserController.GetUserByUsernameTask(new ESQueryListener());
-        getUserByUsernameTask.execute(username);
-    }
-
 
     /**
      * Gets current user.
@@ -102,21 +129,87 @@ public class UserController {
         return currentUser;
     }
 
+    /**
+     * This method may be used to retrieve the LOCALLY saved ride list
+     *
+     * @return requestedRides the LOCALLY saved ride list
+     */
+    public RideList getRequestedRides() {
+        return requestedRides;
+    }
+
+    /**
+     *
+     * @return acceptedRides The LOCALLY saved ride list
+     */
+    public RideList getAcceptedRides() {
+        return acceptedRides;
+    }
+
+
+    /**
+     * Add the request to the user's list of requests, update both ride list and user list
+     * on the server, and save to file.
+     *
+     */
     public void addRideRequest(Ride rideRequest) {
-        currentUser.addRideRequest(rideRequest);
+        requestedRides.addRide(rideRequest);
+
+        //Add the ride to the server.  When the query has completed, make the necessary changes
+        //locally, using the returned ride ID
+        ElasticSearchRideController.AddRideTask addRideTask =
+                new ElasticSearchRideController.AddRideTask(new ESQueryListener() {
+
+                    @Override
+                    public void onQueryCompletion(List<?> results) {
+                        String rideId = (String) results.get(0);
+                        //Add the ID to the user locally
+                        currentUser.addRideRequestID(rideId);
+                        //Save the user and the ride lists
+                        saveInFile();
+                        //Update the user info on the server
+                        new ElasticSearchUserController.AddUsersTask().execute(currentUser);
+                    }
+
+                });
+
+        addRideTask.execute(rideRequest);
+    }
+
+
+    /**
+     * Driver accepts a ride request.  Add to the user's list, upload, and save to file
+     *
+     * @param acceptedRequest
+     */
+    //TODO: this should notify the rider
+    //TODO: Update the user and ride list both locally and on the server
+    public void addAcceptedRequest(Ride acceptedRequest) {
+        //currentUser.addAcceptedRequest(acceptedRequest);
+        acceptedRides.addRide(acceptedRequest);
         saveInFile();
     }
 
-    public void addAcceptedRequest(Ride acceptedRequest) {
-        currentUser.addAcceptedRequest(acceptedRequest);
-        saveInFile();
+
+    /**
+     * Rider confirms a specific driver's acceptance.  Add that driver as the accepted driver,
+     * make changes on the server, and save to file
+     *
+     * @param ride
+     * @param Driver
+     */
+    //TODO: this should notify the driver
+    public void confirmDriverAcceptance(Ride ride, User Driver) {
+
     }
 
     /**
      * Load the currently logged in user, including user profile and relevant rides, from file.
      */
+    //TODO: We should probably queue a query to the server too, in case something changed.
     public void loadFromFile() {
         try {
+            //Load the current user
             FileInputStream fis = applicationContext.openFileInput(USERFILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 
@@ -124,8 +217,22 @@ public class UserController {
 
             currentUser = gson.fromJson(in, User.class);
 
+            //Load the requested rides
+            fis = applicationContext.openFileInput(REQUESTEDRIDESFILENAME);
+            in = new BufferedReader(new InputStreamReader(fis));
+
+            requestedRides = gson.fromJson(in, RideList.class);
+
+            //Load the accepted rides
+            fis = applicationContext.openFileInput(ACCEPTEDRIDESFILENAME);
+            in = new BufferedReader(new InputStreamReader(fis));
+
+            acceptedRides = gson.fromJson(in, RideList.class);
+
         } catch (FileNotFoundException e) {
             currentUser = null;
+            requestedRides = new RideList();
+            acceptedRides = new RideList();
         }
 
     }
@@ -133,14 +240,34 @@ public class UserController {
     /**
      * Save the currently logged in user, including user info and relevant rides, to file.
      */
+    //TODO: save the relevant ride lists too
     private void saveInFile() {
         try {
+            //Save the user
             FileOutputStream fos = applicationContext.openFileOutput(USERFILENAME,0);
 
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
             Gson gson = new Gson();
             gson.toJson(currentUser, out);
+            out.flush();
+            fos.close();
+
+            //Save the requested rides
+            fos = applicationContext.openFileOutput(REQUESTEDRIDESFILENAME,0);
+
+            out = new BufferedWriter(new OutputStreamWriter(fos));
+
+            gson.toJson(requestedRides, out);
+            out.flush();
+            fos.close();
+
+            //Save the accepted rides
+            fos = applicationContext.openFileOutput(ACCEPTEDRIDESFILENAME,0);
+
+            out = new BufferedWriter(new OutputStreamWriter(fos));
+
+            gson.toJson(acceptedRides, out);
             out.flush();
             fos.close();
 

@@ -4,34 +4,53 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Maxwell on 2016-10-11.
  */
 public class RideList {
+    private List<Ride> rides;
 
-    private boolean potentialDrivers;
-
-    public Collection<Ride> getRides() {
-
-        return new ArrayList<Ride>();
+    public RideList() {
+        this.rides = new ArrayList<Ride>();
     }
 
-    public Collection<Ride> getRidesByLocation(LatLng location) {
-        return new ArrayList<Ride>();
+    public RideList(List<Ride> rides) {
+        this.rides = rides;
     }
-
-    public Collection<Ride> getRidesByName(String name) {
-        return new ArrayList<Ride>();
-    }
-
-    public Collection<Ride> getRidesAcceptedByDriver(Driver driver) {return null;}
 
     public void addRide(Ride ride) {
+        this.rides.add(ride);
+    }
 
+    public List<Ride> getRides() {
+        return this.rides;
+    }
+
+    public Ride getRideByID(String ID) {
+        for(Ride ride: this.rides) {
+            if(ride.getId().equals(ID)) {
+                return ride;
+            }
+        }
+        return null;
+    }
+
+    public Boolean containsID(String ID) {
+        for(Ride ride: this.rides) {
+            if(ride.getId().equals(ID)) {
+                return Boolean.TRUE;
+            }
+        }
+        return Boolean.FALSE;
+    }
+
+    public int size() {
+        return rides.size();
     }
 
     public void deleteRide(Ride ride) {
-
+        this.rides.remove(ride);
     }
 }

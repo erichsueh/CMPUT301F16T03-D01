@@ -11,8 +11,7 @@ import java.util.Collection;
 public class Driver {
     Collection<Ride> acceptedRides;
     public Driver() {
-        //TODO: replace this with something useful
-        this.acceptedRides = new ArrayList<Ride>();
+
     }
 
     public void addRide() {}

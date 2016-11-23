@@ -79,14 +79,15 @@ public class UC030101 extends ActivityInstrumentationTestCase2{
         //Create a user without a username and phone
         User myUser = null;
         try {
-            myUser = new User(username, name1, "", "", "");
-            uc.newUserLogin(myUser);
+            uc.newUserLogin(username, name1, "", "", "");
         } catch(InterruptedException e) {
             fail("uc.newUserLogin threw interrupedException");
         } catch(ExecutionException e) {
             fail("uc.newUserLogin threw ExecutionException");
         }
-        new ElasticSearchUserController.DeleteUserTask().execute(myUser.getId());
+
+        new ElasticSearchUserController.DeleteUserTask()
+                .execute(uc.getCurrentUser().getId());
     }
 
 }

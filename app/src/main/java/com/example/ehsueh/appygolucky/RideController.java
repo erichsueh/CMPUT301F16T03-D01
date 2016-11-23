@@ -9,6 +9,8 @@ import java.util.Collection;
  * Created by Corey on 2016-10-14.
  */
 
+//TODO: delete this class if we aren't using it
+
 public class RideController {
     private Collection<Ride> rides;
 
@@ -22,14 +24,6 @@ public class RideController {
     public void driverAcceptsRide(Driver driver, Ride ride) {}
 
     public void riderAcceptsDriverOffer(Rider rider, Ride ride, Driver driver) {}
-
-    public Collection<Ride> getRidesByName(String name) {return null;}
-
-    public Collection<Ride> getRidesByLocation(String startLocation) {return null;}
-
-    public Collection<Ride> getRidesAcceptedByDriver(Driver driver) {return null;}
-
-    public Boolean rideAcceptedByRider(Ride ride) {return Boolean.FALSE;}
 
     public static ArrayList<Ride> getRideList() {
         return null;
