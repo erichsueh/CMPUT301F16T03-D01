@@ -55,12 +55,12 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
     private Marker currentMarker;
     private Context context;
     private String Distance = "? km";
-
+    private UserController uc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_request);
-
+        uc = new UserController(getApplicationContext());
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -385,7 +385,8 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 //TODO: create a way for the user to add their own description
                 Ride request = new Ride(tripStartMarker.getPosition(), tripEndMarker.getPosition(),
                         userFare, note,
-                        UserController.currentUser);
+                        uc.getCurrentUser());
+
                 //RideController.addRide(request);
 
 // Start the service for rider notifications
@@ -393,6 +394,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
 //                startService(intent);
 
                 dialog.dismiss();
+                uc.addRideRequest(request);
                 finish();
             }
         });
