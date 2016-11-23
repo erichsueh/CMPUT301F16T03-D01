@@ -32,7 +32,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
 
         ListView listView = (ListView) findViewById(R.id.RiderRequestLst);
 
-        ArrayList<Ride> rides = (ArrayList<Ride>) uc.getAcceptedRides().getRides();
+        ArrayList<Ride> rides = (ArrayList<Ride>) uc.getRequestedRides().getRides();
         final ArrayList<Ride> list = new ArrayList<Ride>(rides);
         final ArrayAdapter rideAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list) {
 

@@ -4,6 +4,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -53,9 +54,9 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
         Ride rideC = new Ride(startLocationC, endLocationC, fareC, rideDescriptionC, riderC);
         rideC.setStatus(2);
 
-        uc.addRideRequest(startLocationA, endLocationA, fareA, rideDescriptionA);
-        uc.addRideRequest(startLocationB, endLocationB, fareB, rideDescriptionB);
-        uc.addRideRequest(startLocationC, endLocationC, fareC, rideDescriptionC);
+        uc.addRideRequest(rideA);
+        uc.addRideRequest(rideB);
+        uc.addRideRequest(rideC);
         uc.addAcceptedRequest(rideA);
         uc.addAcceptedRequest(rideB);
         uc.addAcceptedRequest(rideC);

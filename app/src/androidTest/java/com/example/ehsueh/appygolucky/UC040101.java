@@ -47,10 +47,14 @@ public class UC040101 extends ActivityInstrumentationTestCase2 {
             fail("failed to log in");
         }
 
+        User currentUser = uc.getCurrentUser();
         //Add the three rides to the server.  They will also be attached to the user.
-        uc.addRideRequest(startLocationA, endLocationA, fareA, rideDescriptionA);
-        uc.addRideRequest(startLocationB, endLocationB, fareB, rideDescriptionB);
-        uc.addRideRequest(startLocationC, endLocationC, fareC, rideDescriptionC);
+        Ride rideA = new Ride(startLocationA, endLocationA, fareA, rideDescriptionA, currentUser);
+        Ride rideB = new Ride(startLocationB, endLocationB, fareB, rideDescriptionB, currentUser);
+        Ride rideC = new Ride(startLocationC, endLocationC, fareC, rideDescriptionC, currentUser);
+        uc.addRideRequest(rideA);
+        uc.addRideRequest(rideB);
+        uc.addRideRequest(rideC);
 
         //Wait for the changes to be reflected in the server
         try {

@@ -47,8 +47,10 @@ public class UserController {
      */
     public UserController(Context context) {
         applicationContext = context;
-        requestedRides = new RideList();
-        acceptedRides = new RideList();
+        if(requestedRides == null) {
+            requestedRides = new RideList();
+            acceptedRides = new RideList();
+        }
     }
 
     /**
@@ -150,10 +152,8 @@ public class UserController {
      * on the server, and save to file.
      *
      */
-    public void addRideRequest(LatLng start, LatLng end, Number fare, String description) {
-        Ride rideRequest = new Ride(start, end, fare, description, currentUser);
+    public void addRideRequest(Ride rideRequest) {
         requestedRides.addRide(rideRequest);
-        //currentUser.addRideRequestID(rideRequest);
 
         //Add the ride to the server.  When the query has completed, make the necessary changes
         //locally, using the returned ride ID
@@ -186,6 +186,7 @@ public class UserController {
     //TODO: Update the user and ride list both locally and on the server
     public void addAcceptedRequest(Ride acceptedRequest) {
         //currentUser.addAcceptedRequest(acceptedRequest);
+        acceptedRides.addRide(acceptedRequest);
         saveInFile();
     }
 
@@ -230,6 +231,8 @@ public class UserController {
 
         } catch (FileNotFoundException e) {
             currentUser = null;
+            requestedRides = new RideList();
+            acceptedRides = new RideList();
         }
 
     }

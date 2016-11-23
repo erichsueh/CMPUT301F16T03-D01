@@ -41,8 +41,9 @@ public class UC010101 extends ActivityInstrumentationTestCase2{
         } catch(Exception e) {
             fail("Failed to log in new user");
         }
-
-        uc.addRideRequest(startLocation, endLocation, fare, rideDescription);
+        User currentUser = uc.getCurrentUser();
+        Ride newRide = new Ride(startLocation, endLocation, fare, rideDescription, currentUser);
+        uc.addRideRequest(newRide);
 
 
         //Wait for the changes to be reflected in the server
