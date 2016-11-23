@@ -41,6 +41,11 @@ public class UC040101 extends ActivityInstrumentationTestCase2 {
         LatLng endLocationC = new LatLng(53.526495, -113.630327);
 
         UserController uc = new UserController(getActivity().getApplicationContext());
+        try {
+            uc.newUserLogin("username", "name", "email", "phone", "address");
+        } catch(Exception e) {
+            fail("failed to log in");
+        }
 
         //Add the three rides to the server.  They will also be attached to the user.
         uc.addRideRequest(startLocationA, endLocationA, fareA, rideDescriptionA);

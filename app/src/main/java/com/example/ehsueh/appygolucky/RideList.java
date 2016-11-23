@@ -16,6 +16,10 @@ public class RideList {
         this.rides = new ArrayList<Ride>();
     }
 
+    public RideList(List<Ride> rides) {
+        this.rides = rides;
+    }
+
     public void addRide(Ride ride) {
         this.rides.add(ride);
     }

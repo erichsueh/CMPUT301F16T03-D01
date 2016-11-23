@@ -5,6 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Corey on 2016-11-12.
@@ -58,6 +59,12 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
         uc.addAcceptedRequest(rideA);
         uc.addAcceptedRequest(rideB);
         uc.addAcceptedRequest(rideC);
+
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch(Exception e) {
+            fail("Timer interrupted");
+        }
 
         assertEquals(3,uc.getCurrentUser().getRideRequestIDs().size());
     }

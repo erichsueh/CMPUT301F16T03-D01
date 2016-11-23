@@ -47,7 +47,7 @@ public class UC010101 extends ActivityInstrumentationTestCase2{
 
         //Wait for the changes to be reflected in the server
         try {
-            TimeUnit.SECONDS.sleep(10);
+            TimeUnit.SECONDS.sleep(5);
         } catch(Exception e) {
             fail("Timer interrupted");
         }

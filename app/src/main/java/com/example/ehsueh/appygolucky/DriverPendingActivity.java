@@ -26,32 +26,31 @@ public class DriverPendingActivity extends ActionBarActivity {
         uc = new UserController(getApplicationContext());
         ListView listView = (ListView) findViewById(R.id.PendingList);
 
-        //TODO: Use the new local list of rides.
-//        ArrayList<Ride> rides = uc.getCurrentUser().getAcceptedRideIDs();
-//        final ArrayList<Ride> list = new ArrayList<Ride>(rides);
-//        final ArrayAdapter rideAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list) {
-//
-//            @Override
-//            public View getView(int position, View convertView, ViewGroup parent){
-//                View view = super.getView(position,convertView,parent);
-//                Ride ride = list.get(position);
-//                if(ride.getStatus()==2)
-//                {
-//                    view.setBackgroundColor(Color.parseColor("#00FF00"));
-//                }
-//                else if(ride.getStatus()==1)
-//                {
-//                    view.setBackgroundColor(Color.parseColor("#FFFF00"));
-//                }
-//                else
-//                {
-//                    view.setBackgroundColor(Color.parseColor("#000000"));
-//                }
-//                return view;
-//            }
-//        };
-//
-//        listView.setAdapter(rideAdapter);
+        ArrayList<Ride> rides = (ArrayList<Ride>) uc.getAcceptedRides().getRides();
+        final ArrayList<Ride> list = new ArrayList<Ride>(rides);
+        final ArrayAdapter rideAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list) {
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                View view = super.getView(position,convertView,parent);
+                Ride ride = list.get(position);
+                if(ride.getStatus()==2)
+                {
+                    view.setBackgroundColor(Color.parseColor("#00FF00"));
+                }
+                else if(ride.getStatus()==1)
+                {
+                    view.setBackgroundColor(Color.parseColor("#FFFF00"));
+                }
+                else
+                {
+                    view.setBackgroundColor(Color.parseColor("#000000"));
+                }
+                return view;
+            }
+        };
+
+        listView.setAdapter(rideAdapter);
     }
 
 

@@ -47,6 +47,8 @@ public class UserController {
      */
     public UserController(Context context) {
         applicationContext = context;
+        requestedRides = new RideList();
+        acceptedRides = new RideList();
     }
 
     /**
@@ -87,6 +89,33 @@ public class UserController {
     public void setCurrentUser(User user) {
         currentUser = user;
         saveInFile();
+
+        List<String> requestedRideIds = currentUser.getRideRequestIDs();
+        //http://stackoverflow.com/questions/9572795/convert-list-to-array-in-java
+        //November 22, 2016  Eng.Fouad
+        //Convert list to array so we can use it as a varargs for the task
+        String[] requestedIdsArray = new String[requestedRideIds.size()];
+        requestedRideIds.toArray(requestedIdsArray);
+        new ElasticSearchRideController.GetRidesByIdTask(new ESQueryListener() {
+            @Override
+            public void onQueryCompletion(List<?> results) {
+                List<Ride> rides = (List<Ride>) results;
+                requestedRides = new RideList(rides);
+            }
+        }).execute(requestedIdsArray);
+
+
+        List<String> acceptedRideIds = currentUser.getAcceptedRideIDs();
+        //Convert to array
+        String[] acceptedIdsArray = new String[acceptedRideIds.size()];
+        acceptedRideIds.toArray(acceptedIdsArray);
+        new ElasticSearchRideController.GetRidesByIdTask(new ESQueryListener() {
+            @Override
+            public void onQueryCompletion(List<?> results) {
+                List<Ride> rides = (List<Ride>) results;
+                acceptedRides = new RideList(rides);
+            }
+        }).execute(acceptedIdsArray);
     }
 
     /**
@@ -121,7 +150,6 @@ public class UserController {
      * on the server, and save to file.
      *
      */
-    //TODO: make needed changes to the user as well.
     public void addRideRequest(LatLng start, LatLng end, Number fare, String description) {
         Ride rideRequest = new Ride(start, end, fare, description, currentUser);
         requestedRides.addRide(rideRequest);
@@ -135,8 +163,12 @@ public class UserController {
                     @Override
                     public void onQueryCompletion(List<?> results) {
                         String rideId = (String) results.get(0);
+                        //Add the ID to the user locally
                         currentUser.addRideRequestID(rideId);
+                        //Save the user and the ride lists
                         saveInFile();
+                        //Update the user info on the server
+                        new ElasticSearchUserController.AddUsersTask().execute(currentUser);
                     }
 
                 });
@@ -176,12 +208,25 @@ public class UserController {
     //TODO: We should probably queue a query to the server too, in case something changed.
     public void loadFromFile() {
         try {
+            //Load the current user
             FileInputStream fis = applicationContext.openFileInput(USERFILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 
             Gson gson = new Gson();
 
             currentUser = gson.fromJson(in, User.class);
+
+            //Load the requested rides
+            fis = applicationContext.openFileInput(REQUESTEDRIDESFILENAME);
+            in = new BufferedReader(new InputStreamReader(fis));
+
+            requestedRides = gson.fromJson(in, RideList.class);
+
+            //Load the accepted rides
+            fis = applicationContext.openFileInput(ACCEPTEDRIDESFILENAME);
+            in = new BufferedReader(new InputStreamReader(fis));
+
+            acceptedRides = gson.fromJson(in, RideList.class);
 
         } catch (FileNotFoundException e) {
             currentUser = null;
@@ -205,7 +250,23 @@ public class UserController {
             out.flush();
             fos.close();
 
+            //Save the requested rides
+            fos = applicationContext.openFileOutput(REQUESTEDRIDESFILENAME,0);
 
+            out = new BufferedWriter(new OutputStreamWriter(fos));
+
+            gson.toJson(requestedRides, out);
+            out.flush();
+            fos.close();
+
+            //Save the accepted rides
+            fos = applicationContext.openFileOutput(ACCEPTEDRIDESFILENAME,0);
+
+            out = new BufferedWriter(new OutputStreamWriter(fos));
+
+            gson.toJson(acceptedRides, out);
+            out.flush();
+            fos.close();
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
