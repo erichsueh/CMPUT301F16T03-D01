@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -31,7 +33,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 
-        import java.util.ArrayList;
+import java.io.IOException;
+import java.util.ArrayList;
         import java.util.List;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -64,15 +67,47 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mUiSettings = mMap.getUiSettings();
         LatLng start_location= new LatLng(53.5444, -113.4909);
         LatLng end_location= new LatLng(53.525288, -113.525454);
-        //String address = getString(R.string.start_location) + ": " + currentMarker.getTitle();
+
+        currentMarker = mMap.addMarker(new MarkerOptions()
+                .position(start_location));
+        currentMarker.setVisible(false);
+        try {
+            Geocoder geoCoder = new Geocoder(context);
+            List<Address> matches = geoCoder.getFromLocation(start_location.latitude, start_location.longitude, 1);
+            String address = "";
+            if(!matches.isEmpty()){
+                address = matches.get(0).getAddressLine(0) + ' ' +  matches.get(0).getLocality();
+            }
+
+            currentMarker.setTitle(address);
+            currentMarker.showInfoWindow();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String startaddress = getString(R.string.start_location) + ": " + currentMarker.getTitle();
         tripStartMarker = mMap.addMarker(new MarkerOptions()
                 .position(start_location)
-                .title(getString(R.string.start_location))
+                .title(startaddress)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-        //String address1 = getString(R.string.start_location) + ": " + currentMarker.getTitle();
+        try {
+            Geocoder geoCoder = new Geocoder(context);
+            List<Address> matches = geoCoder.getFromLocation(end_location.latitude, end_location.longitude, 1);
+            String address = "";
+            if(!matches.isEmpty()){
+                address = matches.get(0).getAddressLine(0) + ' ' +  matches.get(0).getLocality();
+            }
+
+            currentMarker.setTitle(address);
+            currentMarker.showInfoWindow();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String endaddress = getString(R.string.end_location) + ": " + currentMarker.getTitle();
         tripEndMarker = mMap.addMarker(new MarkerOptions()
                 .position(end_location)
-                .title(getString(R.string.end_location))
+                .title(endaddress)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         //Set the initial spot to edmonton for now
         LatLng edmonton = new LatLng(53.5444, -113.4909);
@@ -83,8 +118,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mUiSettings.setTiltGesturesEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(true);
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(edmonton)      // Sets the center of the map to location user
-                .zoom(10)
+                .target(start_location)      // Sets the center of the map to location user
+                .zoom(12)
                 .bearing(0)
                 .tilt(0)
                 .build();

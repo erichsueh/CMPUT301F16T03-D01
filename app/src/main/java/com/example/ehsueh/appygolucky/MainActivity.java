@@ -126,11 +126,5 @@ public class MainActivity extends ActionBarActivity {
 //
 //        return super.onOptionsItemSelected(item);
 //    }
-    //this is a method to check if network is available, it returns true if there is internet, false otherwise
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
+
 }

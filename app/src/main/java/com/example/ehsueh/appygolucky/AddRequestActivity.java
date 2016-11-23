@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -171,13 +173,18 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 //We put start marker as the current one since we have start point now
                 else if (tripStartMarker == null) {
                     currentMarker.remove();
-                    String address = getString(R.string.start_location) + ": " + currentMarker.getTitle();
+                    String s = currentMarker.getTitle();
+                    if (!isNetworkAvailable()) {
+                        s = s.substring(9);
+                    }
+                    String address = getString(R.string.start_location) + ": " + (s);
                     tripStartMarker = mMap.addMarker(new MarkerOptions()
                             .position(currentMarker.getPosition())
                             .title(address)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-
                     tripStartMarker.showInfoWindow();
+
+
                     currentMarker = null;
                     setLocation.setText(R.string.set_end);
                     cancelTrip.setEnabled(true);
@@ -186,7 +193,11 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 //We put End marker as the current one since we have end point now
                 else if (tripEndMarker == null) {
                     currentMarker.remove();
-                    String address = getString(R.string.end_location) + ": " + currentMarker.getTitle();
+                    String s = currentMarker.getTitle();
+                    if (!isNetworkAvailable()) {
+                        s = s.substring(9);
+                    }
+                    String address = getString(R.string.end_location) + ": " + (s);
                     tripEndMarker = mMap.addMarker(new MarkerOptions()
                             .position(currentMarker.getPosition())
                             .title(address)
@@ -219,20 +230,25 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                     currentMarker = mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                    currentMarker.setTitle(latLng.toString());
+                    currentMarker.showInfoWindow();
 
-                    try {
-                        Geocoder geoCoder = new Geocoder(context);
-                        List<Address> matches = geoCoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                        String address = "";
-                        if(!matches.isEmpty()){
-                            address = matches.get(0).getAddressLine(0) + ' ' +  matches.get(0).getLocality();
+                    if (isNetworkAvailable()) {
+                        try {
+                            Geocoder geoCoder = new Geocoder(context);
+                            List<Address> matches = geoCoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                            String address = "";
+                            if (!matches.isEmpty()) {
+                                address = matches.get(0).getAddressLine(0) + ' ' + matches.get(0).getLocality();
+                            }
+
+                            currentMarker.setTitle(address);
+                            currentMarker.showInfoWindow();
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
 
-                        currentMarker.setTitle(address);
-                        currentMarker.showInfoWindow();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
 
                 }
@@ -324,12 +340,20 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         final EditText description = (EditText)dialog.findViewById(R.id.note_to_driver);
 
         //Set up info for dialog
-        final double fairAmount = FairEstimation.estimateFair(distance);
+        if (isNetworkAvailable()) {
+            final double fairAmount = FairEstimation.estimateFair(distance);
+            fairEstimate.setText("Estimate Cost: $"+ Double.toString(fairAmount));
+            distanceDlg.setText("Distance: "+ distance);
+        }
+        else {
+            fairEstimate.setText("Estimate Cost: **Requires internet**");
+            distanceDlg.setText("Distance: **Requires internet**");
+        }
         dialog.setTitle( "Enter Details" );
         from.setText(tripStartMarker.getTitle());
         to.setText(tripEndMarker.getTitle());
-        distanceDlg.setText("Distance: "+ distance);
-        fairEstimate.setText("Estimate Cost: $"+ Double.toString(fairAmount));
+
+
 
         //set up the on click listeners for dialog
 
@@ -443,6 +467,14 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //this is a method to check if network is available, it returns true if there is internet, false otherwise
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
 
