@@ -17,7 +17,7 @@
         android:ems="10"
         android:layout_below="@+id/textView9"
         android:layout_alignStart="@+id/textView9"
-        android:id="@+id/editText2"
+        android:id="@+id/editName"
         android:layout_alignParentEnd="true"
         android:textColor="#cc0000"/>
 
@@ -28,7 +28,7 @@
         android:ems="10"
         android:layout_below="@+id/textView8"
         android:layout_alignParentStart="true"
-        android:id="@+id/editText3"
+        android:id="@+id/editEmail"
         android:layout_alignParentEnd="true"
         android:textColor="#cccc00"/>
 
@@ -39,7 +39,7 @@
         android:ems="10"
         android:layout_below="@+id/PhoneNumber"
         android:layout_alignParentStart="true"
-        android:id="@+id/editText4"
+        android:id="@+id/editPhone"
         android:layout_alignParentEnd="true"
         android:textColor="#00cc00"/>
 
@@ -50,7 +50,7 @@
         android:ems="10"
         android:layout_below="@+id/textView10"
         android:layout_alignParentStart="true"
-        android:id="@+id/editText5"
+        android:id="@+id/editAddress"
         android:layout_alignParentEnd="true"
         android:textColor="#0000cc"/>
 
@@ -69,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/PhoneNumber"
-        android:layout_below="@+id/editText3"
+        android:layout_below="@+id/editEmail"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:textSize="20sp"
@@ -80,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView10"
-        android:layout_below="@+id/editText4"
+        android:layout_below="@+id/editPhone"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:textSize="20sp"
@@ -90,7 +90,7 @@
         android:text="Ride Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText5"
+        android:layout_below="@+id/editAddress"
         android:layout_alignParentStart="true"
         android:id="@+id/textView11"
         android:layout_alignParentEnd="true"
@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView8"
         android:textSize="20sp"
-        android:layout_below="@+id/editText2"
+        android:layout_below="@+id/editName"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:textColor="#cccc00"/>

@@ -307,6 +307,7 @@ public class UserController {
         currentUser.setName(name);
         saveInFile();
 
+        //Update user info on the server
         new ElasticSearchUserController.AddUsersTask().execute(currentUser);
     }
 }
