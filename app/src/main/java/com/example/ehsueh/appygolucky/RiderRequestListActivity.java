@@ -31,6 +31,13 @@ public class RiderRequestListActivity extends ActionBarActivity {
         setContentView(R.layout.activity_rider_request_list);
         uc = new UserController(getApplicationContext());
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
         ListView listView = (ListView) findViewById(R.id.RiderRequestLst);
 
         ArrayList<Ride> rides = (ArrayList<Ride>) uc.getRequestedRides().getRides();
