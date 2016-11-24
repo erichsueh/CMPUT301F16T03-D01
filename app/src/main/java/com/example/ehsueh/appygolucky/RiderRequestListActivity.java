@@ -37,7 +37,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        
+
         ListView listView = (ListView) findViewById(R.id.RiderRequestLst);
 
         ArrayList<Ride> rides = (ArrayList<Ride>) uc.getRequestedRides().getRides();

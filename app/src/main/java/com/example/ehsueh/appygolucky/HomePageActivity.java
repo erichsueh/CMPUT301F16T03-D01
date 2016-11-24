@@ -21,9 +21,14 @@ public class HomePageActivity extends ActionBarActivity {
         uc = new UserController(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         TextView UsernameDisplayTxt = (TextView) findViewById(R.id.UsernameDisplayTxt);
         if(uc.getCurrentUser() != null) {
-            UsernameDisplayTxt.setText(uc.getCurrentUser().getUsername());
+            UsernameDisplayTxt.setText("Welcome " + uc.getCurrentUser().getUsername());
         }
     }
 
