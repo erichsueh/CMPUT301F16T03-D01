@@ -33,7 +33,7 @@ public class HomePageActivity extends ActionBarActivity {
     }
 
 
-    public void LogoutClick(View view) throws IOException {
+    public void LogoutClick(View view){
         //Datacleaner.getInstance().clearApplicationData();
         finish();}
 
