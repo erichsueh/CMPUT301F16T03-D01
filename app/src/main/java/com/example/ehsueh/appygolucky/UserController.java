@@ -82,13 +82,12 @@ public class UserController {
 
 
     /**
-     * Set the currently logged in user, and save to file.
+     * Set the currently logged in user, download their rides, and save to file.
      * This method may be called after retrieving the user's information from the server.
      *
      * @param user Object for the user who is logging in
      */
-    //TODO: download requested rides and accepted rides.
-    public void setCurrentUser(User user) {
+    public void existingUserLogin(User user) {
         currentUser = user;
         saveInFile();
 
@@ -139,6 +138,22 @@ public class UserController {
     }
 
     /**
+     * This method returns the IDs for the rides the user has requested.  This can be used
+     * to retrieve updated information from the server
+     */
+    public List<String> getRequestedRideIDs() {
+        return currentUser.getRideRequestIDs();
+    }
+
+    /**
+     * Returns the IDs for the rides the user has accepted.  These can be used to retrieve
+     * updated information from the server
+     */
+    public List<String> getAcceptedRideIDs() {
+        return currentUser.getAcceptedRideIDs();
+    }
+
+    /**
      *
      * @return acceptedRides The LOCALLY saved ride list
      */
@@ -185,8 +200,9 @@ public class UserController {
     //TODO: this should notify the rider
     //TODO: Update the user and ride list both locally and on the server
     public void addAcceptedRequest(Ride acceptedRequest) {
-        //currentUser.addAcceptedRequest(acceptedRequest);
+        currentUser.addAcceptedRequestID(acceptedRequest.getId());
         acceptedRides.addRide(acceptedRequest);
+        acceptedRequest.addDriverUsername(currentUser.getUsername());
         saveInFile();
     }
 
