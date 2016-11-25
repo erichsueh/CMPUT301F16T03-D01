@@ -20,10 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 package com.example.ehsueh.appygolucky;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -64,6 +61,9 @@ public class MainActivity extends ActionBarActivity {
             toast.show();
         }
         else {
+            Toast toast = Toast.makeText(getApplicationContext(), "Logging you in...",
+                    Toast.LENGTH_SHORT);
+            toast.show();
             //Create a GetUserByUsernameTask which includes an anonymous listener class to act on the data that
             //is retrieved from the server
             ElasticSearchUserController.GetUserByUsernameTask getUserByUsernameTask =
@@ -71,34 +71,47 @@ public class MainActivity extends ActionBarActivity {
                             new ESQueryListener() {
                                 @Override
                                 public void onQueryCompletion(List<?> results) {
-                                    //If that username already exists on the server, we've already downloaded
-                                    // their user object.  Set them to the current user.
-                                    //results holds the user returned from the database.
-                                    if (results.size() != 0) {
-                                        User newUser = (User) results.get(0);
-                                        uc.setCurrentUser(newUser);
-                                    }
-                                    //Else allow the user to create a new profile
-                                    else {
-                                        try {
-                                            //Create a user with the desired username, and send them to
-                                            //the edit profile activity
-                                            uc.newUserLogin(desiredUsername, "", "", "", "");
-                                            Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
+                                    //If the result comes back null, it means there was a
+                                    // network error
+                                    if (results == null) {
+                                        Toast toast = Toast.makeText(getApplicationContext(),
+                                                "We couldn't contact the server.  Please check your " +
+                                                        "connectivity and try again", Toast.LENGTH_SHORT);
+                                        toast.show();
+                                    } else {
+                                        //If that username already exists on the server, we've already downloaded
+                                        // their user object.  Set them to the current user.
+                                        //results holds the user returned from the database.
+                                        if (results.size() != 0) {
+                                            User newUser = (User) results.get(0);
+                                            uc.existingUserLogin(newUser);
+
+                                            Intent intent = new Intent(getApplicationContext(),
+                                                    HomePageActivity.class);
                                             startActivity(intent);
-                                        } catch (Exception e) {
-                                            Toast toast = Toast.makeText(getApplicationContext(),
-                                                    "We've experienced a problem with the server.  Please" +
-                                                            "try again", Toast.LENGTH_SHORT);
-                                            toast.show();
+                                        }
+                                        //Else allow the user to create a new profile
+                                        else {
+                                            try {
+                                                //Create a user with the desired username, and send them to
+                                                //the edit profile activity
+                                                uc.newUserLogin(desiredUsername, "", "", "", "");
+                                                Intent intent = new Intent(getApplicationContext(),
+                                                        EditProfileActivity.class);
+                                                startActivity(intent);
+                                            } catch (Exception e) {
+                                                Toast toast = Toast.makeText(getApplicationContext(),
+                                                        "We've experienced a problem with the server. " +
+                                                                "Please" +
+                                                                "try again", Toast.LENGTH_SHORT);
+                                                toast.show();
+                                            }
                                         }
                                     }
                                 }
                             });
             getUserByUsernameTask.execute(desiredUsername);
 
-            Intent intent = new Intent(this, HomePageActivity.class);
-            startActivity(intent);
         }
 
 

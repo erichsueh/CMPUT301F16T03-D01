@@ -82,8 +82,11 @@ public class ElasticSearchRideController {
         public List<Ride> doInBackground(String... params) {
             verifySettings();
 
-            if (params[0] == null || params[0].equals("")) {
-                return null;
+            //Size of array
+            // http://stackoverflow.com/questions/921384/java-string-array-is-there-a-size-of-method
+            //Nov 24 Kris
+            if (params == null || params.length == 0) {
+                return new ArrayList<Ride>();
             }
 
             List<Ride> results = new ArrayList<Ride>();
@@ -95,6 +98,7 @@ public class ElasticSearchRideController {
                     Ride ride = result.getSourceAsObject(Ride.class);
                     results.add(ride);
                 } catch (IOException e) {
+                    Log.e("ESRide", "Ran into a problem when trying to get rides");
                     e.printStackTrace();
                 }
             }
