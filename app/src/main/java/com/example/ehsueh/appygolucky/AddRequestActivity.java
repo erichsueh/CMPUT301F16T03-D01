@@ -338,14 +338,11 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         final Button confirm = (Button)dialog.findViewById(R.id.confirmRequest);
         final EditText amount= (EditText)dialog.findViewById(R.id.Fare);
         final EditText description = (EditText)dialog.findViewById(R.id.note_to_driver);
-
+        final double fairAmount = FairEstimation.estimateFair(distance);
+        fairEstimate.setText("Estimate Cost: $"+ Double.toString(fairAmount));
+        distanceDlg.setText("Distance: "+ distance);
         //Set up info for dialog
-        if (isNetworkAvailable()) {
-            final double fairAmount = FairEstimation.estimateFair(distance);
-            fairEstimate.setText("Estimate Cost: $"+ Double.toString(fairAmount));
-            distanceDlg.setText("Distance: "+ distance);
-        }
-        else {
+        if (!isNetworkAvailable()) {
             fairEstimate.setText("Estimate Cost: **Requires internet**");
             distanceDlg.setText("Distance: **Requires internet**");
         }

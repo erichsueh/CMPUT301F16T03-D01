@@ -34,7 +34,7 @@ public class HomePageActivity extends ActionBarActivity {
 
 
     public void LogoutClick(View view){
-        //Datacleaner.getInstance().clearApplicationData();
+        Datacleaner.getInstance().clearApplicationData();
         finish();}
 
     public void RiderClick(View view) {
