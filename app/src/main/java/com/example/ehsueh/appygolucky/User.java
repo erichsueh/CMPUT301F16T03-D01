@@ -120,7 +120,7 @@ public class User {
      *
      * @param name the name
      */
-    public void setName(String name) {}
+    public void setName(String name) { this.name = name; }
 
     public void setEmail(String mail) {
         email = mail;

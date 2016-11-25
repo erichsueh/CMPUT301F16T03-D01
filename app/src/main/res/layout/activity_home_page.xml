@@ -10,43 +10,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ehsueh.appygolucky.HomePageActivity">
 
-    <Button
-        android:text="Driver!"
+    <TextView
+        android:text="Username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/DriverButton"
-        android:layout_below="@+id/EditProfileButton"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="93dp"
-        android:onClick="DriverClick"/>
-
-    <Button
-        android:text="RIder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/RiderButton"
-        android:layout_below="@+id/DriverButton"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="48dp"
-        android:onClick="RiderClick"/>
+        android:id="@+id/UsernameDisplayTxt"
+        android:layout_alignParentEnd="true"
+        android:textSize="36sp" />
 
     <Button
         android:text="Logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/LogoutButton"
+        android:onClick="LogoutClick"
+        android:width="155dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="21dp"
-        android:onClick="LogoutClick"/>
+        android:height="50dp" />
 
-    <TextView
-        android:text="Insert Their Username Here"
+    <Button
+        android:text="Driver!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:id="@+id/DriverButton"
+        android:onClick="DriverClick"
+        android:layout_above="@+id/RiderButton"
         android:layout_alignParentStart="true"
-        android:id="@+id/UsernameDisplayTxt"
+        android:height="50dp"
+        android:width="155dp" />
+
+    <Button
+        android:text="RIder"
+        android:layout_height="wrap_content"
+        android:id="@+id/RiderButton"
+        android:onClick="RiderClick"
+        android:width="155dp"
+        android:layout_width="wrap_content"
+        android:height="50dp"
+        android:layout_alignBottom="@+id/LogoutButton"
         android:layout_alignParentEnd="true" />
 
     <Button
@@ -54,9 +58,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/EditProfileButton"
-        android:layout_marginTop="72dp"
-        android:layout_below="@+id/UsernameDisplayTxt"
+        android:onClick="EditClick"
+        android:height="50dp"
+        android:width="155dp"
+        android:layout_above="@+id/RiderButton"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="As a driver your current rating out of 5 is:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:id="@+id/textView13"
+        android:layout_above="@+id/DriverButton"
         android:layout_alignParentStart="true"
-        android:onClick="EditClick"/>
+        android:textSize="18sp" />
 
 </RelativeLayout>

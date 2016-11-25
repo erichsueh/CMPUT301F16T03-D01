@@ -8,7 +8,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.ehsueh.appygolucky.EditProfileActivity">
+    tools:context="com.example.ehsueh.appygolucky.EditProfileActivity"
+    android:background="@color/common_google_signin_btn_text_dark_focused">
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/textView9"
+        android:layout_alignStart="@+id/textView9"
+        android:id="@+id/editName"
+        android:layout_alignParentEnd="true"
+        android:textColor="#cc0000"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -17,17 +28,9 @@
         android:ems="10"
         android:layout_below="@+id/textView8"
         android:layout_alignParentStart="true"
-        android:id="@+id/editText3"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:text="Your Current Phone Number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText3"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="31dp"
-        android:id="@+id/PhoneNumber" />
+        android:id="@+id/editEmail"
+        android:layout_alignParentEnd="true"
+        android:textColor="#cccc00"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -36,17 +39,9 @@
         android:ems="10"
         android:layout_below="@+id/PhoneNumber"
         android:layout_alignParentStart="true"
-        android:id="@+id/editText4"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:text="Your Current Address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText4"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"
-        android:id="@+id/textView10" />
+        android:id="@+id/editPhone"
+        android:layout_alignParentEnd="true"
+        android:textColor="#00cc00"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -55,8 +50,9 @@
         android:ems="10"
         android:layout_below="@+id/textView10"
         android:layout_alignParentStart="true"
-        android:id="@+id/editText5"
-        android:layout_alignParentEnd="true" />
+        android:id="@+id/editAddress"
+        android:layout_alignParentEnd="true"
+        android:textColor="#0000cc"/>
 
     <Button
         android:text="Save Information!"
@@ -69,30 +65,78 @@
         android:onClick="SaveEdits"/>
 
     <TextView
-        android:text="Your Current Username"
+        android:text="Phone Number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView8"
-        android:id="@+id/textView9" />
+        android:id="@+id/PhoneNumber"
+        android:layout_below="@+id/editEmail"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="20sp"
+        android:textColor="#00cc00"/>
+
+    <TextView
+        android:text="Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView10"
+        android:layout_below="@+id/editPhone"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="20sp"
+        android:textColor="#0000cc"/>
+
+    <TextView
+        android:text="Ride Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editAddress"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView11"
+        android:layout_alignParentEnd="true"
+        android:textSize="20sp"
+        android:textColor="#9900cc"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:layout_below="@+id/textView9"
-        android:layout_alignStart="@+id/textView9"
-        android:id="@+id/editText2"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/textView11"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editText6"
+        android:layout_alignParentEnd="true"
+        android:textColor="#9900cc"/>
 
     <TextView
-        android:text="Your Current Email Address"
+        android:text="Email Address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView8"
-        android:layout_marginTop="31dp"
-        android:layout_below="@+id/editText2"
-        android:layout_alignEnd="@+id/PhoneNumber" />
+        android:textSize="20sp"
+        android:layout_below="@+id/editName"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#cccc00"/>
+
+    <TextView
+        android:text="Welcome to your profile page. This is where you can make edits to your own profile."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView12"
+        android:textSize="18sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView9"
+        android:textSize="20sp"
+        android:layout_below="@+id/textView12"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#cc0000"/>
 
 </RelativeLayout>
