@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.ehsueh.appygolucky.MainActivity">
+    tools:context="com.example.ehsueh.appygolucky.MainActivity"
+    android:background="@color/common_google_signin_btn_text_dark_focused">
 
     <Button
         android:text="Login!"
@@ -25,10 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/textView5" />
+        android:id="@+id/textView5"
+        android:textSize="30sp" />
 
     <TextView
-        android:text="Insert Cheap Slogan Here"
+        android:text="We're the only App that smiles back."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="114dp"

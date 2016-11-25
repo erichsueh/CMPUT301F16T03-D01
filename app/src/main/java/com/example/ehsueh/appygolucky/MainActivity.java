@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.security.KeyStore;
 import java.util.List;
 
 /**
@@ -95,9 +96,13 @@ public class MainActivity extends ActionBarActivity {
                                             try {
                                                 //Create a user with the desired username, and send them to
                                                 //the edit profile activity
+                                                Toast toast = Toast.makeText(getApplicationContext(),
+                                                        "No user with that username, creating new user.",Toast.LENGTH_SHORT);
+                                                toast.show();
                                                 uc.newUserLogin(desiredUsername, "", "", "", "");
                                                 Intent intent = new Intent(getApplicationContext(),
                                                         EditProfileActivity.class);
+                                                intent.putExtra("isNew",true);
                                                 startActivity(intent);
                                             } catch (Exception e) {
                                                 Toast toast = Toast.makeText(getApplicationContext(),

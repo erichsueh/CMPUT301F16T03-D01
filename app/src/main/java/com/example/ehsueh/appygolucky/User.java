@@ -19,6 +19,8 @@ public class User {
     private String email;
     private String phone;
     private String address;
+    private String rideDescription;
+    private Integer rating;
     private ArrayList<String> requestedRideIDs;
     private ArrayList<String> acceptedRideIDs;
 
@@ -153,4 +155,11 @@ public class User {
     }
 
 
+    public String getRideDescription() {
+        return rideDescription;
+    }
+
+    public void setRideDescription(String description) {
+        rideDescription = description;
+    }
 }

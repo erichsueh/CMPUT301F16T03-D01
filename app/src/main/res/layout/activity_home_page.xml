@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.ehsueh.appygolucky.HomePageActivity">
+    tools:context="com.example.ehsueh.appygolucky.HomePageActivity"
+    android:background="@color/common_google_signin_btn_text_dark_focused">
 
     <TextView
         android:text="Username"
@@ -32,17 +33,6 @@
         android:height="50dp" />
 
     <Button
-        android:text="Driver!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/DriverButton"
-        android:onClick="DriverClick"
-        android:layout_above="@+id/RiderButton"
-        android:layout_alignParentStart="true"
-        android:height="50dp"
-        android:width="155dp" />
-
-    <Button
         android:text="RIder"
         android:layout_height="wrap_content"
         android:id="@+id/RiderButton"
@@ -61,6 +51,17 @@
         android:onClick="EditClick"
         android:height="50dp"
         android:width="155dp"
+        android:layout_above="@+id/LogoutButton"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Driver!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/DriverButton"
+        android:onClick="DriverClick"
+        android:height="50dp"
+        android:width="155dp"
         android:layout_above="@+id/RiderButton"
         android:layout_alignParentEnd="true" />
 
@@ -70,8 +71,19 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
         android:id="@+id/textView13"
-        android:layout_above="@+id/DriverButton"
+        android:textSize="18sp"
+        android:layout_above="@+id/EditProfileButton"
         android:layout_alignParentStart="true"
-        android:textSize="18sp" />
+        android:layout_toStartOf="@+id/DriverButton" />
+
+    <TextView
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/UserRating"
+        android:textSize="36sp"
+        android:layout_alignTop="@+id/textView13"
+        android:layout_toEndOf="@+id/textView13"
+        android:layout_marginTop="21dp" />
 
 </RelativeLayout>
