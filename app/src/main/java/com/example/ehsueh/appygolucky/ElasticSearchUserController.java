@@ -44,9 +44,7 @@ public class ElasticSearchUserController {
                 try {
                     DocumentResult result = client.execute(index);
                     if (result.isSucceeded()) {
-                        //This doesn't seem to be adding the ID like I thought it would
                         user.setId(result.getId());
-
                     }
                     else {
                         Log.e("ESUser", "Elastic search was not able to add the user.");

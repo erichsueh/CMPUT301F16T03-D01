@@ -2,13 +2,14 @@ package com.example.ehsueh.appygolucky;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import io.searchbox.annotations.JestId;
 
@@ -17,26 +18,17 @@ import io.searchbox.annotations.JestId;
  *
  */
 public class Ride implements Parcelable {
+    public final int REQUESTED = 0;
+    public final int ACCEPTED = 1;
+    public final int CONFIRMED = 2;
+    private int status;
     private String description;
-    private Integer status;
-    private Collection<Driver> drivers;
-    Boolean finalAcceptance;
-
-
-//    public Ride(String rideName, String startLocation, String endLocation) {
-//        this.rideName = rideName;
-//        this.startLocation = startLocation;
-//        this.endLocation = endLocation;
-//        this.status = 0;
-//    }
-    //////////////////////////////////////////////////////////////////////////////
-
-    private ArrayList<User> acceptedDrivers;
-    private User confirmedDriver;
+    private List<String> driverUsernames;
+    private String confirmedDriverUsername;
     private User rider;
+
     private Point startLocation;
     private Point endLocation;
-
     private Number fare;
     private Double distance;
     private long timeCreatedInMillis;
@@ -54,15 +46,13 @@ public class Ride implements Parcelable {
         this.fare = fare;
         this.description = description;
         this.rider = rider;
+        this.driverUsernames = new ArrayList<String>();
         this.timeCreatedInMillis = Calendar.getInstance().getTimeInMillis();
         this.accepted = false;
         this.completed = false;
         this.paymentReceived = false;
         this.status = 0;
-        //UserController.addRideRequest(this);
         this.id = null;
-        //acceptedDrivers = new ArrayList<User>();
-
     }
 
     public Ride(LatLng start, LatLng end, Number fare, User rider, Double distance) {
@@ -70,30 +60,22 @@ public class Ride implements Parcelable {
         this.endLocation = new Point(end.latitude,end.longitude);
         this.fare = fare;
         this.rider = rider;
+        this.driverUsernames = new ArrayList<String>();
         this.distance = distance;
         this.timeCreatedInMillis = Calendar.getInstance().getTimeInMillis();
         this.accepted = false;
         this.completed = false;
         this.paymentReceived = false;
         this.status = 0;
-        //RideController.addRide(this);
         this.id = null;
-        //acceptedDrivers = new ArrayList<User>();
-
     }
 
-//    public void clearAcceptedDrivers(){
-//        acceptedDrivers = new ArrayList<User>();
-//    }
 
     // Getters
-    public User getConfirmedDriver() {
-        return this.confirmedDriver;
+    public String getConfirmedDriverUsername() {
+        return this.confirmedDriverUsername;
     }
 
-    public ArrayList<User> getAcceptedDrivers() {
-        return this.acceptedDrivers;
-    }
     public User getRider() {
         return rider;
     }
@@ -132,30 +114,39 @@ public class Ride implements Parcelable {
 
     public String getDescription() { return this.description; }
     public Integer getStatus() { return status; }
-    public Collection<Driver> getDrivers() {return null;}
+    public List<String> getDriverUsernames() {
+        return this.driverUsernames;
+    }
     public Boolean acceptedByRider() {return null;}
     public Boolean acceptedByDriver(Driver driver) {return Boolean.FALSE;}
 
-    public void setStatus(Integer newStatus) {
-        this.status = newStatus;
-    }
-    public void addDriver(User driver) {}
-    public void riderAccepts() {}
 
     // setters
 
     public void setId(String id) {
         this.id = id;
     }
-
-    public void setConfirmedDriver(User d) {
-        this.confirmedDriver = d;
+    public void addDriverUsername(String username) {
+        if(status == CONFIRMED) {
+            Log.e("Ride", "Driver tried to accept ride that was already confirmed");
+            return;
+        }
+        else if(status == REQUESTED) {
+            status = ACCEPTED;
+        }
+        driverUsernames.add(username);
     }
-
+    public void riderConfirms(User driver) throws DriverNotInListExcpetion{
+        if(driverUsernames.contains(driver.getUsername())) {
+            confirmedDriverUsername = driver.getUsername();
+            status = CONFIRMED;
+        } else {
+            throw new DriverNotInListExcpetion();
+        }
+    }
     public void setStartLocation(LatLng startLocation) {
         this.startLocation.setLat(startLocation.latitude);
         this.startLocation.setLon(startLocation.longitude);
-
     }
     public void setEndLocation(LatLng endLocation) {
         this.endLocation.setLat(endLocation.latitude);
@@ -179,8 +170,8 @@ public class Ride implements Parcelable {
     public boolean isPaymentRecived() {
         return paymentReceived;
     }
-    public boolean hasConfirmedRider() {
-        return this.confirmedDriver != null;
+    public boolean hasConfirmedDrider() {
+        return this.confirmedDriverUsername != null;
     }
 
 
@@ -244,8 +235,8 @@ public class Ride implements Parcelable {
 
     public String toString() {
         String temp = "Rider: " + this.getRider() + "\n";
-        if (this.getConfirmedDriver() != null) {
-            temp = temp + "Confirmed Driver: " + this.getConfirmedDriver() + "\n";
+        if (this.getConfirmedDriverUsername() != null) {
+            temp = temp + "Confirmed Driver: " + this.getConfirmedDriverUsername() + "\n";
         }
         if (this.getDistance() != null) {
             temp = temp + "Distance: " + this.getDistance().toString() + "\n";

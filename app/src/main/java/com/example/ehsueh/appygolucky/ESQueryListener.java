@@ -10,6 +10,7 @@ import java.util.List;
 
 public class ESQueryListener {
     private List<?> results;
+
     /**
      * This method may be overridden to directly handle the results.
      * For example, sometimes we may want this class to be directly responsible for populating

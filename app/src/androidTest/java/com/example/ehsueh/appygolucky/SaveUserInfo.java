@@ -50,9 +50,9 @@ public class SaveUserInfo extends ActivityInstrumentationTestCase2 {
 
         Ride rideA = new Ride(startLocationA, endLocationA, fareA, rideDescriptionA, riderA);
         Ride rideB = new Ride(startLocationB, endLocationB, fareB, rideDescriptionB, riderB);
-        rideB.setStatus(1);
+        rideB.addDriverUsername(riderA.getUsername());
         Ride rideC = new Ride(startLocationC, endLocationC, fareC, rideDescriptionC, riderC);
-        rideC.setStatus(2);
+        rideC.addDriverUsername(riderB.getUsername());
 
         uc.addRideRequest(rideA);
         uc.addRideRequest(rideB);
