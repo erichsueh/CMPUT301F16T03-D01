@@ -7,8 +7,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import java.io.IOException;
 
 /**
  * this is our screen with 4 buttons, "EditProfileButton, DriverButton, RiderButton, LogoutButton
@@ -33,7 +33,8 @@ public class HomePageActivity extends ActionBarActivity {
     }
 
 
-    public void LogoutClick(View view) {
+    public void LogoutClick(View view) throws IOException {
+        //Datacleaner.getInstance().clearApplicationData();
         finish();}
 
     public void RiderClick(View view) {
