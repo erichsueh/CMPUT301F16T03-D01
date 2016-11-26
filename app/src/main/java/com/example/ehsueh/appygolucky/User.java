@@ -21,6 +21,7 @@ public class User {
     private String address;
     private String rideDescription;
     private Integer rating;
+    private Integer timesrated;
     private ArrayList<String> requestedRideIDs;
     private ArrayList<String> acceptedRideIDs;
 
@@ -42,6 +43,8 @@ public class User {
         this.id = null;
         this.requestedRideIDs = new ArrayList<String>();
         this.acceptedRideIDs = new ArrayList<String>();
+        rating = 0;
+        timesrated = 0;
     }
 
     /**
@@ -161,5 +164,14 @@ public class User {
 
     public void setRideDescription(String description) {
         rideDescription = description;
+    }
+
+    public void updateRating(int progress) {
+        timesrated = timesrated +1;
+        rating = (rating + progress)/timesrated;
+    }
+
+    public Integer getRating() {
+        return rating;
     }
 }

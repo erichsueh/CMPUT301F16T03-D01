@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class HomePageActivity extends ActionBarActivity {
     UserController uc;
-
+    private TextView ratingView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         uc = new UserController(getApplicationContext());
@@ -30,6 +30,9 @@ public class HomePageActivity extends ActionBarActivity {
         if(uc.getCurrentUser() != null) {
             UsernameDisplayTxt.setText("Welcome " + uc.getCurrentUser().getUsername());
         }
+        ratingView = (TextView) findViewById(R.id.textView13);
+        ratingView.setText("As a driver your current rating out of 5 is:  "+ uc.getCurrentUser().getRating());
+
     }
 
 

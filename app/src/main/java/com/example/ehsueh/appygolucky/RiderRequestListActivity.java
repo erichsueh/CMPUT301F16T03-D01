@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -114,13 +115,14 @@ public class RiderRequestListActivity extends ActionBarActivity {
                     final SeekBar seek = new SeekBar(RiderRequestListActivity.this);
                     seek.setMax(5);
                     seek.setKeyProgressIncrement(1);
-                    adb.setMessage("Confirm Completion & Rate your Driver");
+                    adb.setTitle("Confirm Completion & Rate your Driver");
+                    adb.setMessage("Bar from 0 to 5, 0 being the worst, 5 being the best");
                     adb.setView(seek);
                     adb.setCancelable(true);
                     adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            // TODO: 2016-11-14
+                            uc.getCurrentUser().updateRating(seek.getProgress());
 
                         }
                     });
