@@ -204,6 +204,16 @@ public class UserController {
         acceptedRides.addRide(acceptedRequest);
         acceptedRequest.addDriverUsername(currentUser.getUsername());
         saveInFile();
+
+        //Update the user's data on the server
+        new ElasticSearchUserController.AddUsersTask()
+                .execute(currentUser);
+
+        //Update the ride data on the server
+        //Note this time we don't care about the ID that is returned, so we do nothing
+        //with the ESQueryListener
+        new ElasticSearchRideController.AddRideTask(new ESQueryListener())
+                .execute(acceptedRequest);
     }
 
 
@@ -256,8 +266,7 @@ public class UserController {
     /**
      * Save the currently logged in user, including user info and relevant rides, to file.
      */
-    //TODO: save the relevant ride lists too
-    private void saveInFile() {
+    protected void saveInFile() {
         try {
             //Save the user
             FileOutputStream fos = applicationContext.openFileOutput(USERFILENAME,0);

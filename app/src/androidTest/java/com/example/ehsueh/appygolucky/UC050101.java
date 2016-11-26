@@ -33,19 +33,17 @@ public class UC050101 extends ActivityInstrumentationTestCase2 {
         public MockUserController(Context context, User user) {
             super(context);
             currentUser = user;
+            super.currentUser = user;
         }
     }
 
     public void testAcceptRideRequest() {
-        //File I/O may be a bit weird here since we have two UserControllers.
-        //So if loading from file gives the wrong results, this may be why
+        Datacleaner.getInstance().clearApplicationData();
 
         User rider = new User("rider", "John", "john@yo.com", "123-4567", "123 main");
-        User driver = new User("username", "name", "email", "phone", "address");
+        User driver = new User("driver", "Sally", "email", "phone", "address");
         MockUserController ucRider = new MockUserController(getActivity().getApplicationContext(),
                 rider);
-        MockUserController ucDriver = new MockUserController(getActivity().getApplicationContext(),
-                driver);
 
 
         String rideDescription = "I need a ride to West Ed!!";
@@ -62,6 +60,10 @@ public class UC050101 extends ActivityInstrumentationTestCase2 {
         } catch(Exception e) {
             fail("Timer interrupted");
         }
+
+        MockUserController ucDriver = new MockUserController(getActivity().getApplicationContext(),
+                driver);
+
 
         ucDriver.addAcceptedRequest(myRide);
 
@@ -81,7 +83,9 @@ public class UC050101 extends ActivityInstrumentationTestCase2 {
         ucDriver.loadFromFile();
 
         acceptedRides = ucDriver.getAcceptedRides().getRides();
-        assertTrue("RideList on file didn't contain the ride", acceptedRides.contains(myRide));
+        assertEquals("This list has the wrong number of elements", 1, acceptedRides.size());
+        assertTrue("RideList on file didn't contain the ride",
+                acceptedRides.get(0).getId().equals(myRide.getId()));
 
         acceptedRideIDs = ucDriver.getAcceptedRideIDs();
         assertTrue(acceptedRideIDs.contains(myRide.getId()));
@@ -92,10 +96,36 @@ public class UC050101 extends ActivityInstrumentationTestCase2 {
                 driverUsernames.contains(driver.getUsername()));
 
         //Test that the ride ID is saved to the driver's list on the server
-        assertTrue("Haven't added this test yet", Boolean.FALSE);
+        ESQueryListener queryListener = new ESQueryListener();
+        ElasticSearchUserController.GetUserByUsernameTask getUserTask =
+                new ElasticSearchUserController.GetUserByUsernameTask(queryListener);
+        getUserTask.execute(driver.getUsername());
+
+        while(queryListener.getResults() == null) {
+            //Wait...
+        }
+
+        User retrievedUser = (User) queryListener.getResults().get(0);
+        assertEquals("Got the wrong number of ride Ids from driver's list on the server",
+                1, retrievedUser.getAcceptedRideIDs().size());
+        assertTrue("The ride id was not in the driver's list on the server",
+                retrievedUser.getAcceptedRideIDs().get(0).equals(myRide.getId()));
 
         //Test that the driver ID is saved to the ride's list on the server
-        assertTrue("Haven't added the last test yet", Boolean.FALSE);
+        queryListener = new ESQueryListener();
+        ElasticSearchRideController.GetRidesByIdTask getRidesByIdTask =
+                new ElasticSearchRideController.GetRidesByIdTask(queryListener);
+        getRidesByIdTask.execute(myRide.getId());
+
+        while(queryListener.getResults() == null) {
+            //Wait...
+        }
+
+        Ride retrievedRide = (Ride) queryListener.getResults().get(0);
+        assertEquals("Wrong number of driver Ids in the ride on the server", 1,
+                retrievedRide.getDriverUsernames().size());
+        assertTrue("Got the wrong driver username on the server",
+                retrievedRide.getDriverUsernames().get(0).equals(driver.getUsername()));
 
     }
 }
