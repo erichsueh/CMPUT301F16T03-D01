@@ -34,7 +34,7 @@ public class HomePageActivity extends ActionBarActivity {
 
 
     public void LogoutClick(View view){
-        //Datacleaner.getInstance().clearApplicationData();
+        Datacleaner.getInstance().clearApplicationData();
         finish();}
 
     public void RiderClick(View view) {
@@ -69,6 +69,7 @@ public class HomePageActivity extends ActionBarActivity {
     }
     public void EditClick(View view) {
         Intent intent = new Intent(this, EditProfileActivity.class);
+        intent.putExtra("isNew",false);
         startActivity(intent);}
 
 //    @Override
