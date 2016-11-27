@@ -3,6 +3,7 @@ package com.example.ehsueh.appygolucky;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
@@ -116,30 +117,66 @@ public class ElasticSearchRideController {
         }
     }
 
-    public static class GetRidesByKeywordTask extends AsyncTask<String, Void, List<Ride>> {
+
+    /**
+     * Retrieve rides from the server based on location.
+     */
+    public static class GetRidesByLocationTask extends AsyncTask<LatLng, Void, List<Ride>> {
         private ESQueryListener queryListener;
 
 
-        public GetRidesByKeywordTask(ESQueryListener queryListener) {
+        public GetRidesByLocationTask(ESQueryListener queryListener) {
             this.queryListener = queryListener;
         }
 
         @Override
-        protected List<Ride> doInBackground(String... params) {
+        protected List<Ride> doInBackground(LatLng... params) {
             verifySettings();
 
-            if (params[0] == null || params[0].equals("")) {
+            if (params[0] == null) {
                 return null;
             }
 
+
+            //Will retrieve all rides within this distance from given location
+            String maxDistance = "10km";
+            String unit = "km";
+
+            LatLng location = params[0];
+            String lat = String.valueOf(location.latitude);
+            String lon = String.valueOf(location.longitude);
+
             String search_string =
-                    "{\"query\":" +
-                    "   {" +
-                    "       \"query_string\" : " +
-                    "           {" +
-                    "               \"query\" : \"" + params[0] +"\""+
-                    "           }" +
-                    "   }" +
+                    "{query:{ " +
+                            "\"filtered\" : {" +
+                                "\"query\" : {" +
+                                    "\"match_all\" : {}" +
+                                "}," +
+                                "\"filter\" : {" +
+                                    "\"geo_distance\" : {" +
+                                        "\"distance\" : " + maxDistance + ","+
+                                        "\"location\" : {" +
+                                            "\"lat\" : " + lat + "," +
+                                            "\"lon\" : " + lon +
+                                        "}" +
+                                    "}" +
+                                "}" +
+                            "}" +
+                            "}," +
+                    "\"sort\" : [" +
+                        "{" +
+                            "\"_geo_distance\" : {" +
+                                "\"location\" :  {" +
+                                    "\"lat\" : " + lat + "," +
+                                    "\"lon\" : " + lon +
+                                "}," +
+                                "\"order\" : \"asc\"," +
+                                "\"unit\" : " + unit + "," +
+                                "\"mode\" : \"min\"," +
+                                "\"distance_type\" : \"sloppy_arc\"" +
+                            "}" +
+                        "}" +
+                    "]" +
                     "}";
 
             Search search = new Search.Builder(search_string)
@@ -173,6 +210,62 @@ public class ElasticSearchRideController {
         }
     }
 
+    public static class GetRidesByKeywordTask extends AsyncTask<String, Void, List<Ride>> {
+        private ESQueryListener queryListener;
+
+
+        public GetRidesByKeywordTask(ESQueryListener queryListener) {
+            this.queryListener = queryListener;
+        }
+
+        @Override
+        protected List<Ride> doInBackground(String... params) {
+            verifySettings();
+
+            if (params[0] == null || params[0].equals("")) {
+                return null;
+            }
+
+            String search_string =
+                    "{\"query\":" +
+                            "   {" +
+                            "       \"query_string\" : " +
+                            "           {" +
+                            "               \"query\" : \"" + params[0] +"\""+
+                            "           }" +
+                            "   }" +
+                            "}";
+
+            Search search = new Search.Builder(search_string)
+                    .addIndex(teamName)
+                    .addType(rideType)
+                    .build();
+
+            try {
+                SearchResult result = client.execute(search);
+                if (result.isSucceeded()) {
+
+                    return result.getSourceAsObjectList(Ride.class);
+
+                } else {
+                    return (List<Ride>) new ArrayList<Ride>();
+                }
+            } catch (IOException e) {
+                Log.i("Error", "Failed to communicate with elasticsearch server");
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        /**
+         * Called at the completion of the task.  Feeds the retrieved data to the ESQueryListener
+         * to do any further computation/action.
+         */
+        @Override
+        protected void onPostExecute(List<Ride> retrievedRides) {
+            queryListener.onQueryCompletion(retrievedRides);
+        }
+    }
 
 
 
