@@ -13,5 +13,6 @@
     <string name="confirm_trip">Request!</string>
     <string name="amout_warning_message">Please enter correct amount</string>
     <string name="note_to_driver">Note to driver:</string>
+    <string name="title_activity_contact_info">ContactInfoActivity</string>
 
 </resources>

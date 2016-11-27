@@ -71,7 +71,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 AlertDialog.Builder adb = new AlertDialog.Builder(RiderRequestListActivity.this);
                 final int finalPosition = position;
-                Ride ride = list.get(finalPosition);
+                final Ride ride = list.get(finalPosition);
                 if (ride.getStatus()==1) {
                     adb.setMessage("What would you like to do?");
                     adb.setCancelable(true);
@@ -79,7 +79,8 @@ public class RiderRequestListActivity extends ActionBarActivity {
                     adb.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            // TODO: 2016-11-14
+                            //Ride ride = list.get(finalPosition);
+                            uc.deleteRequestedRide(ride);
 
                         }
                     });
@@ -87,6 +88,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Intent intent = new Intent(RiderRequestListActivity.this, ListDriversChooseActivity.class);
+                            intent.putExtra("theRide",ride);
                             startActivity(intent);
                         }
                     });
@@ -101,7 +103,8 @@ public class RiderRequestListActivity extends ActionBarActivity {
                     adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            // TODO: 2016-11-14
+                            //Ride ride = list.get(finalPosition);
+                            uc.deleteRequestedRide(ride);
 
                         }
                     });
@@ -124,7 +127,8 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             uc.getCurrentUser().updateRating(seek.getProgress());
                             //Ride ride = list.get(finalPosition);
-                            //uc.deleteRideRequestID(ride);
+                            uc.deleteRequestedRide(ride);
+                            //adapter.Notify
                         }
                     });
                     adb.setNegativeButton("No", new DialogInterface.OnClickListener() {

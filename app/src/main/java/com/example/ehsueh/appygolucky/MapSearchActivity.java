@@ -59,7 +59,7 @@ public class MapSearchActivity extends AppCompatActivity {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        //mapFragment.getMapAsync(this);
 
         context = this;
     }
@@ -252,7 +252,6 @@ public class MapSearchActivity extends AppCompatActivity {
     /**
      * When the map is initialized this is called by default
      */
-    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mUiSettings = mMap.getUiSettings();

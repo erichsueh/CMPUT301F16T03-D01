@@ -45,7 +45,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAiMeLL7CTYPq6LUWzkLh2HwvmCrz3xE2Q" />
         content_copy
-        <activity android:name=".MapSearchActivity"></activity>
+        <activity android:name=".MapSearchActivity" />
+        <activity
+            android:name=".ContactInfoActivity"
+            android:label="@string/title_activity_contact_info"></activity>
     </application>
 
 </manifest>
