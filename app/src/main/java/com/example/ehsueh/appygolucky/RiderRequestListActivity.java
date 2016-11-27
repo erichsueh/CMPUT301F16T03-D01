@@ -49,11 +49,11 @@ public class RiderRequestListActivity extends ActionBarActivity {
             public View getView(int position, View convertView, ViewGroup parent){
                 View view = super.getView(position,convertView,parent);
                 Ride ride = list.get(position);
-                if(ride.getStatus()==2)
+                if(ride.getStatus()==Ride.CONFIRMED)
                 {
                     view.setBackgroundColor(Color.parseColor("#00FF00"));
                 }
-                else if(ride.getStatus()==1)
+                else if(ride.getStatus()==Ride.ACCEPTED)
                 {
                     view.setBackgroundColor(Color.parseColor("#FFFF00"));
                 }
@@ -124,7 +124,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             uc.getCurrentUser().updateRating(seek.getProgress());
                             //Ride ride = list.get(finalPosition);
-                            //uc.deleteRide(ride);
+                            //uc.deleteRideRequestID(ride);
                         }
                     });
                     adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
