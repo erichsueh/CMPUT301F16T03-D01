@@ -253,7 +253,7 @@ public class ElasticSearchRideController {
             } catch (IOException e) {
                 Log.i("Error", "Failed to communicate with elasticsearch server");
                 e.printStackTrace();
-                return null;
+                return (List<Ride>) new ArrayList<Ride>();
             }
         }
 
