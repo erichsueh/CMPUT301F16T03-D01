@@ -113,8 +113,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .position(end_location)
                 .title(endaddress)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-        //Set the initial spot to edmonton for now
-        LatLng edmonton = new LatLng(53.5444, -113.4909);
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mUiSettings.setZoomControlsEnabled(true);

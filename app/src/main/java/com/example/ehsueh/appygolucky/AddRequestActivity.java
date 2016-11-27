@@ -402,8 +402,6 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                     doubleWarning.show();
                     return;
                 }
-
-                //TODO: create a way for the user to add their own description
                 Ride request = new Ride(tripStartMarker.getPosition(), tripEndMarker.getPosition(),
                         userFare, note,
                         uc.getCurrentUser());

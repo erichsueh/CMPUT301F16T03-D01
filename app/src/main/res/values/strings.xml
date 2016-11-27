@@ -14,5 +14,7 @@
     <string name="amout_warning_message">Please enter correct amount</string>
     <string name="note_to_driver">Note to driver:</string>
     <string name="title_activity_contact_info">ContactInfoActivity</string>
+    <string name="select_place">Please select a point of interest!</string>
+    <string name="search_nearby">Search Nearby</string>
 
 </resources>
