@@ -51,6 +51,7 @@ public class SearchPageActivity extends ActionBarActivity {
         ArrayList<Ride> rides = (ArrayList<Ride>) results;
         final ArrayList<Ride> list = new ArrayList<Ride>(rides);
         final ArrayAdapter rideAdapter = new ArrayAdapter<Ride>(this,android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(rideAdapter);
     }
 
     /**
