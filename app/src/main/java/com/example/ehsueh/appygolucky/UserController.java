@@ -423,10 +423,52 @@ public class UserController {
         new ElasticSearchUserController.AddUsersTask().execute(currentUser);
     }
 
-    public void deleteRide(Ride ride) {
-        currentUser.deleteRide(ride);
+    public void deleteRequestedRide(Ride ride) {
+        //Delete from the list of rides
+        requestedRides.deleteRide(ride);
+        //Delete from the user's list of ride IDs
+        currentUser.deleteRideRequestID(ride);
+
+        //This listener will delete the ride ID from every relevant driver,
+        //once the query returns the needed list of drivers.
+        class DeleteQueryListener extends ESQueryListener {
+            private String rideID;
+            public DeleteQueryListener(String rideID) {
+                this.rideID = rideID;
+            }
+            @Override
+            public void onQueryCompletion(List<?> results) {
+                List<User> drivers = (List<User>) results;
+                for (User driver : drivers) {
+                    driver.removeAcceptedRequestID(rideID);
+                }
+            }
+        }
+
+        //Create a listener with the ID to be deleted and pass it into a new get user task.
+        DeleteQueryListener queryListener = new DeleteQueryListener(ride.getId());
+        ElasticSearchUserController.GetUsersByIdTask getUsersByIdTask =
+                new ElasticSearchUserController.GetUsersByIdTask(queryListener);
+
+        List<String> usernames = ride.getDriverUsernames();
+        //Convert list to array so we can use it as a varargs for the task
+        String[] usernamesArray = new String[ride.getDriverUsernames().size()];
+        usernames.toArray(usernamesArray);
+        getUsersByIdTask.execute(usernamesArray);
 
         saveInFile();
+        //Update the user data online.
+        new ElasticSearchUserController.AddUsersTask().execute(currentUser);
+    }
+
+    public void deleteAcceptedRide(Ride ride) {
+        //Remove the ride from the local list
+        acceptedRides.deleteRide(ride);
+        //Remove the ID from the user object
+        currentUser.removeAcceptedRequestID(ride.getId());
+
+        saveInFile();
+
         new ElasticSearchUserController.AddUsersTask().execute(currentUser);
     }
 }

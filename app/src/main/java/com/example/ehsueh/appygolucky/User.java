@@ -148,6 +148,11 @@ public class User {
         this.requestedRideIDs.add(rideRequestID);
     }
 
+    public void deleteRideRequestID(Ride ride) {
+        requestedRideIDs.remove(ride.getId());
+    }
+
+
     /**
      * Add accepted request.
      *
@@ -179,7 +184,4 @@ public class User {
         return rating;
     }
 
-    public void deleteRide(Ride ride) {
-
-    }
 }
