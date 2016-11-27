@@ -33,7 +33,7 @@ public class UC050101 extends ActivityInstrumentationTestCase2 {
         public MockUserController(Context context, User user) {
             super(context);
             currentUser = user;
-            super.currentUser = user;
+            UserController.currentUser = user;
         }
     }
 
@@ -67,6 +67,13 @@ public class UC050101 extends ActivityInstrumentationTestCase2 {
 
         ucDriver.addAcceptedRequest(myRide);
 
+        //Wait for the server to process any new data upload
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch(Exception e) {
+            fail("Time interrupted");
+        }
+
         //Test that the ride is added to the driver's list of accepted rides
         List<Ride> acceptedRides = ucDriver.getAcceptedRides().getRides();
         assertTrue("RideList didn't contain the ride", acceptedRides.contains(myRide));
@@ -97,9 +104,9 @@ public class UC050101 extends ActivityInstrumentationTestCase2 {
 
         //Test that the ride ID is saved to the driver's list on the server
         ESQueryListener queryListener = new ESQueryListener();
-        ElasticSearchUserController.GetUserByUsernameTask getUserTask =
-                new ElasticSearchUserController.GetUserByUsernameTask(queryListener);
-        getUserTask.execute(driver.getUsername());
+        ElasticSearchUserController.GetUsersByIdTask getUserTask =
+                new ElasticSearchUserController.GetUsersByIdTask(queryListener);
+        getUserTask.execute(driver.getId());
 
         while(queryListener.getResults() == null) {
             //Wait...

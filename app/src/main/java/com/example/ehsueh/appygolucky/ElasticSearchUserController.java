@@ -11,8 +11,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
+import io.searchbox.core.Get;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
@@ -70,7 +72,7 @@ public class ElasticSearchUserController {
 //Method to returning data without freezing UI taken from
     //http://stackoverflow.com/questions/7618614/return-data-from-asynctask-class
     //Nov 16 Adil Soomro
-    public static class GetUserByUsernameTask extends AsyncTask<String, Void, List<User>> {
+    public static class GetUsersByUsernameTask extends AsyncTask<String, Void, List<User>> {
         private ESQueryListener queryListener;
 
         /**
@@ -78,7 +80,7 @@ public class ElasticSearchUserController {
          *
          * @param queryListener Query listener that handles the returned data.
          */
-        public GetUserByUsernameTask(ESQueryListener queryListener) {
+        public GetUsersByUsernameTask(ESQueryListener queryListener) {
             this.queryListener = queryListener;
         }
 
@@ -86,31 +88,35 @@ public class ElasticSearchUserController {
         protected List<User> doInBackground(String... params) {
             verifySettings();
 
-            if (params[0] == null || params[0].equals("")) {
+            if (params == null || params.length == 0) {
                 return null;
             }
 
-            String search_string = "{\"query\": {\"match\": {\"username\": \"" + params[0] + "\"}}}";
+            List<User> users = new ArrayList<User>();
 
-            Search search = new Search.Builder(search_string)
-                    .addIndex(teamName)
-                    .addType(userType)
-                    .build();
+            for(String param: params) {
+                String search_string = "{\"query\": {\"match\": {\"username\": \"" + param + "\"}}}";
 
-            try {
-                SearchResult result = client.execute(search);
-                if (result.isSucceeded()) {
+                Search search = new Search.Builder(search_string)
+                        .addIndex(teamName)
+                        .addType(userType)
+                        .build();
 
-                    return result.getSourceAsObjectList(User.class);
+                try {
+                    SearchResult result = client.execute(search);
+                    if (result.isSucceeded()) {
 
-                } else {
-                    return (List<User>) new ArrayList<User>();
+                        users.addAll(result.getSourceAsObjectList(User.class));
+
+                    }
+                } catch (IOException e) {
+                    Log.i("Error", "Failed to communicate with elasticsearch server");
+                    e.printStackTrace();
+                    return null;
                 }
-            } catch (IOException e) {
-                Log.i("Error", "Failed to communicate with elasticsearch server");
-                e.printStackTrace();
-                return null;
             }
+
+            return users;
         }
 
         /**
@@ -119,6 +125,55 @@ public class ElasticSearchUserController {
          */
         @Override
         protected void onPostExecute(List<User> retrievedUsers) {
+            queryListener.onQueryCompletion(retrievedUsers);
+        }
+    }
+
+    /**
+     * The main use for this class will be for testing, where usernames
+     * are not guaranteed to be unique
+     */
+    public static class GetUsersByIdTask extends AsyncTask<String, Void, List<User>> {
+        private ESQueryListener queryListener;
+
+        public GetUsersByIdTask(ESQueryListener queryListener) {
+            this.queryListener = queryListener;
+        }
+
+        @Override
+        public List<User> doInBackground(String... params) {
+            verifySettings();
+
+            //Size of array
+            // http://stackoverflow.com/questions/921384/java-string-array-is-there-a-size-of-method
+            //Nov 24 Kris
+            if (params == null || params.length == 0) {
+                return new ArrayList<User>();
+            }
+
+            List<User> results = new ArrayList<User>();
+
+            for(String id: params) {
+                Get get = new Get.Builder(teamName, id).type(userType).build();
+                try {
+                    JestResult result = client.execute(get);
+                    User user = result.getSourceAsObject(User.class);
+                    results.add(user);
+                } catch (IOException e) {
+                    Log.e("ESRide", "Ran into a problem when trying to get rides");
+                    e.printStackTrace();
+                }
+            }
+
+            return results;
+        }
+
+        /**
+         * Called at the completion of the task.  Feeds the retrieved data to the ESQueryListener
+         * to do any further computation/action.
+         */
+        @Override
+        public void onPostExecute(List<User> retrievedUsers) {
             queryListener.onQueryCompletion(retrievedUsers);
         }
     }

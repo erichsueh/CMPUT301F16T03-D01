@@ -3,7 +3,6 @@ package com.example.ehsueh.appygolucky;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
-import java.sql.Time;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -46,7 +45,7 @@ public class UC030201 extends ActivityInstrumentationTestCase2 {
 
         //Edit the user information, which should be reflected across the server,
         //currentUser, and the save file.
-        uc.editProfile(newEmail, phone, address, name);
+        uc.editProfile(newEmail, phone, address, name, "");
 
         //Give the server time to process the user
         try {
@@ -67,7 +66,7 @@ public class UC030201 extends ActivityInstrumentationTestCase2 {
 
         //Check whether the update was saved to the server
         ESQueryListener queryListener = new ESQueryListener();
-        new ElasticSearchUserController.GetUserByUsernameTask(queryListener)
+        new ElasticSearchUserController.GetUsersByUsernameTask(queryListener)
                 .execute(username);
 
         while(queryListener.getResults() == null) {

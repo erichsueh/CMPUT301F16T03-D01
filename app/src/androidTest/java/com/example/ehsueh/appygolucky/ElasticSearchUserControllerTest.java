@@ -6,8 +6,6 @@ import android.util.Log;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
 
 
 public class ElasticSearchUserControllerTest extends ActivityInstrumentationTestCase2 {
@@ -15,7 +13,7 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
         super(MainActivity.class);
     }
 
-    //In order to test AddUsersTask, also tests GetUserByUsernameTask and DeleteUserTask
+    //In order to test AddUsersTask, also tests GetUsersByUsernameTask and DeleteUserTask
     public void testAddUsersTask() {
         String username = "test_myCoolName";
         String name = "John";
@@ -50,9 +48,9 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
 
         //Test if it is in server
         ESQueryListener myQueryListener = new ESQueryListener();
-        ElasticSearchUserController.GetUserByUsernameTask getUserByUsernameTask =
-                new ElasticSearchUserController.GetUserByUsernameTask(myQueryListener);
-        getUserByUsernameTask.execute(username);
+        ElasticSearchUserController.GetUsersByUsernameTask getUsersByUsernameTask =
+                new ElasticSearchUserController.GetUsersByUsernameTask(myQueryListener);
+        getUsersByUsernameTask.execute(username);
 
         while(myQueryListener.getResults() == null) {
             //Wait for the server to return the results
@@ -66,8 +64,8 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
 
 
         myQueryListener = new ESQueryListener();
-        ElasticSearchUserController.GetUserByUsernameTask checkUserTask1 =
-                new ElasticSearchUserController.GetUserByUsernameTask(myQueryListener);
+        ElasticSearchUserController.GetUsersByUsernameTask checkUserTask1 =
+                new ElasticSearchUserController.GetUsersByUsernameTask(myQueryListener);
         //it checks that is is not in server
         checkUserTask1.execute("test_notMyCoolName");
 
@@ -92,7 +90,7 @@ public class ElasticSearchUserControllerTest extends ActivityInstrumentationTest
 
         //Retrieve the user and check whether it has the new address
         myQueryListener = new ESQueryListener();
-        new ElasticSearchUserController.GetUserByUsernameTask(myQueryListener)
+        new ElasticSearchUserController.GetUsersByUsernameTask(myQueryListener)
                 .execute(username);
 
         while(myQueryListener.getResults() == null) {

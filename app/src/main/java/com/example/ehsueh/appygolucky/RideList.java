@@ -24,6 +24,13 @@ public class RideList {
         this.rides.add(ride);
     }
 
+    /**
+     * Sets the internal ride list to a new list.
+     * Can be used to update data with data from the server
+     * @param rides A new list of rides to store
+     */
+    public void setRides(List<Ride> rides) { this.rides = rides; }
+
     public List<Ride> getRides() {
         return this.rides;
     }

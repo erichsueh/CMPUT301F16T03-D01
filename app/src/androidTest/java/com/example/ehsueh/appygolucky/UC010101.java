@@ -91,9 +91,9 @@ public class UC010101 extends ActivityInstrumentationTestCase2{
 
         //Test whether the ride ID is saved to the user on the server
         queryListener = new ESQueryListener();
-        ElasticSearchUserController.GetUserByUsernameTask getUserByUsernameTask =
-                new ElasticSearchUserController.GetUserByUsernameTask(queryListener);
-        getUserByUsernameTask.execute(uc.getCurrentUser().getUsername());
+        ElasticSearchUserController.GetUsersByUsernameTask getUsersByUsernameTask =
+                new ElasticSearchUserController.GetUsersByUsernameTask(queryListener);
+        getUsersByUsernameTask.execute(uc.getCurrentUser().getUsername());
         while(queryListener.getResults() == null) {
             //wait...
         }

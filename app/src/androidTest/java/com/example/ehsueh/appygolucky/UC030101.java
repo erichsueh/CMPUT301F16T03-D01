@@ -43,9 +43,9 @@ public class UC030101 extends ActivityInstrumentationTestCase2{
         try {
             uc.newUserLogin(username, name1, email1, phone1, address1);
         } catch(InterruptedException e) {
-            fail("GetUserByUsernameTask was interrupted");
+            fail("GetUsersByUsernameTask was interrupted");
         } catch(ExecutionException e) {
-            fail("GetUserByUsernameTask threw ExecutionException");
+            fail("GetUsersByUsernameTask threw ExecutionException");
         }
 
 
@@ -59,7 +59,7 @@ public class UC030101 extends ActivityInstrumentationTestCase2{
         //Query for user with the matching username
         ESQueryListener myQueryListener = new ESQueryListener();
 
-        new ElasticSearchUserController.GetUserByUsernameTask(myQueryListener).execute(username);
+        new ElasticSearchUserController.GetUsersByUsernameTask(myQueryListener).execute(username);
         while(myQueryListener.getResults() == null) {
             //wait until the results are returned from the server
         }

@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.security.KeyStore;
 import java.util.List;
 
 /**
@@ -65,10 +64,10 @@ public class MainActivity extends ActionBarActivity {
             Toast toast = Toast.makeText(getApplicationContext(), "Logging you in...",
                     Toast.LENGTH_SHORT);
             toast.show();
-            //Create a GetUserByUsernameTask which includes an anonymous listener class to act on the data that
+            //Create a GetUsersByUsernameTask which includes an anonymous listener class to act on the data that
             //is retrieved from the server
-            ElasticSearchUserController.GetUserByUsernameTask getUserByUsernameTask =
-                    new ElasticSearchUserController.GetUserByUsernameTask(
+            ElasticSearchUserController.GetUsersByUsernameTask getUsersByUsernameTask =
+                    new ElasticSearchUserController.GetUsersByUsernameTask(
                             new ESQueryListener() {
                                 @Override
                                 public void onQueryCompletion(List<?> results) {
@@ -115,7 +114,7 @@ public class MainActivity extends ActionBarActivity {
                                     }
                                 }
                             });
-            getUserByUsernameTask.execute(desiredUsername);
+            getUsersByUsernameTask.execute(desiredUsername);
 
         }
 

@@ -8,6 +8,5 @@ package com.example.ehsueh.appygolucky;
 
 public class Rider {
     public Rider() {
-        //TODO: replace this with something useful
     }
 }

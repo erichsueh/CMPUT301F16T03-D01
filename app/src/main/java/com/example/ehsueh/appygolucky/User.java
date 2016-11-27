@@ -154,6 +154,10 @@ public class User {
         this.acceptedRideIDs.add(acceptedRequestID);
     }
 
+    public void removeAcceptedRequestID(String requestIDToRemove) {
+        this.acceptedRideIDs.remove(requestIDToRemove);
+    }
+
 
     public String getRideDescription() {
         return rideDescription;

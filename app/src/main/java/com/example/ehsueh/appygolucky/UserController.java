@@ -2,7 +2,6 @@ package com.example.ehsueh.appygolucky;
 
 import android.content.Context;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -23,6 +22,7 @@ import java.util.concurrent.ExecutionException;
  * as well as operations on the currently active user on the app.
  */
 public class UserController {
+    protected Boolean queryInProgress;
 
     protected static User currentUser;
 
@@ -47,6 +47,7 @@ public class UserController {
      */
     public UserController(Context context) {
         applicationContext = context;
+        queryInProgress = Boolean.FALSE;
         if(requestedRides == null) {
             requestedRides = new RideList();
             acceptedRides = new RideList();
@@ -88,6 +89,7 @@ public class UserController {
      * @param user Object for the user who is logging in
      */
     public void existingUserLogin(User user) {
+        queryInProgress = Boolean.TRUE;
         currentUser = user;
         saveInFile();
 
@@ -115,8 +117,18 @@ public class UserController {
             public void onQueryCompletion(List<?> results) {
                 List<Ride> rides = (List<Ride>) results;
                 acceptedRides = new RideList(rides);
+                queryInProgress = Boolean.FALSE;
             }
         }).execute(acceptedIdsArray);
+    }
+
+    /**
+     * Whether data is currently being fetched from the server.
+     * Ex. when refreshing user data.
+     * @return queryInProgress
+     */
+    public Boolean queryInProgress() {
+        return queryInProgress;
     }
 
     /**
@@ -129,12 +141,40 @@ public class UserController {
     }
 
     /**
-     * This method may be used to retrieve the LOCALLY saved ride list
+     * This method may be used to retrieve the list of rides the user has requested.
+     * Will first return the local list, but then will refresh the list.
      *
      * @return requestedRides the LOCALLY saved ride list
      */
     public RideList getRequestedRides() {
+        queryInProgress = Boolean.TRUE;
+
+        //Get a fresh copy of the rides from the server (asynchronously)
+        refreshRequestedRides();
+
+        //Return the RideList, which will be updated when the query completes.
         return requestedRides;
+    }
+
+    /**
+     * Retrieves an updated list of the requested rides for this user.
+     */
+    public void refreshRequestedRides() {
+        queryInProgress = Boolean.TRUE;
+
+        List<String> requestedRideIds = currentUser.getRideRequestIDs();
+        //Convert list to array so we can use it as a varargs for the task
+        String[] requestedIdsArray = new String[requestedRideIds.size()];
+        requestedRideIds.toArray(requestedIdsArray);
+
+        //Retrieve the list of rides for this user
+        new ElasticSearchRideController.GetRidesByIdTask(new ESQueryListener() {
+            @Override
+            public void onQueryCompletion(List<?> results) {
+                requestedRides.setRides((List<Ride>) results);
+                queryInProgress = Boolean.FALSE;
+            }
+        }).execute(requestedIdsArray);
     }
 
     /**
@@ -168,6 +208,7 @@ public class UserController {
      *
      */
     public void addRideRequest(Ride rideRequest) {
+        queryInProgress = Boolean.TRUE;
         requestedRides.addRide(rideRequest);
 
         //Add the ride to the server.  When the query has completed, make the necessary changes
@@ -184,6 +225,7 @@ public class UserController {
                         saveInFile();
                         //Update the user info on the server
                         new ElasticSearchUserController.AddUsersTask().execute(currentUser);
+                        queryInProgress = Boolean.FALSE;
                     }
 
                 });
@@ -222,11 +264,55 @@ public class UserController {
      * make changes on the server, and save to file
      *
      * @param ride
-     * @param Driver
+     * @param confirmedDriver
      */
     //TODO: this should notify the driver
-    public void confirmDriverAcceptance(Ride ride, User Driver) {
+    public void confirmDriverAcceptance(Ride ride, User confirmedDriver)
+            throws DriverNotInListException {
+        //Update the ride locally
+        ride.riderConfirms(confirmedDriver);
 
+        //Update the ride on the server
+        new ElasticSearchRideController.AddRideTask(new ESQueryListener()).execute(ride);
+
+        //Make a listener class that will remove ride IDs from the users who are
+        //not the confirmed driver.  (Note: this is run AFTER the query finishes)
+        class confirmQueryListener extends ESQueryListener {
+            private String rideID;
+            private String confirmedDriverUsername;
+
+            public confirmQueryListener(String rideID, String confirmedDriverUsername) {
+                this.rideID = rideID;
+                this.confirmedDriverUsername = confirmedDriverUsername;
+            }
+
+            @Override
+            public void onQueryCompletion(List<?> results) {
+                List<User> drivers = (List<User>) results;
+                //For each user, if they aren't the confirmed driver, remove the ride ID
+                for (User driver : drivers) {
+                    if (!driver.getUsername().equals(confirmedDriverUsername)) {
+                        //Remove the ID from the list
+                        driver.removeAcceptedRequestID(rideID);
+                        //Update the user's info on the server
+                        new ElasticSearchUserController.AddUsersTask().execute(driver);
+                    }
+                }
+            }
+        }
+
+        List<String> usernames = ride.getDriverUsernames();
+        //Convert list to array so we can use it as a varargs for the task
+        String[] usernamesArray = new String[ride.getDriverUsernames().size()];
+        usernames.toArray(usernamesArray);
+
+        new ElasticSearchUserController.GetUsersByUsernameTask(
+                new confirmQueryListener(ride.getId(), confirmedDriver.getUsername()))
+                    .execute(usernamesArray);
+
+
+        //Save user and ride data
+        saveInFile();
     }
 
     /**

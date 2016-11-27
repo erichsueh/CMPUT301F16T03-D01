@@ -18,9 +18,9 @@ import io.searchbox.annotations.JestId;
  *
  */
 public class Ride implements Parcelable {
-    public final int REQUESTED = 0;
-    public final int ACCEPTED = 1;
-    public final int CONFIRMED = 2;
+    public static final int REQUESTED = 0;
+    public static final int ACCEPTED = 1;
+    public static final int CONFIRMED = 2;
     private int status;
     private String description;
     private List<String> driverUsernames;
@@ -113,7 +113,7 @@ public class Ride implements Parcelable {
 
 
     public String getDescription() { return this.description; }
-    public Integer getStatus() { return status; }
+    public int getStatus() { return status; }
     public List<String> getDriverUsernames() {
         return this.driverUsernames;
     }
@@ -136,12 +136,15 @@ public class Ride implements Parcelable {
         }
         driverUsernames.add(username);
     }
-    public void riderConfirms(User driver) throws DriverNotInListExcpetion{
+    public void riderConfirms(User driver) throws DriverNotInListException {
+        if(status != ACCEPTED) {
+            throw new RuntimeException("Rider tried to confirm a ride that had the wrong status");
+        }
         if(driverUsernames.contains(driver.getUsername())) {
             confirmedDriverUsername = driver.getUsername();
             status = CONFIRMED;
         } else {
-            throw new DriverNotInListExcpetion();
+            throw new DriverNotInListException();
         }
     }
     public void setStartLocation(LatLng startLocation) {
