@@ -422,4 +422,11 @@ public class UserController {
         //Update user info on the server
         new ElasticSearchUserController.AddUsersTask().execute(currentUser);
     }
+
+    public void deleteRide(Ride ride) {
+        currentUser.deleteRide(ride);
+
+        saveInFile();
+        new ElasticSearchUserController.AddUsersTask().execute(currentUser);
+    }
 }

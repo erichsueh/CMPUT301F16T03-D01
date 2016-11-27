@@ -123,7 +123,8 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             uc.getCurrentUser().updateRating(seek.getProgress());
-
+                            //Ride ride = list.get(finalPosition);
+                            //uc.deleteRide(ride);
                         }
                     });
                     adb.setNegativeButton("No", new DialogInterface.OnClickListener() {

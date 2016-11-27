@@ -178,4 +178,8 @@ public class User {
     public Integer getRating() {
         return rating;
     }
+
+    public void deleteRide(Ride ride) {
+
+    }
 }
