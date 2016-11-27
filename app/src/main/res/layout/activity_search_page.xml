@@ -11,12 +11,13 @@
     tools:context="com.example.ehsueh.appygolucky.SearchPageActivity">
 
     <TextView
-        android:text="GeoLocation or Keyword"
+        android:text='To search with GeoLocation, click on the "Search with map" Button, to search by Location, please search with the "Search with Location" button after entering the text in the textbox.'
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/textView6" />
+        android:id="@+id/textView6"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -30,32 +31,39 @@
         android:text="Enter Here" />
 
     <Button
-        android:text="ShowMap"
+        android:text="Back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/AcceptGeoButton"
+        android:onClick="AcceptSearch"
         android:layout_alignParentBottom="true"
-        android:id="@+id/SeeMapButton"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:onClick="ShowMap"/>
+        android:layout_alignParentEnd="true" />
 
     <Button
-        android:text="Accept"
+        android:text="Search With Location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/SeeMapButton"
-        android:id="@+id/AcceptGeoButton"
+        android:layout_below="@+id/editText"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:onClick="AcceptSearch" />
+        android:id="@+id/searchLocation"
+        android:onClick="searchWithLocation"/>
+
+    <Button
+        android:text="Search WIth Map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/SeeMapButton"
+        android:onClick="ShowMap"
+        android:layout_below="@+id/editText"
+        android:layout_alignParentStart="true" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/searchLocation"
         android:layout_alignParentStart="true"
-        android:id="@+id/SearchList"
         android:layout_above="@+id/AcceptGeoButton"
-        android:layout_alignParentEnd="true" />
+        android:id="@+id/searchList" />
 
 </RelativeLayout>

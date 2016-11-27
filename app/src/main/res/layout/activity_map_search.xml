@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_map_search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.ehsueh.appygolucky.MapSearchActivity"
+    map:uiZoomControls="true"
+    map:uiZoomGestures="true"
+    map:mapType="normal">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.ehsueh.appygolucky.AddRequestActivity"
+        tools:layout="@android:layout/list_content">
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:id="@+id/setLocationButton"
+            android:layout_gravity="bottom|center"
+            android:text="set start"
+            android:layout_marginBottom="5dp" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:id="@+id/cancelTrip"
+            android:layout_gravity="bottom|left"
+            android:text="restart"
+            android:layout_marginBottom="5dp" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop = "10dp"
+            android:layout_gravity = "top|left">
+
+            <fragment
+                android:id="@+id/place_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity = "top|center"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment" />
+        </android.support.v7.widget.CardView>
+    </fragment>>
+
+</RelativeLayout>
