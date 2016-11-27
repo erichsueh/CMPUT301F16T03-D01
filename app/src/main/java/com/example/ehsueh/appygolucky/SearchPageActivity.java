@@ -36,22 +36,25 @@ public class SearchPageActivity extends ActionBarActivity {
     public void searchWithLocation(View view){
         String searchLocation = searchText.getText().toString();
 
-        ListView listView = (ListView) findViewById(R.id.searchList);
-        ESQueryListener queryListener = new ESQueryListener();
+
+        final ListView listView = (ListView) findViewById(R.id.searchList);
         ElasticSearchRideController.GetRidesByKeywordTask getRidesByKeywordTask =
-                new ElasticSearchRideController.GetRidesByKeywordTask(queryListener);
+                new ElasticSearchRideController.GetRidesByKeywordTask(new ESQueryListener() {
+                    @Override
+                    public void onQueryCompletion(List<?> results) {
+                    ArrayList<Ride> rides = (ArrayList<Ride>) results;
+                        final ArrayList<Ride> list = new ArrayList<Ride>(rides);
+                        final ArrayAdapter rideAdapter = new ArrayAdapter<Ride>(getApplicationContext(),
+                                android.R.layout.simple_list_item_1, list);
+                        listView.setAdapter(rideAdapter);
+
+                    }
+
+                });
         getRidesByKeywordTask.execute(searchLocation);
 
-        while(queryListener.getResults() == null) {
-            //Wait...
-        }
 
-        List<Ride> results = queryListener.getResults();
 
-        ArrayList<Ride> rides = (ArrayList<Ride>) results;
-        final ArrayList<Ride> list = new ArrayList<Ride>(rides);
-        final ArrayAdapter rideAdapter = new ArrayAdapter<Ride>(this,android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(rideAdapter);
     }
 
     /**
