@@ -4,9 +4,14 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 2 Buttons and a list
@@ -30,8 +35,22 @@ public class SearchPageActivity extends ActionBarActivity {
 
     public void searchWithLocation(View view){
         String searchLocation = searchText.getText().toString();
-        //ElasticSearchRideController.GetRidesByLocationTask(searchLocation);
 
+        ListView listView = (ListView) findViewById(R.id.searchList);
+        ESQueryListener queryListener = new ESQueryListener();
+        ElasticSearchRideController.GetRidesByKeywordTask getRidesByKeywordTask =
+                new ElasticSearchRideController.GetRidesByKeywordTask(queryListener);
+        getRidesByKeywordTask.execute(searchLocation);
+
+        while(queryListener.getResults() == null) {
+            //Wait...
+        }
+
+        List<Ride> results = queryListener.getResults();
+
+        ArrayList<Ride> rides = (ArrayList<Ride>) results;
+        final ArrayList<Ride> list = new ArrayList<Ride>(rides);
+        final ArrayAdapter rideAdapter = new ArrayAdapter<Ride>(this,android.R.layout.simple_list_item_1, list)
     }
 
     /**
