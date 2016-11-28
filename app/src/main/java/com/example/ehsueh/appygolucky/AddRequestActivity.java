@@ -397,11 +397,6 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 Ride request = new Ride(tripStartMarker.getPosition(), tripEndMarker.getPosition(),
                         userFare, note,
                         uc.getCurrentUser());
-
-// Start the service for rider notifications
-//                Intent intent = RiderNotificationService.createIntentStartNotificationService(context);
-//                startService(intent);
-
                 dialog.dismiss();
                 if (!isNetworkAvailable())
                 {
