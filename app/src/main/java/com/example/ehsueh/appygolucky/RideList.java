@@ -70,13 +70,16 @@ public class RideList {
     }
 
     public void notifyListeners() {
+        List<Listener> listenersToRemove = new ArrayList<Listener>();
         for(Listener listener: listeners) {
             //If the program crashes, sometimes we are left with null listeners
             if(listener == null) {
-                listeners.remove(listener);
+                listenersToRemove.add(listener);
+            } else {
+                listener.update();
             }
-            listener.update();
         }
+        listeners.removeAll(listenersToRemove);
     }
 
     public void addListener(Listener listener) {

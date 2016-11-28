@@ -175,6 +175,7 @@ public class UserController {
             public void onQueryCompletion(List<?> results) {
                 acceptedRides.setRides((List<Ride>) results);
                 queryInProgress = Boolean.FALSE;
+                saveInFile();
             }
         }).execute(acceptedIdsArray);
     }
@@ -196,6 +197,7 @@ public class UserController {
             public void onQueryCompletion(List<?> results) {
                 requestedRides.setRides((List<Ride>) results);
                 queryInProgress = Boolean.FALSE;
+                saveInFile();
             }
         }).execute(requestedIdsArray);
     }
