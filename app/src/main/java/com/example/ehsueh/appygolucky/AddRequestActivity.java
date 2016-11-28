@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
@@ -85,26 +86,15 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         cancelTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(tripStartMarker != null){
-                    tripStartMarker.remove();
-                    tripStartMarker = null;
-                }
-                if(tripEndMarker != null){
-                    tripEndMarker.remove();
-                    tripEndMarker = null;
-                }
-                if(currentMarker != null){
-                    currentMarker.remove();
-                    currentMarker = null;
-                }
-
-                //Reset button state when they cancel
+                //Reset middle button
                 setLocation.setText("set start");
-
-                //Once they cancel it disable this button until they place another pin
+                //Once they cancel it will be enabled after a marker is added
                 cancelTrip.setEnabled(false);
-
+                //Reset all Markers and clear entire googlemap
                 mMap.clear();
+                tripStartMarker = null;
+                tripEndMarker = null;
+                currentMarker = null;
             }
         });
 
@@ -112,10 +102,10 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onPlaceSelected(Place place) {
                 LatLng location = place.getLatLng();
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,12));
                 if(currentMarker != null){
                     currentMarker.remove();
                 }
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,12));
                 currentMarker = mMap.addMarker(new MarkerOptions()
                         .position(location)
                         .title(place.getAddress().toString())
@@ -126,7 +116,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onError(Status status) {
                 AlertDialog markerWarning = new AlertDialog.Builder(context).create();
-                markerWarning.setMessage("Something went wrong in trying to search address.");
+                markerWarning.setMessage("Error in searching the places");
                 markerWarning.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -137,22 +127,6 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 markerWarning.show();
             }
         });
-//        new AlertDialog.Builder(context)
-//                .setTitle("Delete entry")
-//                .setMessage("Are you sure you want to delete this entry?")
-//                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // continue with delete
-//                    }
-//                })
-//                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // do nothing
-//                    }
-//                })
-//                .setIcon(android.R.drawable.ic_dialog_alert)
-//                .show();
-
         setLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,6 +180,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                     tripEndMarker.showInfoWindow();
                     currentMarker = null;
                     setLocation.setText(R.string.confirm_trip);
+
                     JSONMaps helper = new JSONMaps((AddRequestActivity) context);
                     helper.drawPathCoordinates(tripStartMarker, tripEndMarker);
 
@@ -338,13 +313,13 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         final Button confirm = (Button)dialog.findViewById(R.id.confirmRequest);
         final EditText amount= (EditText)dialog.findViewById(R.id.Fare);
         final EditText description = (EditText)dialog.findViewById(R.id.note_to_driver);
-        final double fairAmount = FairEstimation.estimateFair(distance);
-        fairEstimate.setText("Estimate Cost: $"+ Double.toString(fairAmount));
-        distanceDlg.setText("Distance: "+ distance);
+        fairEstimate.setText("Estimate Cost: **Requires internet**");
+        distanceDlg.setText("Distance: **Requires internet**");
         //Set up info for dialog
-        if (!isNetworkAvailable()) {
-            fairEstimate.setText("Estimate Cost: **Requires internet**");
-            distanceDlg.setText("Distance: **Requires internet**");
+        if (isNetworkAvailable()) {
+            final double fairAmount = FairEstimation.estimateFair(distance);
+            fairEstimate.setText("Estimate Cost: $"+ Double.toString(fairAmount));
+            distanceDlg.setText("Distance: "+ distance);
         }
         dialog.setTitle( "Enter Details" );
         from.setText(tripStartMarker.getTitle());
@@ -406,14 +381,26 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                         userFare, note,
                         uc.getCurrentUser());
 
-                //RideController.addRide(request);
-
 // Start the service for rider notifications
 //                Intent intent = RiderNotificationService.createIntentStartNotificationService(context);
 //                startService(intent);
 
                 dialog.dismiss();
-                uc.addRideRequest(request);
+                if (!isNetworkAvailable())
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "You are offline, request will be added when online!", Toast.LENGTH_LONG);
+                    toast.show();
+                    //OFFLINE????
+                    //uc.addRideRequest(request);
+                }
+                else {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Request Added Successfully!", Toast.LENGTH_SHORT);
+                    toast.show();
+                    uc.addRideRequest(request);
+                }
+
                 finish();
             }
         });
@@ -442,28 +429,6 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
 
             return rate;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.LogoutButton) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     //this is a method to check if network is available, it returns true if there is internet, false otherwise
