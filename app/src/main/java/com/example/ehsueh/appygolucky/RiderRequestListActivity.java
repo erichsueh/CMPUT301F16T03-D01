@@ -22,6 +22,9 @@ import java.util.ArrayList;
  * Button:BackRiderReq
  *
  * This is our rider request page, with each colour different status
+ * black being no one has accepted
+ * red being someone has accepted
+ * green being that you have accepted
  */
 public class RiderRequestListActivity extends ActionBarActivity {
     private UserController uc;
@@ -35,6 +38,16 @@ public class RiderRequestListActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * on resume is where we set our List view
+     * Then set the colors according to status
+     * (the color thing was taken from this website)
+     * "http://droidgallery.blogspot.ca/2011/07/android-list-view-with-alternating-row.html"
+     * then it sets up our alert dialog button according to the statuses
+     * if the status is 0, that means that you can only delete or not delete
+     * if the status is 1, the dialog box allows you to look at the list, and delete
+     * if the status is confirmed, then the dialog box will allow you to rate the driver
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -146,6 +159,10 @@ public class RiderRequestListActivity extends ActionBarActivity {
         });
     }
 
+    /**
+     * this addrequest button allows the rider to add a request according to the google maps
+     * @param view
+     */
 
     public void AddRequest(View view) {
         Intent intent = new Intent(RiderRequestListActivity.this, AddRequestActivity.class);

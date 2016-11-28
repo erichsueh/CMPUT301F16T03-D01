@@ -19,12 +19,21 @@ import java.util.ArrayList;
 /**
  * List view :PendingList
  * Button:PendingBack
- *
- * The pending shows the lsit of riders you've proposed a price to
+ *As a driver, this page allows you to delete your said proposals
+ * The pending shows the lsit of riders you've proposed to
  */
 
 public class DriverPendingActivity extends ActionBarActivity {
     private UserController uc;
+
+    /**
+     * in the oncreate method, we set the array adapter using the user controller,
+     * then we override some of the ride adapters to get our different color to show our status's
+     * Red status means there's things to be taken care of, and green mean that your proposed ride
+     * has been accepted by the rider.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +68,10 @@ public class DriverPendingActivity extends ActionBarActivity {
 
         };
         listView.setAdapter(rideAdapter);
-
+        /**
+         * this place is our "long click listener" used to set up our ADB
+         * so the driver can cancel his proposal should he choose to
+         */
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -117,7 +129,10 @@ public class DriverPendingActivity extends ActionBarActivity {
     }
 
 
-
+    /**
+     * standard back button we have on all pages
+     * @param view
+     */
 
     public void BackPending (View view) {
     finish();}

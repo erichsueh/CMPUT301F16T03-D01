@@ -39,8 +39,8 @@
         android:layout_below="@+id/textView8"
         android:layout_alignParentStart="true"
         android:id="@+id/dname"
-        android:layout_alignParentEnd="true"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:text="dmail "
@@ -141,5 +141,16 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:onClick="contback"/>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dride"
+        android:layout_marginTop="18dp"
+        android:id="@+id/ratingcont"
+        android:textSize="18sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

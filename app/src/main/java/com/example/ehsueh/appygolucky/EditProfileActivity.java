@@ -8,6 +8,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * this is the edit profile page, Upon logging in, we're taken to this page so we can populate it
+ * if nothing is entered, there's still a change later to edit the said information
+ */
 public class EditProfileActivity extends ActionBarActivity {
     private EditText editName;
     private EditText editEmail;
@@ -17,6 +21,12 @@ public class EditProfileActivity extends ActionBarActivity {
     private UserController uc;
     private boolean isNewUser;
 
+    /**
+     * the oncreate method is where we initialize our edit text boxes
+     * we find their ID then we set it to whatever was previousally in the boxes beforehand
+     * if nothings in there, it would come up as a blank textbox but still editable
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +45,12 @@ public class EditProfileActivity extends ActionBarActivity {
         editAddress.setText(uc.getCurrentUser().getAddress(),TextView.BufferType.EDITABLE);
         editRideDescription.setText(uc.getCurrentUser().getRideDescription(),TextView.BufferType.EDITABLE);
     }
+
+    /**
+     * this onclick method saves whatever information we have in the edit boxes and then
+     * saves it onto the server as well as locally
+     * @param view
+     */
 
     public void SaveEdits(View view) {
         if (isNewUser == true){

@@ -41,7 +41,7 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:text="Search With Location"
+        android:text="Search By Keyword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText"
@@ -50,7 +50,7 @@
         android:onClick="searchWithLocation"/>
 
     <Button
-        android:text="Search WIth Map"
+        android:text="Search By Map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/SeeMapButton"

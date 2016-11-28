@@ -9,6 +9,11 @@ import android.widget.Toast;
 
 import java.util.List;
 
+/**
+ * This is the contact info activity page
+ * where the user can take a look at the drivers that have proposed their ride
+ */
+
 public class ContactInfoActivity extends Activity {
     //private UserController uc;
     private TextView dName;
@@ -16,6 +21,14 @@ public class ContactInfoActivity extends Activity {
     private TextView dPhone;
     private TextView dAddress;
     private TextView dRideDescription;
+    private TextView dRating;
+
+    /**
+     * Since we have the driver's username passed in from the previous activity
+     * we can get the intent, then use it to query the server for the driver's information
+     * once found, we populate the textviews with said information to show to the rider who he's dealing with
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +38,7 @@ public class ContactInfoActivity extends Activity {
         dPhone = (TextView) findViewById(R.id.dphone);
         dAddress = (TextView) findViewById(R.id.daddress);
         dRideDescription=(TextView) findViewById(R.id.dride);
+        dRating = (TextView) findViewById(R.id.ratingcont);
 
         //uc = new UserController(getApplicationContext());
         Intent intent = getIntent();
@@ -55,6 +69,7 @@ public class ContactInfoActivity extends Activity {
                                         dPhone.setText(newUser.getPhone());
                                         dAddress.setText(newUser.getAddress());
                                         dRideDescription.setText(newUser.getRideDescription());
+                                        dRating.setText("Their current rating is: " + newUser.getRating());
                                     }
                                     catch (Exception e){
                                         Toast toast = Toast.makeText(getApplicationContext(),
@@ -69,7 +84,12 @@ public class ContactInfoActivity extends Activity {
                         });
         getUsersByUsernameTask.execute(theDriver);
     }
-public void contback(View view){
+
+    /**
+     * standard back button, not much explination needed
+     * @param view
+     */
+    public void contback(View view){
     finish();
 }
 }

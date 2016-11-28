@@ -16,6 +16,8 @@ import java.io.IOException;
 public class HomePageActivity extends ActionBarActivity {
     UserController uc;
     private TextView ratingView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         uc = new UserController(getApplicationContext());
@@ -23,6 +25,10 @@ public class HomePageActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home_page);
     }
 
+    /**
+     * This onresume function makes sure our rating is updated everytime we resume this page,
+     * as well as makes sure the username is right
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -35,15 +41,27 @@ public class HomePageActivity extends ActionBarActivity {
 
     }
 
-
+    /**
+     * this button will take us back to the home screen as well as clear the data an log out
+     * @param view
+     */
     public void LogoutClick(View view){
         Datacleaner.getInstance().clearApplicationData();
         finish();}
 
+    /**
+     * this button shows us the options for the riders, it will take us to the rider screen
+     * @param view
+     */
     public void RiderClick(View view) {
         Intent intent = new Intent(this, RiderRequestListActivity.class);
         startActivity(intent);}
 
+    /**
+     * This button sets a alert dialog builder which gives us 2 different options that the
+     * driver can do, one is search for drivers, the other is to look at their proposed ones
+     * @param view
+     */
     public void DriverClick(View view) {
         AlertDialog.Builder adb = new AlertDialog.Builder(HomePageActivity.this);
         adb.setMessage("What would you like to do?");
@@ -70,6 +88,11 @@ public class HomePageActivity extends ActionBarActivity {
         });
         adb.show();
     }
+
+    /**
+     * this last click goes into the edit profile page
+     * @param view
+     */
     public void EditClick(View view) {
         Intent intent = new Intent(this, EditProfileActivity.class);
         intent.putExtra("isNew",false);

@@ -31,8 +31,21 @@ import java.util.List;
 public class SearchPageActivity extends AppCompatActivity {
     private EditText searchText;
     private UserController uc;
-    private Boolean clicked;
+    //private Boolean clicked;
 
+
+    /**
+     * this is what we used to send the information back from the "search by maps page"
+     * taken from
+     * http://stackoverflow.com/questions/920306/sending-data-back-to-the-main-activity-in-android
+     * what it does is first checks if the result is from the search by maps, then it passes in
+     * a longlat object and searches with it on the server.
+     * after searching, it sets up a dialog box so the user can choose to see the route taken, or
+     * the user can add a request to it
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
@@ -109,9 +122,18 @@ public class SearchPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_page);
         searchText = (EditText) findViewById(R.id.editText);
         uc = new UserController(getApplicationContext());
-        clicked = false;
+        //clicked = false;
     }
 
+    /**
+     * our search with location button transforms the text in the edittext and then query's the
+     * server by keyword
+     *
+     * after the query's done, it populates the search box with the list that it gets,
+     * as well as sets up the dialog box so that the user
+     * can add or see the route
+     * @param view
+     */
 
     public void searchWithLocation(View view){
 
@@ -186,11 +208,16 @@ public class SearchPageActivity extends AppCompatActivity {
 
     /**
      * renaim this to "back"
+     * our regular backpage
      * @param view
      */
     public void AcceptSearch (View view) {
         finish();}
 
+    /**
+     * this view will start a new intent as well as tell it that we need information back from it
+     * @param view
+     */
     public void ShowMap(View view){
         //clicked = true;
         Intent intent = new Intent(SearchPageActivity.this, MapSearchActivity.class);
