@@ -119,7 +119,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                 //HI ERIC, this is where I return the position and close the map.
                 //*************************************************************************
                 else {
-                    currentMarker.getPosition();
+                    LatLng search_location = currentMarker.getPosition();
                     finish();
                 }
             }

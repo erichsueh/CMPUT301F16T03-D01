@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,7 +28,7 @@ import java.util.List;
  * This is our "can look for riders by geolocation or by a keyword
  */
 
-public class SearchPageActivity extends ActionBarActivity {
+public class SearchPageActivity extends AppCompatActivity {
     private EditText searchText;
     private UserController uc;
     private Boolean clicked;
@@ -79,37 +80,34 @@ public class SearchPageActivity extends ActionBarActivity {
                                 listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                                     @Override
                                     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                                        AlertDialog.Builder adb = new AlertDialog.Builder(SearchPageActivity.this);
                                         final int finalPosition = position;
                                         final Ride ride = list.get(finalPosition);
-                                        adb.setMessage("What would you like to do?");
-                                        adb.setCancelable(true);
+                                        new AlertDialog.Builder(SearchPageActivity.this)
+                                            .setTitle("Options")
+                                            .setMessage("What would you like to do?")
+                                            .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    uc.addAcceptedRequest(ride);
 
-                                        adb.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                                                uc.addAcceptedRequest(ride);
-
-                                            }
-                                        });
-                                        adb.setNeutralButton("See Map", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                            Intent intent = new Intent(SearchPageActivity.this, MapsActivity.class);
-                                            LatLng start_location = ride.getStartLocation();
-                                            LatLng end_location = ride.getEndLocation();
-                                            intent.putExtra("start", start_location);
-                                            intent.putExtra("end", end_location);
-                                            startActivity(intent);
-                                            }
-                                        });
-                                        adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                            }
-                                        });
-
+                                                }
+                                            })
+                                            .setNeutralButton("See Map", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    Intent intent = new Intent(SearchPageActivity.this, MapsActivity.class);
+                                                    LatLng start_location = ride.getStartLocation();
+                                                    LatLng end_location = ride.getEndLocation();
+                                                    intent.putExtra("start", start_location);
+                                                    intent.putExtra("end", end_location);
+                                                    startActivity(intent);
+                                                }
+                                            })
+                                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // do nothing
+                                                }
+                                            })
+                                            .setIcon(android.R.drawable.ic_menu_info_details)
+                                            .show();
                                         return false;
                                     }
                                 });
