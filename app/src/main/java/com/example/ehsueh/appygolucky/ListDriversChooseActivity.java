@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,73 +42,138 @@ public class ListDriversChooseActivity extends ActionBarActivity {
         };
 
         listView.setAdapter(rideAdapter);
-
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                AlertDialog.Builder adb = new AlertDialog.Builder(ListDriversChooseActivity.this);
                 final int finalPosition = position;
                 final String driver = list.get(finalPosition);
-                adb.setMessage("What would you like to do?");
-                adb.setCancelable(true);
+                new AlertDialog.Builder(ListDriversChooseActivity.this)
+                        .setTitle("Options")
+                        .setMessage("What would you like to do?")
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
-                adb.setPositiveButton("Confirm!", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ElasticSearchUserController.GetUsersByUsernameTask getUsersByUsernameTask =
-                                new ElasticSearchUserController.GetUsersByUsernameTask(
-                                        new ESQueryListener() {
-                                            @Override
-                                            public void onQueryCompletion(List<?> results) {
-                                                //If the result comes back null, it means there was a
-                                                // network error
-                                                if (results == null) {
-                                                    Toast toast = Toast.makeText(getApplicationContext(),
-                                                            "We couldn't contact the server.  Please check your " +
-                                                                    "connectivity and try again", Toast.LENGTH_SHORT);
-                                                    toast.show();
-                                                } else {
-                                                    //If that username already exists on the server, we've already downloaded
-                                                    // their user object.  Set them to the current user.
-                                                    //results holds the user returned from the database.
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ElasticSearchUserController.GetUsersByUsernameTask getUsersByUsernameTask =
+                                        new ElasticSearchUserController.GetUsersByUsernameTask(
+                                                new ESQueryListener() {
+                                                    @Override
+                                                    public void onQueryCompletion(List<?> results) {
+                                                        //If the result comes back null, it means there was a
+                                                        // network error
+                                                        if (results == null) {
+                                                            Toast toast = Toast.makeText(getApplicationContext(),
+                                                                    "We couldn't contact the server.  Please check your " +
+                                                                            "connectivity and try again", Toast.LENGTH_SHORT);
+                                                            toast.show();
+                                                        } else {
+                                                            //If that username already exists on the server, we've already downloaded
+                                                            // their user object.  Set them to the current user.
+                                                            //results holds the user returned from the database.
 
-                                                    User newUser = (User) results.get(0);
-                                                    //uc.existingUserLogin(newUser);
-                                                    try {
-                                                        uc.confirmDriverAcceptance(ride, newUser);
+                                                            User newUser = (User) results.get(0);
+                                                            //uc.existingUserLogin(newUser);
+                                                            try {
+                                                                uc.confirmDriverAcceptance(ride, newUser);
+                                                                finish();
+                                                            }
+                                                            catch (Exception e){
+                                                                Toast toast = Toast.makeText(getApplicationContext(),
+                                                                        "We've experienced a problem with the server. " +
+                                                                                "Please" +
+                                                                                "try again", Toast.LENGTH_SHORT);
+                                                                toast.show();
+                                                            }
+                                                        }
                                                     }
-                                                    catch (Exception e){
-                                                        Toast toast = Toast.makeText(getApplicationContext(),
-                                                                "We've experienced a problem with the server. " +
-                                                                        "Please" +
-                                                                        "try again", Toast.LENGTH_SHORT);
-                                                        toast.show();
-                                                    }
-                                                }
-                                            }
-                                        });
-                        getUsersByUsernameTask.execute(driver);
+                                                });
+                                getUsersByUsernameTask.execute(driver);
 
-                    }
-                });
-                adb.setNeutralButton("Contact Info", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                        Intent intent = new Intent(ListDriversChooseActivity.this, ContactInfoActivity.class);
-                        intent.putExtra("Driver",driver);
-                        startActivity(intent);
-                    }
-                });
-                adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                });
-
+                            }
+                        })
+                        .setNeutralButton("Contact Info", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(ListDriversChooseActivity.this, ContactInfoActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_menu_info_details)
+                        .show();
                 return false;
             }
         });
+
+//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                AlertDialog.Builder adb = new AlertDialog.Builder(ListDriversChooseActivity.this);
+//                final int finalPosition = position;
+//                final String driver = list.get(finalPosition);
+//                adb.setMessage("What would you like to do?");
+//                adb.setCancelable(true);
+//
+//                adb.setPositiveButton("Confirm!", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        ElasticSearchUserController.GetUsersByUsernameTask getUsersByUsernameTask =
+//                                new ElasticSearchUserController.GetUsersByUsernameTask(
+//                                        new ESQueryListener() {
+//                                            @Override
+//                                            public void onQueryCompletion(List<?> results) {
+//                                                //If the result comes back null, it means there was a
+//                                                // network error
+//                                                if (results == null) {
+//                                                    Toast toast = Toast.makeText(getApplicationContext(),
+//                                                            "We couldn't contact the server.  Please check your " +
+//                                                                    "connectivity and try again", Toast.LENGTH_SHORT);
+//                                                    toast.show();
+//                                                } else {
+//                                                    //If that username already exists on the server, we've already downloaded
+//                                                    // their user object.  Set them to the current user.
+//                                                    //results holds the user returned from the database.
+//
+//                                                    User newUser = (User) results.get(0);
+//                                                    //uc.existingUserLogin(newUser);
+//                                                    try {
+//                                                        uc.confirmDriverAcceptance(ride, newUser);
+//                                                    }
+//                                                    catch (Exception e){
+//                                                        Toast toast = Toast.makeText(getApplicationContext(),
+//                                                                "We've experienced a problem with the server. " +
+//                                                                        "Please" +
+//                                                                        "try again", Toast.LENGTH_SHORT);
+//                                                        toast.show();
+//                                                    }
+//                                                }
+//                                            }
+//                                        });
+//                        getUsersByUsernameTask.execute(driver);
+//
+//                    }
+//                });
+//                adb.setNeutralButton("Contact Info", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                        Intent intent = new Intent(ListDriversChooseActivity.this, ContactInfoActivity.class);
+//                        intent.putExtra("Driver",driver);
+//                        startActivity(intent);
+//                    }
+//                });
+//                adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                    }
+//                });
+//
+//                return false;
+//            }
+//        });
     }
 
 }
