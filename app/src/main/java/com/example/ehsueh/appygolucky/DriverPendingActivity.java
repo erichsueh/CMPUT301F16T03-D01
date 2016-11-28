@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 public class DriverPendingActivity extends ActionBarActivity {
     private UserController uc;
+    private Listener acceptedRidesListener;
 
     /**
      * in the oncreate method, we set the array adapter using the user controller,
@@ -76,6 +77,20 @@ public class DriverPendingActivity extends ActionBarActivity {
 
         };
         listView.setAdapter(rideAdapter);
+
+        //Create an object of an abstract class, using the listener interface
+        //From studentPicker videos
+        acceptedRidesListener = new Listener() {
+            @Override
+            public void update() {
+                list.clear();
+                list.addAll(uc.getRequestedRides().getRides());
+                rideAdapter.notifyDataSetChanged();
+            }
+        };
+
+        uc.getAcceptedRides().addListener(acceptedRidesListener);
+
         /**
          * this place is our "long click listener" used to set up our ADB
          * so the driver can cancel his proposal should he choose to
@@ -134,6 +149,11 @@ public class DriverPendingActivity extends ActionBarActivity {
 //                return false;
 //            }
 //        });
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        uc.getAcceptedRides().removeListener(acceptedRidesListener);
     }
 
 

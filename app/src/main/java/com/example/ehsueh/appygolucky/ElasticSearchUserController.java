@@ -89,7 +89,7 @@ public class ElasticSearchUserController {
             verifySettings();
 
             if (params == null || params.length == 0) {
-                return null;
+                return new ArrayList<User>();
             }
 
             List<User> users = new ArrayList<User>();
@@ -112,7 +112,7 @@ public class ElasticSearchUserController {
                 } catch (IOException e) {
                     Log.i("Error", "Failed to communicate with elasticsearch server");
                     e.printStackTrace();
-                    return null;
+                    return new ArrayList<User>();
                 }
             }
 

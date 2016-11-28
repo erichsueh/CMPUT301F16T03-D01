@@ -155,7 +155,7 @@ public class UserController {
         queryInProgress = Boolean.TRUE;
 
         //Get a fresh copy of the rides from the server (asynchronously)
-        refreshRequestedRides();
+        //refreshRequestedRides();
 
         //Return the RideList, which will be updated when the query completes.
         return requestedRides;

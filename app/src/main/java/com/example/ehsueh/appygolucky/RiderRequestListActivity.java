@@ -27,38 +27,26 @@ import java.util.ArrayList;
  * red being someone has accepted
  * green being that you have accepted
  */
+
+/**
+ * on resume is where we set our List view
+ * Then set the colors according to status
+ * (the color thing was taken from this website)
+ * "http://droidgallery.blogspot.ca/2011/07/android-list-view-with-alternating-row.html"
+ * then it sets up our alert dialog button according to the statuses
+ * if the status is 0, that means that you can only delete or not delete
+ * if the status is 1, the dialog box allows you to look at the list, and delete
+ * if the status is confirmed, then the dialog box will allow you to rate the driver
+ */
 public class RiderRequestListActivity extends ActionBarActivity {
     private UserController uc;
+    Listener requestedRidesListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_request_list);
         uc = new UserController(getApplicationContext());
-
-
-    }
-
-    /**
-     * on resume is where we set our List view
-     * Then set the colors according to status
-     * (the color thing was taken from this website)
-     * "http://droidgallery.blogspot.ca/2011/07/android-list-view-with-alternating-row.html"
-     * then it sets up our alert dialog button according to the statuses
-     * if the status is 0, that means that you can only delete or not delete
-     * if the status is 1, the dialog box allows you to look at the list, and delete
-     * if the status is confirmed, then the dialog box will allow you to rate the driver
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (uc.getCurrentUser().getNotification()){
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "You have a new notification!", Toast.LENGTH_SHORT);
-            toast.show();
-            uc.getCurrentUser().setNotification(false);
-        }
 
         ListView listView = (ListView) findViewById(R.id.RiderRequestLst);
 
@@ -87,6 +75,19 @@ public class RiderRequestListActivity extends ActionBarActivity {
         };
         listView.setAdapter(rideAdapter);
 
+        //Create an object of an abstract class, using the listener interface
+        //From studentPicker videos
+        requestedRidesListener = new Listener() {
+            @Override
+            public void update() {
+                list.clear();
+                list.addAll(uc.getRequestedRides().getRides());
+                rideAdapter.notifyDataSetChanged();
+            }
+        };
+
+        uc.getRequestedRides().addListener(requestedRidesListener);
+
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -102,7 +103,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //Ride ride = list.get(finalPosition);
                             uc.deleteRequestedRide(ride);
-                            rideAdapter.notifyDataSetChanged();
+                            //rideAdapter.notifyDataSetChanged();
 
                         }
                     });
@@ -127,7 +128,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //Ride ride = list.get(finalPosition);
                             uc.deleteRequestedRide(ride);
-                            rideAdapter.notifyDataSetChanged();
+                            //rideAdapter.notifyDataSetChanged();
 
                         }
                     });
@@ -151,7 +152,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
                             uc.getCurrentUser().updateRating(seek.getProgress());
                             //Ride ride = list.get(finalPosition);
                             uc.deleteRequestedRide(ride);
-                            rideAdapter.notifyDataSetChanged();
+                            //rideAdapter.notifyDataSetChanged();
                         }
                     });
                     adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -165,6 +166,28 @@ public class RiderRequestListActivity extends ActionBarActivity {
                 return false;
             }
         });
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (uc.getCurrentUser().getNotification()){
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "You have a new notification!", Toast.LENGTH_SHORT);
+            toast.show();
+            uc.getCurrentUser().setNotification(false);
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        uc.getRequestedRides().removeListener(requestedRidesListener);
     }
 
     /**
