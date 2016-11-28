@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.BooleanResult;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -29,14 +30,26 @@ import java.util.List;
 public class SearchPageActivity extends ActionBarActivity {
     private EditText searchText;
     private UserController uc;
+    private Boolean clicked;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
         searchText = (EditText) findViewById(R.id.editText);
         uc = new UserController(getApplicationContext());
+        clicked = false;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (clicked.equals(true)){
+            clicked = false;
+            Toast toast = Toast.makeText(this, "True", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+    }
     public void searchWithLocation(View view){
 
         String searchLocation = searchText.getText().toString();
@@ -56,56 +69,55 @@ public class SearchPageActivity extends ActionBarActivity {
                             final ArrayAdapter rideAdapter = new ArrayAdapter<Ride>(getApplicationContext(),
                                     android.R.layout.simple_list_item_1, list);
                             listView.setAdapter(rideAdapter);
-                            if (rides.size() == 0) ;
+                            if (rides.size() == 0)
                             {
                                 Toast toast = Toast.makeText(getApplicationContext(),
                                         "Finished Searching, no rides found.", Toast.LENGTH_SHORT);
                                 toast.show();
                             }
-                            Toast toast = Toast.makeText(getApplicationContext(),
-                                    "Finished Searching, returning list.", Toast.LENGTH_SHORT);
-                            toast.show();
-                            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                                @Override
-                                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                                    AlertDialog.Builder adb = new AlertDialog.Builder(SearchPageActivity.this);
-                                    final int finalPosition = position;
-                                    final Ride ride = list.get(finalPosition);
-                                    adb.setMessage("What would you like to do?");
-                                    adb.setCancelable(true);
+                            else{
+                                listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                                    @Override
+                                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                                        AlertDialog.Builder adb = new AlertDialog.Builder(SearchPageActivity.this);
+                                        final int finalPosition = position;
+                                        final Ride ride = list.get(finalPosition);
+                                        adb.setMessage("What would you like to do?");
+                                        adb.setCancelable(true);
 
-                                    adb.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                        adb.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                                            uc.addAcceptedRequest(ride);
+                                                uc.addAcceptedRequest(ride);
 
-                                        }
-                                    });
-                                    adb.setNeutralButton("See Map", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            }
+                                        });
+                                        adb.setNeutralButton("See Map", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
                                             Intent intent = new Intent(SearchPageActivity.this, MapsActivity.class);
                                             LatLng start_location = ride.getStartLocation();
                                             LatLng end_location = ride.getEndLocation();
                                             intent.putExtra("start", start_location);
                                             intent.putExtra("end", end_location);
                                             startActivity(intent);
-                                        }
-                                    });
-                                    adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                        }
-                                    });
+                                            }
+                                        });
+                                        adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                            }
+                                        });
 
-                                    return false;
-                                }
-                            });
+                                        return false;
+                                    }
+                                });
 
+                            }
                         }
 
-                    });
+                        });
             getRidesByKeywordTask.execute(searchLocation);
         }
 
@@ -120,11 +132,8 @@ public class SearchPageActivity extends ActionBarActivity {
         finish();}
 
     public void ShowMap(View view){
+        clicked = true;
         Intent intent = new Intent(SearchPageActivity.this, MapSearchActivity.class);
-        //LatLng start_location= new LatLng(53.5444, -113.4909);
-        //LatLng end_location= new LatLng(53.525288, -113.525454);
-        //intent.putExtra("start",start_location);
-        //intent.putExtra("end",end_location);
         startActivity(intent);
     }
 }
