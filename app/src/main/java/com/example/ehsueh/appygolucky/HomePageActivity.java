@@ -1,8 +1,11 @@
 package com.example.ehsueh.appygolucky;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -82,13 +85,15 @@ public class HomePageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        adb.setNeutralButton("Search", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(HomePageActivity.this, SearchPageActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (isNetworkAvailable()) {
+            adb.setNeutralButton("Search", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(HomePageActivity.this, SearchPageActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
         adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -106,5 +111,12 @@ public class HomePageActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EditProfileActivity.class);
         intent.putExtra("isNew",false);
         startActivity(intent);}
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 }

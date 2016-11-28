@@ -252,6 +252,11 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         //Set the initial spot to edmonton
         LatLng edmonton = new LatLng(53.5444, -113.4909);
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        if (!isNetworkAvailable()) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "You are offline, go online to see map", Toast.LENGTH_SHORT);
+            toast.show();
+        }
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mUiSettings.setZoomControlsEnabled(true);
         mUiSettings.setCompassEnabled(true);
