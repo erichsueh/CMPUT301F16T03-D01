@@ -1,6 +1,7 @@
 package com.example.ehsueh.appygolucky;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -118,6 +119,10 @@ public class UserController {
                 List<Ride> rides = (List<Ride>) results;
                 acceptedRides = new RideList(rides);
                 queryInProgress = Boolean.FALSE;
+
+                Toast toast = Toast.makeText(applicationContext, "Download complete",
+                        Toast.LENGTH_SHORT);
+                toast.show();
             }
         }).execute(acceptedIdsArray);
     }

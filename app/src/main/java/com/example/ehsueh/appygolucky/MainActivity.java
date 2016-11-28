@@ -84,6 +84,7 @@ public class MainActivity extends ActionBarActivity {
                                         //results holds the user returned from the database.
                                         if (results.size() != 0) {
                                             User newUser = (User) results.get(0);
+                                            //Added a "download complete" toast to this method
                                             uc.existingUserLogin(newUser);
 
                                             Intent intent = new Intent(getApplicationContext(),
