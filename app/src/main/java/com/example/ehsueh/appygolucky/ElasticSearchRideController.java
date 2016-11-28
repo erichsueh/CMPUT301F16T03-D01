@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -24,7 +25,7 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 
-public class ElasticSearchRideController {
+public class ElasticSearchRideController extends AppCompatActivity{
     private static JestDroidClient client;
     private static String teamName = "cmput301f16t03";
     private static String rideType = "ride";
@@ -34,7 +35,7 @@ public class ElasticSearchRideController {
      * Adds a ride to the server.
      * Passes the RideId to an ESQueryListener, as we will want to add this ID to the user's list
      */
-    public static class AddRideTask extends AsyncTask<Ride, Void, List<String>> {
+    public class AddRideTask extends AsyncTask<Ride, Void, List<String>> {
         ESQueryListener queryListener;
 
         public AddRideTask(ESQueryListener queryListener) {
@@ -319,7 +320,7 @@ public class ElasticSearchRideController {
     }
 
     //this is a method to check if network is available, it returns true if there is internet, false otherwise
-    public static boolean isNetworkAvailable() {
+    public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
