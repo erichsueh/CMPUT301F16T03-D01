@@ -45,12 +45,15 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Scanner;
 
+//This activity will return a latlng object based on what point the user
+//picked on.
 public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private UiSettings mUiSettings;
     private Marker currentMarker;
     private Context context;
     private UserController uc;
+    //set up googlemap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +67,12 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     /**
-     * Set up all the on listener for buttons and map markers
+     * Set up all the listener for buttons and map markers
      */
     private void setButtonListeners(){
         final Button setLocation = (Button)findViewById(R.id.setLocationButton);
         final PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.search_place_fragment);
-
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
@@ -78,6 +80,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                 if(currentMarker != null){
                     currentMarker.remove();
                 }
+                //this will move the camera to the start point
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,12));
                 currentMarker = mMap.addMarker(new MarkerOptions()
                         .position(location)
@@ -100,7 +103,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                 markerWarning.show();
             }
         });
-
+        //this is the button for pass back the latlng object
         setLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,9 +120,8 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
 
                     markerWarning.show();
                 }
-                //*************************************************************************
-                //HI ERIC, this is where I return the position and close the map.
-                //*************************************************************************
+                //this is when we know user is set on this marker, and it returns
+                //the location of it.
                 else {
                     LatLng search_location = currentMarker.getPosition();
                     Intent resultIntent = new Intent();
@@ -141,7 +143,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
                     currentMarker.setTitle(latLng.toString());
                     currentMarker.showInfoWindow();
-
+                    //check if phone have connection
                     if (isNetworkAvailable()) {
                         try {
                             Geocoder geoCoder = new Geocoder(context);

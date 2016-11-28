@@ -11,7 +11,7 @@
     tools:context="com.example.ehsueh.appygolucky.SearchPageActivity">
 
     <TextView
-        android:text='To search with GeoLocation, click on the "Search with map" Button, to search by Keyword, please search with the "Search by keyword" button after entering the text in the textbox.'
+        android:text='To search with GeoLocation(within 5km), click on the "Search with map" Button, to search by Keyword, please search with the "Search by keyword" button after entering the text in the textbox.'
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

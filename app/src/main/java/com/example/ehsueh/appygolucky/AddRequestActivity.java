@@ -47,9 +47,10 @@ import java.util.Scanner;
 
 /**
  * Main activity for riders to select their pickup and drop off locations.
+ * Google Map API v2 and Google Places was used for searching and picking locations.
  */
 public class AddRequestActivity extends AppCompatActivity implements OnMapReadyCallback,
-            DrawingLocationActivity {
+            DrawingLocationActivity{
 
     private GoogleMap mMap;
     private UiSettings mUiSettings;
@@ -59,11 +60,15 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
     private Context context;
     private String Distance = "? km";
     private UserController uc;
+    private Connectivity Con;
+
+    //Oncreate we start the map
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_request);
         uc = new UserController(getApplicationContext());
+        Con = new Connectivity();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -74,7 +79,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     /**
-     * Set up all the on click listeners for this activity
+     * Set up all the on click listeners for the addrequest map page
      */
     private void setButtonListeners(){
         final Button setLocation = (Button)findViewById(R.id.setLocationButton);
@@ -97,11 +102,12 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 currentMarker = null;
             }
         });
-
+        //This Fragement is for the place searching bar to autocomplete what the user wrote
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 LatLng location = place.getLatLng();
+                //camera move to the place selected and marker is added
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,12));
                 if(currentMarker != null){
                     currentMarker.remove();
@@ -127,70 +133,6 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 markerWarning.show();
             }
         });
-        setLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Do not want to spawn a warning if the end marker is not null
-                if (currentMarker == null && tripEndMarker == null) {
-                    AlertDialog markerWarning = new AlertDialog.Builder(context).create();
-                    markerWarning.setMessage(getString(R.string.warning_message));
-                    markerWarning.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-
-                    markerWarning.show();
-                }
-
-                //We put start marker as the current one since we have start point now
-                else if (tripStartMarker == null) {
-                    currentMarker.remove();
-                    String s = currentMarker.getTitle();
-                    if (!isNetworkAvailable()) {
-                        s = s.substring(9);
-                    }
-                    String address = getString(R.string.start_location) + ": " + (s);
-                    tripStartMarker = mMap.addMarker(new MarkerOptions()
-                            .position(currentMarker.getPosition())
-                            .title(address)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                    tripStartMarker.showInfoWindow();
-
-
-                    currentMarker = null;
-                    setLocation.setText(R.string.set_end);
-                    cancelTrip.setEnabled(true);
-
-                }
-                //We put End marker as the current one since we have end point now
-                else if (tripEndMarker == null) {
-                    currentMarker.remove();
-                    String s = currentMarker.getTitle();
-                    if (!isNetworkAvailable()) {
-                        s = s.substring(9);
-                    }
-                    String address = getString(R.string.end_location) + ": " + (s);
-                    tripEndMarker = mMap.addMarker(new MarkerOptions()
-                            .position(currentMarker.getPosition())
-                            .title(address)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-
-                    tripEndMarker.showInfoWindow();
-                    currentMarker = null;
-                    setLocation.setText(R.string.confirm_trip);
-
-                    JSONMaps helper = new JSONMaps((AddRequestActivity) context);
-                    helper.drawPathCoordinates(tripStartMarker, tripEndMarker);
-
-                } else {
-
-                    displayRideConfirmationDlg(Distance);
-                }
-
-            }
-        });
 
         //Listener for the map so we know when the user clicks
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -208,7 +150,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                     currentMarker.setTitle(latLng.toString());
                     currentMarker.showInfoWindow();
 
-                    if (isNetworkAvailable()) {
+                    if (Con.isNetworkAvailable()) {
                         try {
                             Geocoder geoCoder = new Geocoder(context);
                             List<Address> matches = geoCoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
@@ -230,6 +172,73 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
 
             }
         });
+        //This the middle button to check if markers are picked by user and show the address
+        //for latlong of the locations, it will also change the word on the button so user
+        //know which marker he's pointing.
+        setLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Do not want to spawn a warning if the end marker is not null
+                if (currentMarker == null && tripEndMarker == null) {
+                    AlertDialog markerWarning = new AlertDialog.Builder(context).create();
+                    markerWarning.setMessage(getString(R.string.warning_message));
+                    markerWarning.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                    markerWarning.show();
+                }
+
+                //We put start marker as the current one since we have start point now
+                else if (tripStartMarker == null) {
+                    currentMarker.remove();
+                    String s = currentMarker.getTitle();
+                    if (!Con.isNetworkAvailable()) {
+                        s = s.substring(9);
+                    }
+                    String address = getString(R.string.start_location) + ": " + (s);
+                    tripStartMarker = mMap.addMarker(new MarkerOptions()
+                            .position(currentMarker.getPosition())
+                            .title(address)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    tripStartMarker.showInfoWindow();
+
+
+                    currentMarker = null;
+                    setLocation.setText(R.string.set_end);
+                    cancelTrip.setEnabled(true);
+
+                }
+                //We put End marker as the current one since we have end point now
+                else if (tripEndMarker == null) {
+                    currentMarker.remove();
+                    String s = currentMarker.getTitle();
+                    if (!Con.isNetworkAvailable()) {
+                        s = s.substring(9);
+                    }
+                    String address = getString(R.string.end_location) + ": " + (s);
+                    tripEndMarker = mMap.addMarker(new MarkerOptions()
+                            .position(currentMarker.getPosition())
+                            .title(address)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+                    tripEndMarker.showInfoWindow();
+                    currentMarker = null;
+                    setLocation.setText(R.string.confirm_trip);
+                    //JSONmaps will draw all the routes
+                    JSONMaps helper = new JSONMaps((AddRequestActivity) context);
+                    helper.drawPathCoordinates(tripStartMarker, tripEndMarker);
+
+                } else {
+
+                    displayRideConfirmationDlg(Distance);
+                }
+
+            }
+        });
     }
 
     /**
@@ -240,7 +249,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         mMap = googleMap;
         mUiSettings = mMap.getUiSettings();
 
-        //Set the initial spot to edmonton for now
+        //Set the initial spot to edmonton
         LatLng edmonton = new LatLng(53.5444, -113.4909);
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -249,7 +258,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         mUiSettings.setTiltGesturesEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(false);
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(edmonton)      // Sets the center of the map to location user
+                .target(edmonton)
                 .zoom(10)
                 .bearing(0)
                 .tilt(0)
@@ -300,7 +309,11 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
 
 
     }
-
+    //This is the dlg back bone for adding request, it will show start,end locations, distance and
+    //estimated price based on distance, and also two edit text for user to propose price
+    //and description.
+    //When it is offline, it will behave differently, distance and price will not work and only show
+    //user that it needs internet.
     void displayRideConfirmationDlg(String distance){
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.activity_requestconfirm);
@@ -316,7 +329,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         fairEstimate.setText("Estimate Cost: **Requires internet**");
         distanceDlg.setText("Distance: **Requires internet**");
         //Set up info for dialog
-        if (isNetworkAvailable()) {
+        if (Con.isNetworkAvailable()) {
             final double fairAmount = FairEstimation.estimateFair(distance);
             fairEstimate.setText("Estimate Cost: $"+ Double.toString(fairAmount));
             distanceDlg.setText("Distance: "+ distance);
@@ -328,8 +341,6 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
 
 
         //set up the on click listeners for dialog
-
-
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -337,20 +348,21 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 dialog.dismiss();
             }
         });
-
+        //this is edittext for fare
         amount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 amount.setText("");
             }
         });
-
+        //this is edittext for description
         description.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 description.setText("");
             }
         });
+        //button to add request and it checks if fare is entered
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -386,7 +398,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
 //                startService(intent);
 
                 dialog.dismiss();
-                if (!isNetworkAvailable())
+                if (!Con.isNetworkAvailable())
                 {
                     Toast toast = Toast.makeText(getApplicationContext(),
                             "You are offline, request will be added when online!", Toast.LENGTH_LONG);
@@ -410,18 +422,19 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
-
+    //This is based on taxi fare in edmonton
+    //https://www.numbeo.com/taxi-fare/in/Edmonton
     static class FairEstimation{
 
         static public double estimateFair(String strDistance){
             Scanner sc = new Scanner(strDistance);
             double distanceKm = sc.nextDouble();
 
-            //base rate is at 3.5
-            double rate = 3.50;
+            //base rate is at 3.6
+            double rate = 3.60;
 
-            //add 1.25 for each km
-            rate += distanceKm * 1.25;
+            //add 1.48 for each km
+            rate += distanceKm * 1.48;
 
             DecimalFormat df = new DecimalFormat("#.##");
             String dx=df.format(rate);
@@ -430,14 +443,13 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
             return rate;
         }
     }
+//    public boolean isNetworkAvailable() {
+//        ConnectivityManager connectivityManager
+//                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+//        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+//    }
 
-    //this is a method to check if network is available, it returns true if there is internet, false otherwise
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 }
 
 

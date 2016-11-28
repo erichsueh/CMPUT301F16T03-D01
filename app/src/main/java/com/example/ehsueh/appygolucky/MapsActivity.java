@@ -61,6 +61,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
     /**
      * initialize map to edmonton by default
+     * start and end location is passed in from user click on list items
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -69,7 +70,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = getIntent();
         LatLng start_location = intent.getParcelableExtra("start");
         LatLng end_location = intent.getParcelableExtra("end");
-
+        //Adding both start and end marker on map, then will draw route on map
         currentMarker = mMap.addMarker(new MarkerOptions()
                 .position(start_location));
         currentMarker.setVisible(false);
@@ -108,6 +109,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //the marker will showa actual human readble address
         String endaddress = getString(R.string.end_location) + ": " + currentMarker.getTitle();
         tripEndMarker = mMap.addMarker(new MarkerOptions()
                 .position(end_location)
@@ -127,7 +129,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .build();
 
 
-
+        //ensure that gps location of current user is on
         ensureLocationPermissions();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         JSONMaps helper = new JSONMaps((MapsActivity) context);
@@ -152,7 +154,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
     }
-
+    //This will draw the route on map
     public void drawRouteOnMap(List<LatLng> drawPoints, String distance){
         //Draw the lines on the map
         mMap.addPolyline( new PolylineOptions()
