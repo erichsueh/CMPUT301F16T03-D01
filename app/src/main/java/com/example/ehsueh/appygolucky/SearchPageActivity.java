@@ -172,6 +172,7 @@ public class SearchPageActivity extends AppCompatActivity {
                                             .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     uc.addAcceptedRequest(ride);
+                                                    uc.getCurrentUser().setNotification(true);
 
                                                 }
                                             })
