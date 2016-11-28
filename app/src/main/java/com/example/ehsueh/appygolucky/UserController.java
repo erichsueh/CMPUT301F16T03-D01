@@ -249,6 +249,7 @@ public class UserController {
     public void addAcceptedRequest(Ride acceptedRequest) {
         currentUser.addAcceptedRequestID(acceptedRequest.getId());
         acceptedRides.addRide(acceptedRequest);
+
         acceptedRequest.addDriverUsername(currentUser.getUsername());
         saveInFile();
 
@@ -258,8 +259,10 @@ public class UserController {
 
         //Update the ride data on the server
         //Note this time we don't care about the ID that is returned, so we do nothing
+
         //with the ESQueryListener
         new ElasticSearchRideController.AddRideTask(new ESQueryListener())
+
                 .execute(acceptedRequest);
     }
 
