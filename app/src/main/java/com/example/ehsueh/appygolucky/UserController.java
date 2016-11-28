@@ -446,20 +446,21 @@ public class UserController {
                 List<User> drivers = (List<User>) results;
                 for (User driver : drivers) {
                     driver.removeAcceptedRequestID(rideID);
+                    new ElasticSearchUserController.AddUsersTask().execute(driver);
                 }
             }
         }
 
         //Create a listener with the ID to be deleted and pass it into a new get user task.
         DeleteQueryListener queryListener = new DeleteQueryListener(ride.getId());
-        ElasticSearchUserController.GetUsersByIdTask getUsersByIdTask =
-                new ElasticSearchUserController.GetUsersByIdTask(queryListener);
+        ElasticSearchUserController.GetUsersByUsernameTask getUsersByUsernameTask =
+                new ElasticSearchUserController.GetUsersByUsernameTask(queryListener);
 
         List<String> usernames = ride.getDriverUsernames();
         //Convert list to array so we can use it as a varargs for the task
         String[] usernamesArray = new String[ride.getDriverUsernames().size()];
         usernames.toArray(usernamesArray);
-        getUsersByIdTask.execute(usernamesArray);
+        getUsersByUsernameTask.execute(usernamesArray);
 
         saveInFile();
         //Update the user data online.
