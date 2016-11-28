@@ -205,6 +205,16 @@ public class SearchPageActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (uc.getCurrentUser().getNotification()){
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "You have a new notification!", Toast.LENGTH_SHORT);
+            toast.show();
+            uc.getCurrentUser().setNotification(false);
+        }
+    }
 
     /**
      * renaim this to "back"

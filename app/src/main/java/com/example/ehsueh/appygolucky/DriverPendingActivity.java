@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -39,6 +40,13 @@ public class DriverPendingActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_pending);
         uc = new UserController(getApplicationContext());
+
+        if (uc.getCurrentUser().getNotification()){
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "You have a new notification!", Toast.LENGTH_SHORT);
+            toast.show();
+            uc.getCurrentUser().setNotification(false);
+        }
         ListView listView = (ListView) findViewById(R.id.PendingList);
 
         ArrayList<Ride> rides = (ArrayList<Ride>) uc.getAcceptedRides().getRides();

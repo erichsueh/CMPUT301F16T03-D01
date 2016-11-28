@@ -25,6 +25,16 @@ import java.util.List;
 
 public class ListDriversChooseActivity extends ActionBarActivity {
     private UserController uc;
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (uc.getCurrentUser().getNotification()){
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "You have a new notification!", Toast.LENGTH_SHORT);
+            toast.show();
+            uc.getCurrentUser().setNotification(false);
+        }
+    }
 
     /**
      * this on create method sets up our adapter, then query's the server for our ride after

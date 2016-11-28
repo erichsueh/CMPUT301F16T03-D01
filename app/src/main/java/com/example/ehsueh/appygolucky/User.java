@@ -24,6 +24,7 @@ public class User {
     private Integer timesrated;
     private ArrayList<String> requestedRideIDs;
     private ArrayList<String> acceptedRideIDs;
+    private boolean notification;
 
     /**
      * Instantiates a new User.
@@ -45,6 +46,7 @@ public class User {
         this.acceptedRideIDs = new ArrayList<String>();
         rating = 0;
         timesrated = 0;
+        notification = false;
     }
 
     /**
@@ -165,6 +167,9 @@ public class User {
         this.acceptedRideIDs.remove(requestIDToRemove);
     }
 
+    public Boolean getNotification(){return notification;}
+
+    public void setNotification(Boolean notify){notification = notify;}
 
     public String getRideDescription() {
         return rideDescription;
@@ -184,3 +189,4 @@ public class User {
     }
 
 }
+

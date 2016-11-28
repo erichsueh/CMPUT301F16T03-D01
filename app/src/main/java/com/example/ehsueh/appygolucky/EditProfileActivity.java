@@ -32,6 +32,12 @@ public class EditProfileActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         uc = new UserController(getApplicationContext());
+        if (uc.getCurrentUser().getNotification()){
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "You have a new notification!", Toast.LENGTH_SHORT);
+            toast.show();
+            uc.getCurrentUser().setNotification(false);
+        }
         Intent intent = getIntent();
         isNewUser = intent.getBooleanExtra("isNew",false);
         editName  = (EditText) findViewById(R.id.editName);

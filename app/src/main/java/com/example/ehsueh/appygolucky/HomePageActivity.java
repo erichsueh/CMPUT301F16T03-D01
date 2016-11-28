@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -37,6 +38,13 @@ public class HomePageActivity extends AppCompatActivity {
         if(uc.getCurrentUser() != null) {
             UsernameDisplayTxt.setText("Welcome " + uc.getCurrentUser().getUsername());
         }
+
+            if (uc.getCurrentUser().getNotification()){
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "You have a new notification!", Toast.LENGTH_SHORT);
+                toast.show();
+                uc.getCurrentUser().setNotification(false);}
+        
         ratingView = (TextView) findViewById(R.id.textView13);
         ratingView.setText("As a driver your current rating out of 5 is:  "+ uc.getCurrentUser().getRating());
 

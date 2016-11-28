@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 public class ContactInfoActivity extends Activity {
-    //private UserController uc;
+    private UserController uc;
     private TextView dName;
     private TextView dEmail;
     private TextView dPhone;
@@ -40,7 +40,14 @@ public class ContactInfoActivity extends Activity {
         dRideDescription=(TextView) findViewById(R.id.dride);
         dRating = (TextView) findViewById(R.id.ratingcont);
 
-        //uc = new UserController(getApplicationContext());
+        uc = new UserController(getApplicationContext());
+
+        if (uc.getCurrentUser().getNotification()){
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "You have a new notification!", Toast.LENGTH_SHORT);
+            toast.show();
+            uc.getCurrentUser().setNotification(false);
+        }
         Intent intent = getIntent();
         String theDriver = intent.getStringExtra("driveruser");
         ElasticSearchUserController.GetUsersByUsernameTask getUsersByUsernameTask =
