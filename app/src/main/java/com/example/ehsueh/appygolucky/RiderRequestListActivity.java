@@ -168,8 +168,8 @@ public class RiderRequestListActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
 
         uc.getRequestedRides().removeListener(requestedRidesListener);
     }
