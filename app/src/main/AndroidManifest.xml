@@ -42,11 +42,9 @@
         <activity android:name=".EditProfileActivity" />
         <activity
             android:name=".AddRequestActivity"
-<<<<<<< 068c1325cd8d6afc1a19c04613eac7f05aa2b4b2
-            android:label="@string/title_activity_add_request" />
-        <!-- AIzaSyCsF_t4VNATAc0QtC3jKPnpSglUWhpSwCM won't work for places idk why' -->
-=======
             android:label="@string/title_activity_add_request"></activity>
+        <!-- AIzaSyCsF_t4VNATAc0QtC3jKPnpSglUWhpSwCM won't work for places idk why' -->
+
         <service
             android:name="com.example.ehsueh.appygolucky.OfflineOnline.AuthenticatorService">
             <intent-filter>
@@ -67,23 +65,21 @@
                        android:resource="@xml/syncadapter" />
         </service>
         <!--AIzaSyCsF_t4VNATAc0QtC3jKPnpSglUWhpSwCM won't work for places idk why'-->
->>>>>>> The beginnings of the online/offline behaviour are beginning to take form in this branch. NOTE: The app should not compile at this point.
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAiMeLL7CTYPq6LUWzkLh2HwvmCrz3xE2Q" />
         content_copy
-<<<<<<< 068c1325cd8d6afc1a19c04613eac7f05aa2b4b2
         <activity android:name=".MapSearchActivity" />
         <activity
             android:name=".ContactInfoActivity"
             android:label="@string/title_activity_contact_info"></activity>
-=======
+
         <provider
             android:name="com.example.ehsueh.appygolucky.OfflineOnline.StubProvider"
             android:authorities="com.example.android.datasync.provider"
             android:exported="false"
             android:syncable="true"/>
->>>>>>> The beginnings of the online/offline behaviour are beginning to take form in this branch. NOTE: The app should not compile at this point.
     </application>
 
 </manifest>

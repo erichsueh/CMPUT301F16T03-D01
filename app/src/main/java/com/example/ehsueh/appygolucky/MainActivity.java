@@ -46,12 +46,10 @@ public class MainActivity extends ActionBarActivity {
     public static final String ACCOUNT_TYPE = "example.com";
     // The account name
     public static final String ACCOUNT = "default_account";
-    // Sync interval constants
+    // Sync interval constants - sync every hour
     public static final long SECONDS_PER_MINUTE = 60L;
     public static final long SYNC_INTERVAL_IN_MINUTES = 60L;
-    public static final long SYNC_INTERVAL =
-            SYNC_INTERVAL_IN_MINUTES *
-                    SECONDS_PER_MINUTE;
+    public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE;
     // Global variables
     // A content resolver for accessing the provider
     ContentResolver mResolver;
@@ -77,12 +75,7 @@ public class MainActivity extends ActionBarActivity {
         /*
          * Turn on periodic syncing
          */
-        ContentResolver.addPeriodicSync(
-                mAccount,
-                AUTHORITY,
-                Bundle.EMPTY,
-                SYNC_INTERVAL);
-    }
+        ContentResolver.addPeriodicSync(mAccount, AUTHORITY, Bundle.EMPTY, SYNC_INTERVAL);}
 
     public void LoginClick(View view) {
         EditText usernameEditTxt = (EditText) findViewById(R.id.usernameInputTxt);
@@ -185,7 +178,7 @@ public class MainActivity extends ActionBarActivity {
              * or handle it internally.
              */
         }
-        return null;
+        return newAccount;
     }
 
 //    I don't think we need the three dot on main screen
