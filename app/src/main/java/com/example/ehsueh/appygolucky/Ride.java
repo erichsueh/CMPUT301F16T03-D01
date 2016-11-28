@@ -79,6 +79,7 @@ public class Ride implements Parcelable {
     public User getRider() {
         return rider;
     }
+    public String getRiderName() {return rider.getName();}
     public LatLng getEndLocation() {
         return new LatLng(this.endLocation.getLat(),this.endLocation.getLon());
     }
@@ -237,7 +238,7 @@ public class Ride implements Parcelable {
 
 
     public String toString() {
-        String temp = "Rider: " + this.getRider() + "\n";
+        String temp = "Rider: " + this.getRiderName() + "\n";
         if (this.getConfirmedDriverUsername() != null) {
             temp = temp + "Confirmed Driver: " + this.getConfirmedDriverUsername() + "\n";
         }
@@ -245,7 +246,7 @@ public class Ride implements Parcelable {
             temp = temp + "Distance: " + this.getDistance().toString() + "\n";
         }
         temp = temp + "Fare: " + this.getFare() + "\n" + "Created on: " +
-                this.getDateString() + "\n";
+                this.getDateString() + "\n" + "Description: " + this.getDescription();
         return temp;
     }
 }
