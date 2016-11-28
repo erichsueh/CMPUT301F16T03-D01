@@ -8,24 +8,149 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.ehsueh.appygolucky.ContactInfoActivity">
+    tools:context="com.example.ehsueh.appygolucky.ContactInfoActivity"><![CDATA[
+    android:background="@color/common_google_signin_btn_text_dark_focused">
+
+
+
+
+
+
+
+
+
+
+    ]]>
 
     <TextView
         android:text="DriverUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:id="@+id/DriverUsername"
-        android:layout_alignParentEnd="true"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:textSize="30sp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="DriverAddress"
+        android:text="dname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/textView8"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dname"
+        android:textSize="18sp"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="dmail "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView14"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dmail"
+        android:layout_alignParentEnd="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="dphone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView16"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dphone"
+        android:layout_alignParentEnd="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="daddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView18"
+        android:layout_alignParentStart="true"
+        android:id="@+id/daddress"
+        android:layout_alignParentEnd="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="dride"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView20"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dride"
+        android:layout_alignParentEnd="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView8"
+        android:textSize="24sp"
         android:layout_below="@+id/DriverUsername"
         android:layout_alignParentStart="true"
-        android:id="@+id/driverAddress"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:text="Email Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView14"
+        android:textSize="24sp"
+        android:layout_below="@+id/dname"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:text="Phone Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView16"
+        android:textSize="24sp"
+        android:layout_below="@+id/dmail"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="22dp" />
+
+    <TextView
+        android:text="Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView18"
+        android:textSize="24sp"
+        android:layout_below="@+id/dphone"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:text="Ride Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView20"
+        android:textSize="24sp"
+        android:layout_below="@+id/daddress"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp" />
+
+    <Button
+        android:text="Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/contactback"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="contback"/>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dride"
+        android:layout_marginTop="18dp"
+        android:id="@+id/ratingcont"
+        android:textSize="18sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

@@ -22,6 +22,9 @@ import java.util.ArrayList;
  * Button:BackRiderReq
  *
  * This is our rider request page, with each colour different status
+ * black being no one has accepted
+ * red being someone has accepted
+ * green being that you have accepted
  */
 public class RiderRequestListActivity extends ActionBarActivity {
     private UserController uc;
@@ -35,6 +38,16 @@ public class RiderRequestListActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * on resume is where we set our List view
+     * Then set the colors according to status
+     * (the color thing was taken from this website)
+     * "http://droidgallery.blogspot.ca/2011/07/android-list-view-with-alternating-row.html"
+     * then it sets up our alert dialog button according to the statuses
+     * if the status is 0, that means that you can only delete or not delete
+     * if the status is 1, the dialog box allows you to look at the list, and delete
+     * if the status is confirmed, then the dialog box will allow you to rate the driver
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -51,11 +64,11 @@ public class RiderRequestListActivity extends ActionBarActivity {
                 Ride ride = list.get(position);
                 if(ride.getStatus()==Ride.CONFIRMED)
                 {
-                    view.setBackgroundColor(Color.parseColor("#00FF00"));
+                    view.setBackgroundColor(Color.parseColor("#13B627"));
                 }
                 else if(ride.getStatus()==Ride.ACCEPTED)
                 {
-                    view.setBackgroundColor(Color.parseColor("#FFFF00"));
+                    view.setBackgroundColor(Color.parseColor("#C13029"));
                 }
                 else
                 {
@@ -81,6 +94,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //Ride ride = list.get(finalPosition);
                             uc.deleteRequestedRide(ride);
+                            rideAdapter.notifyDataSetChanged();
 
                         }
                     });
@@ -88,7 +102,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Intent intent = new Intent(RiderRequestListActivity.this, ListDriversChooseActivity.class);
-                            intent.putExtra("theRide",ride);
+                            intent.putExtra("theRide",finalPosition);
                             startActivity(intent);
                         }
                     });
@@ -105,6 +119,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //Ride ride = list.get(finalPosition);
                             uc.deleteRequestedRide(ride);
+                            rideAdapter.notifyDataSetChanged();
 
                         }
                     });
@@ -122,16 +137,16 @@ public class RiderRequestListActivity extends ActionBarActivity {
                     adb.setMessage("Bar from 0 to 5, 0 being the worst, 5 being the best");
                     adb.setView(seek);
                     adb.setCancelable(true);
-                    adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    adb.setPositiveButton("Finish", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             uc.getCurrentUser().updateRating(seek.getProgress());
                             //Ride ride = list.get(finalPosition);
                             uc.deleteRequestedRide(ride);
-                            //adapter.Notify
+                            rideAdapter.notifyDataSetChanged();
                         }
                     });
-                    adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -144,6 +159,10 @@ public class RiderRequestListActivity extends ActionBarActivity {
         });
     }
 
+    /**
+     * this addrequest button allows the rider to add a request according to the google maps
+     * @param view
+     */
 
     public void AddRequest(View view) {
         Intent intent = new Intent(RiderRequestListActivity.this, AddRequestActivity.class);

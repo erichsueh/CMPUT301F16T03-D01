@@ -1,6 +1,7 @@
 package com.example.ehsueh.appygolucky;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -118,6 +119,10 @@ public class UserController {
                 List<Ride> rides = (List<Ride>) results;
                 acceptedRides = new RideList(rides);
                 queryInProgress = Boolean.FALSE;
+
+                Toast toast = Toast.makeText(applicationContext, "Download complete",
+                        Toast.LENGTH_SHORT);
+                toast.show();
             }
         }).execute(acceptedIdsArray);
     }
@@ -441,20 +446,21 @@ public class UserController {
                 List<User> drivers = (List<User>) results;
                 for (User driver : drivers) {
                     driver.removeAcceptedRequestID(rideID);
+                    new ElasticSearchUserController.AddUsersTask().execute(driver);
                 }
             }
         }
 
         //Create a listener with the ID to be deleted and pass it into a new get user task.
         DeleteQueryListener queryListener = new DeleteQueryListener(ride.getId());
-        ElasticSearchUserController.GetUsersByIdTask getUsersByIdTask =
-                new ElasticSearchUserController.GetUsersByIdTask(queryListener);
+        ElasticSearchUserController.GetUsersByUsernameTask getUsersByUsernameTask =
+                new ElasticSearchUserController.GetUsersByUsernameTask(queryListener);
 
         List<String> usernames = ride.getDriverUsernames();
         //Convert list to array so we can use it as a varargs for the task
         String[] usernamesArray = new String[ride.getDriverUsernames().size()];
         usernames.toArray(usernamesArray);
-        getUsersByIdTask.execute(usernamesArray);
+        getUsersByUsernameTask.execute(usernamesArray);
 
         saveInFile();
         //Update the user data online.
@@ -462,6 +468,8 @@ public class UserController {
     }
 
     public void deleteAcceptedRide(Ride ride) {
+        //Remove the driver ID from the ride
+        ride.removeDriverUsername(currentUser.getUsername());
         //Remove the ride from the local list
         acceptedRides.deleteRide(ride);
         //Remove the ID from the user object
@@ -469,6 +477,8 @@ public class UserController {
 
         saveInFile();
 
+        //make changes to user and ride on the server
         new ElasticSearchUserController.AddUsersTask().execute(currentUser);
+        new ElasticSearchRideController.AddRideTask(new ESQueryListener()).execute(ride);
     }
 }

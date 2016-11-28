@@ -148,12 +148,12 @@ public class ElasticSearchRideController extends AppCompatActivity{
 
 
             //Will retrieve all rides within this distance from given location
-            String maxDistance = "10km";
+            String maxDistance = "1000km";
             String unit = "km";
 
             LatLng location = params[0];
-            String lat = String.valueOf(location.latitude);
-            String lon = String.valueOf(location.longitude);
+            String lat = Double.toString(location.latitude);
+            String lon = Double.toString(location.longitude);
 
             String search_string =
                     "{query:{ " +
@@ -163,10 +163,10 @@ public class ElasticSearchRideController extends AppCompatActivity{
                                 "}," +
                                 "\"filter\" : {" +
                                     "\"geo_distance\" : {" +
-                                        "\"distance\" : " + maxDistance + ","+
+                                        "\"distance\" : \"" + maxDistance + "\","+
                                         "\"location\" : {" +
-                                            "\"lat\" : " + lat + "," +
-                                            "\"lon\" : " + lon +
+                                            "\"lat\" : \"" + lat + "\"," +
+                                            "\"lon\" : \"" + lon + "\"" +
                                         "}" +
                                     "}" +
                                 "}" +
@@ -176,11 +176,11 @@ public class ElasticSearchRideController extends AppCompatActivity{
                         "{" +
                             "\"_geo_distance\" : {" +
                                 "\"location\" :  {" +
-                                    "\"lat\" : " + lat + "," +
-                                    "\"lon\" : " + lon +
+                                    "\"lat\" : \"" + lat + "\"," +
+                                    "\"lon\" : \"" + lon + "\"" +
                                 "}," +
                                 "\"order\" : \"asc\"," +
-                                "\"unit\" : " + unit + "," +
+                                "\"unit\" : \"" + unit + "\"," +
                                 "\"mode\" : \"min\"," +
                                 "\"distance_type\" : \"sloppy_arc\"" +
                             "}" +

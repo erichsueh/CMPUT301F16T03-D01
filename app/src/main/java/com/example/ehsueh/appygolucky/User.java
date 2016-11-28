@@ -123,8 +123,7 @@ public class User {
     /**
      * Sets name.
      *
-     * @param name the name
-     */
+     * @param name the name*/
     public void setName(String name) { this.name = name; }
 
     public void setEmail(String mail) {

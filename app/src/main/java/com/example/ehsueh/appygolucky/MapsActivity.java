@@ -61,6 +61,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
     /**
      * initialize map to edmonton by default
+     * start and end location is passed in from user click on list items
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -69,7 +70,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = getIntent();
         LatLng start_location = intent.getParcelableExtra("start");
         LatLng end_location = intent.getParcelableExtra("end");
-
+        //Adding both start and end marker on map, then will draw route on map
         currentMarker = mMap.addMarker(new MarkerOptions()
                 .position(start_location));
         currentMarker.setVisible(false);
@@ -108,13 +109,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //the marker will showa actual human readble address
         String endaddress = getString(R.string.end_location) + ": " + currentMarker.getTitle();
         tripEndMarker = mMap.addMarker(new MarkerOptions()
                 .position(end_location)
                 .title(endaddress)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-        //Set the initial spot to edmonton for now
-        LatLng edmonton = new LatLng(53.5444, -113.4909);
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mUiSettings.setZoomControlsEnabled(true);
@@ -129,7 +129,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .build();
 
 
-
+        //ensure that gps location of current user is on
         ensureLocationPermissions();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         JSONMaps helper = new JSONMaps((MapsActivity) context);
@@ -154,7 +154,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
     }
-
+    //This will draw the route on map
     public void drawRouteOnMap(List<LatLng> drawPoints, String distance){
         //Draw the lines on the map
         mMap.addPolyline( new PolylineOptions()
@@ -163,27 +163,5 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .color(Color.parseColor("#4885ed"))//color of line
                 .geodesic(true)
         );
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.LogoutButton) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

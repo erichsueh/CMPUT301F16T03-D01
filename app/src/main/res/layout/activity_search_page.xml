@@ -11,7 +11,7 @@
     tools:context="com.example.ehsueh.appygolucky.SearchPageActivity">
 
     <TextView
-        android:text='To search with GeoLocation, click on the "Search with map" Button, to search by Location, please search with the "Search with Location" button after entering the text in the textbox.'
+        android:text='To search with GeoLocation(within 5km), click on the "Search with map" Button, to search by Keyword, please search with the "Search by keyword" button after entering the text in the textbox.'
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -28,7 +28,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/editText"
         android:layout_alignParentEnd="true"
-        android:text="Enter Here" />
+        android:hint="Enter Keyword Here" />
 
     <Button
         android:text="Back"
@@ -41,7 +41,7 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:text="Search With Location"
+        android:text="Search By Keyword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText"
@@ -50,7 +50,7 @@
         android:onClick="searchWithLocation"/>
 
     <Button
-        android:text="Search WIth Map"
+        android:text="Search By Map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/SeeMapButton"

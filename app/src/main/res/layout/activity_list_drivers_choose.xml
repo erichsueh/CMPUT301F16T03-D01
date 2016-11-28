@@ -17,7 +17,8 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/BackDriverChoose"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="chooseBack"/>
 
     <TextView
         android:text="List of Drivers to choose from"
