@@ -1,5 +1,8 @@
 package com.example.ehsueh.appygolucky;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -25,6 +28,7 @@ public class ElasticSearchRideController {
     private static JestDroidClient client;
     private static String teamName = "cmput301f16t03";
     private static String rideType = "ride";
+    private static Context context;
 
     /**
      * Adds a ride to the server.
@@ -48,19 +52,23 @@ public class ElasticSearchRideController {
 
             Index index = new Index.Builder(ride).index(teamName).type(rideType).build();
 
-            try {
-                DocumentResult result = client.execute(index);
-                if (result.isSucceeded()) {
-                    ride.setId(result.getId());
-                    rideIds.add(result.getId());
+            if (isNetworkAvailable()) {
+                try {
+                    DocumentResult result = client.execute(index);
+                    if (result.isSucceeded()) {
+                        ride.setId(result.getId());
+                        rideIds.add(result.getId());
+                    }
+                    else {
+                        Log.e("ESRide", "Elastic search was not able to add the ride.");
+                    }
                 }
-                else {
-                    Log.e("ESRide", "Elastic search was not able to add the ride.");
+                catch (Exception e) {
+                    Log.e("ESRide", "We failed to add a ride to elastic search!");
+                    e.printStackTrace();
                 }
-            }
-            catch (Exception e) {
-                Log.e("ESRide", "We failed to add a ride to elastic search!");
-                e.printStackTrace();
+            } else{
+                //save index to indexQueue using enqueue
             }
 
             return rideIds;
@@ -308,6 +316,14 @@ public class ElasticSearchRideController {
             factory.setDroidClientConfig(config);
             client = (JestDroidClient) factory.getObject();
         }
+    }
+
+    //this is a method to check if network is available, it returns true if there is internet, false otherwise
+    public static boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }
