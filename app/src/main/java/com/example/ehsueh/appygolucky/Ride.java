@@ -137,6 +137,15 @@ public class Ride implements Parcelable {
         }
         driverUsernames.add(username);
     }
+
+    public void removeDriverUsername(String username) {
+        if(status != CONFIRMED) {
+            driverUsernames.remove(username);
+            if(driverUsernames.size() == 0) {
+                status = REQUESTED;
+            }
+        }
+    }
     public void riderConfirms(User driver) throws DriverNotInListException {
         if(status != ACCEPTED) {
             throw new RuntimeException("Rider tried to confirm a ride that had the wrong status");

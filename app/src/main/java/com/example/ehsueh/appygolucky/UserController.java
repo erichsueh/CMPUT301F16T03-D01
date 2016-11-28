@@ -462,6 +462,8 @@ public class UserController {
     }
 
     public void deleteAcceptedRide(Ride ride) {
+        //Remove the driver ID from the ride
+        ride.removeDriverUsername(currentUser.getUsername());
         //Remove the ride from the local list
         acceptedRides.deleteRide(ride);
         //Remove the ID from the user object
@@ -469,6 +471,8 @@ public class UserController {
 
         saveInFile();
 
+        //make changes to user and ride on the server
         new ElasticSearchUserController.AddUsersTask().execute(currentUser);
+        new ElasticSearchRideController.AddRideTask(new ESQueryListener()).execute(ride);
     }
 }
