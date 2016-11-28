@@ -88,7 +88,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Intent intent = new Intent(RiderRequestListActivity.this, ListDriversChooseActivity.class);
-                            intent.putExtra("theRide",ride);
+                            intent.putExtra("theRide",finalPosition);
                             startActivity(intent);
                         }
                     });

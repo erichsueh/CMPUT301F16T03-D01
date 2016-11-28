@@ -29,7 +29,8 @@ public class ListDriversChooseActivity extends ActionBarActivity {
         setContentView(R.layout.activity_list_drivers_choose);
         uc = new UserController(getApplicationContext());
         Intent intent = getIntent();
-        final Ride ride = intent.getParcelableExtra("theRide");
+        Integer position = intent.getIntExtra("theRide",0);
+        final Ride ride = uc.getRequestedRides().getRides().get(position);
         ListView listView = (ListView) findViewById(R.id.DriversToChoose);
 
         ArrayList<String> rides = (ArrayList<String>) ride.getDriverUsernames();
