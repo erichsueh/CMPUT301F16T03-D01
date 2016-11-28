@@ -1,10 +1,12 @@
 package com.example.ehsueh.appygolucky;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -120,6 +122,9 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                 //*************************************************************************
                 else {
                     LatLng search_location = currentMarker.getPosition();
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("search",search_location);
+                    setResult(Activity.RESULT_OK,resultIntent);
                     finish();
                 }
             }
