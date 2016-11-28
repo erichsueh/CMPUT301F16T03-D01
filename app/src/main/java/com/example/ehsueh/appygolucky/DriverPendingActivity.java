@@ -43,11 +43,11 @@ public class DriverPendingActivity extends ActionBarActivity {
                 Ride ride = list.get(position);
                 if(ride.getStatus()==Ride.CONFIRMED)
                 {
-                    view.setBackgroundColor(Color.parseColor("#00FF00"));
+                    view.setBackgroundColor(Color.parseColor("#13B627"));
                 }
                 else if(ride.getStatus()==Ride.ACCEPTED)
                 {
-                    view.setBackgroundColor(Color.parseColor("#FFFF00"));
+                    view.setBackgroundColor(Color.parseColor("#C13029"));
                 }
                 else
                 {
@@ -59,31 +59,61 @@ public class DriverPendingActivity extends ActionBarActivity {
 
         };
         listView.setAdapter(rideAdapter);
+
+
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                AlertDialog.Builder adb = new AlertDialog.Builder(DriverPendingActivity.this);
                 final int finalPosition = position;
                 final Ride ride = list.get(finalPosition);
-                adb.setMessage("Confirm Deletion?");
-                adb.setCancelable(true);
-                adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //Ride ride = list.get(finalPosition);
-                        uc.deleteAcceptedRide(ride);
+                new AlertDialog.Builder(DriverPendingActivity.this)
+                        .setTitle("Options")
+                        .setMessage("What would you like to do?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                uc.deleteAcceptedRide(ride);
+                                rideAdapter.notifyDataSetChanged();
 
-                    }
-                });
-                adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        })
 
-                    }
-                });
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_menu_info_details)
+                        .show();
                 return false;
             }
         });
+
+//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                AlertDialog.Builder adb = new AlertDialog.Builder(DriverPendingActivity.this);
+//                final int finalPosition = position;
+//                final Ride ride = list.get(finalPosition);
+//                adb.setMessage("Confirm Deletion?");
+//                adb.setCancelable(true);
+//                adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        //Ride ride = list.get(finalPosition);
+//                        uc.deleteAcceptedRide(ride);
+//                        rideAdapter.notifyDataSetChanged();
+//
+//                    }
+//                });
+//                adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                });
+//                return false;
+//            }
+//        });
     }
 
 

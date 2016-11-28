@@ -51,11 +51,11 @@ public class RiderRequestListActivity extends ActionBarActivity {
                 Ride ride = list.get(position);
                 if(ride.getStatus()==Ride.CONFIRMED)
                 {
-                    view.setBackgroundColor(Color.parseColor("#00FF00"));
+                    view.setBackgroundColor(Color.parseColor("#13B627"));
                 }
                 else if(ride.getStatus()==Ride.ACCEPTED)
                 {
-                    view.setBackgroundColor(Color.parseColor("#FFFF00"));
+                    view.setBackgroundColor(Color.parseColor("#C13029"));
                 }
                 else
                 {
@@ -81,6 +81,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //Ride ride = list.get(finalPosition);
                             uc.deleteRequestedRide(ride);
+                            rideAdapter.notifyDataSetChanged();
 
                         }
                     });
@@ -105,6 +106,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //Ride ride = list.get(finalPosition);
                             uc.deleteRequestedRide(ride);
+                            rideAdapter.notifyDataSetChanged();
 
                         }
                     });
@@ -122,16 +124,16 @@ public class RiderRequestListActivity extends ActionBarActivity {
                     adb.setMessage("Bar from 0 to 5, 0 being the worst, 5 being the best");
                     adb.setView(seek);
                     adb.setCancelable(true);
-                    adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    adb.setPositiveButton("Finish", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             uc.getCurrentUser().updateRating(seek.getProgress());
                             //Ride ride = list.get(finalPosition);
                             uc.deleteRequestedRide(ride);
-                            //adapter.Notify
+                            rideAdapter.notifyDataSetChanged();
                         }
                     });
-                    adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
