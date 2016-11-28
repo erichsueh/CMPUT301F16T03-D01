@@ -90,6 +90,7 @@ public class DriverPendingActivity extends ActionBarActivity {
         };
 
         uc.getAcceptedRides().addListener(acceptedRidesListener);
+        uc.syncAcceptedRides();
 
         /**
          * this place is our "long click listener" used to set up our ADB

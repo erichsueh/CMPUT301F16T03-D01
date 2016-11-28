@@ -71,6 +71,10 @@ public class RideList {
 
     public void notifyListeners() {
         for(Listener listener: listeners) {
+            //If the program crashes, sometimes we are left with null listeners
+            if(listener == null) {
+                listeners.remove(listener);
+            }
             listener.update();
         }
     }

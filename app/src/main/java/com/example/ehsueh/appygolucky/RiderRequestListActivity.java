@@ -87,6 +87,7 @@ public class RiderRequestListActivity extends ActionBarActivity {
         };
 
         uc.getRequestedRides().addListener(requestedRidesListener);
+        uc.syncRequestedRides();
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

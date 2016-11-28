@@ -154,17 +154,35 @@ public class UserController {
     public RideList getRequestedRides() {
         queryInProgress = Boolean.TRUE;
 
-        //Get a fresh copy of the rides from the server (asynchronously)
-        //refreshRequestedRides();
-
         //Return the RideList, which will be updated when the query completes.
         return requestedRides;
     }
 
     /**
+     * Retrieves an updated list of the accepted rides for this user.
+     */
+    public void syncAcceptedRides() {
+        queryInProgress = Boolean.TRUE;
+
+        List<String> acceptedRideIds = currentUser.getAcceptedRideIDs();
+        //Convert list to array so we can use it as a varargs for the task
+        String[] acceptedIdsArray = new String[acceptedRideIds.size()];
+        acceptedRideIds.toArray(acceptedIdsArray);
+
+        //Retrieve the list of rides for this user
+        new ElasticSearchRideController.GetRidesByIdTask(new ESQueryListener() {
+            @Override
+            public void onQueryCompletion(List<?> results) {
+                acceptedRides.setRides((List<Ride>) results);
+                queryInProgress = Boolean.FALSE;
+            }
+        }).execute(acceptedIdsArray);
+    }
+
+    /**
      * Retrieves an updated list of the requested rides for this user.
      */
-    public void refreshRequestedRides() {
+    public void syncRequestedRides() {
         queryInProgress = Boolean.TRUE;
 
         List<String> requestedRideIds = currentUser.getRideRequestIDs();
