@@ -8,154 +8,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.ehsueh.appygolucky.ContactInfoActivity">
+    tools:context="com.example.ehsueh.appygolucky.ContactInfoActivity"><![CDATA[
     android:background="@color/common_google_signin_btn_text_dark_focused">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/textView9"
-        android:layout_alignStart="@+id/textView9"
-        android:id="@+id/editName"
-        android:layout_alignParentEnd="true"
-        android:textColor="#cc0000"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:layout_below="@+id/textView8"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editEmail"
-        android:layout_alignParentEnd="true"
-        android:textColor="#cccc00"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:ems="10"
-        android:layout_below="@+id/PhoneNumber"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editPhone"
-        android:layout_alignParentEnd="true"
-        android:textColor="#00cc00"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:layout_below="@+id/textView10"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editAddress"
-        android:layout_alignParentEnd="true"
-        android:textColor="#0000cc"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"/>
-
-    <Button
-        android:text="Save Information!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:onClick="SaveEdits"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"/>
-
-    <TextView
-        android:text="Phone Number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/PhoneNumber"
-        android:layout_below="@+id/editEmail"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:textSize="20sp"
-        android:textColor="#00cc00"/>
-
-    <TextView
-        android:text="Address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView10"
-        android:layout_below="@+id/editPhone"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:textSize="20sp"
-        android:textColor="#0000cc"/>
-
-    <TextView
-        android:text="Ride Description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editAddress"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView11"
-        android:layout_alignParentEnd="true"
-        android:textSize="20sp"
-        android:textColor="#9900cc"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/textView11"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editRideDescription"
-        android:layout_alignParentEnd="true"
-        android:textColor="#9900cc"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"/>
-
-    <TextView
-        android:text="Email Address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView8"
-        android:textSize="20sp"
-        android:layout_below="@+id/editName"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="#cccc00"/>
 
 
-    <TextView
-        android:text="Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView9"
-        android:textSize="20sp"
-        android:textColor="#cc0000"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp"
-        android:layout_alignParentEnd="true" />
+
+
+
+
+
+
+
+    ]]>
 
     <TextView
         android:text="DriverUsername"
@@ -166,5 +31,115 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="dname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView8"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dname"
+        android:layout_alignParentEnd="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="dmail "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView14"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dmail"
+        android:layout_alignParentEnd="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="dphone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView16"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dphone"
+        android:layout_alignParentEnd="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="daddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView18"
+        android:layout_alignParentStart="true"
+        android:id="@+id/daddress"
+        android:layout_alignParentEnd="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="dride"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView20"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dride"
+        android:layout_alignParentEnd="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView8"
+        android:textSize="24sp"
+        android:layout_below="@+id/DriverUsername"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:text="Email Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView14"
+        android:textSize="24sp"
+        android:layout_below="@+id/dname"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:text="Phone Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView16"
+        android:textSize="24sp"
+        android:layout_below="@+id/dmail"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="22dp" />
+
+    <TextView
+        android:text="Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView18"
+        android:textSize="24sp"
+        android:layout_below="@+id/dphone"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:text="Ride Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView20"
+        android:textSize="24sp"
+        android:layout_below="@+id/daddress"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp" />
+
+    <Button
+        android:text="Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/contactback"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="contback"/>
 
 </RelativeLayout>

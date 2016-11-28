@@ -94,6 +94,7 @@ public class ListDriversChooseActivity extends ActionBarActivity {
                         .setNeutralButton("Contact Info", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent intent = new Intent(ListDriversChooseActivity.this, ContactInfoActivity.class);
+                                intent.putExtra("driveruser",driver);
                                 startActivity(intent);
                             }
                         })
@@ -176,4 +177,7 @@ public class ListDriversChooseActivity extends ActionBarActivity {
 //        });
     }
 
+    public void chooseBack(View view){
+        finish();
+    }
 }
