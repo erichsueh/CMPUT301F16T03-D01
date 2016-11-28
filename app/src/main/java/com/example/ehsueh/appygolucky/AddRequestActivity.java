@@ -60,7 +60,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
     private Context context;
     private String Distance = "? km";
     private UserController uc;
-    private Connectivity Con;
+    //private Connectivity Con;
 
     //Oncreate we start the map
     @Override
@@ -68,7 +68,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_request);
         uc = new UserController(getApplicationContext());
-        Con = new Connectivity();
+       // Con = new Connectivity();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -150,7 +150,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                     currentMarker.setTitle(latLng.toString());
                     currentMarker.showInfoWindow();
 
-                    if (Con.isNetworkAvailable()) {
+                    if (isNetworkAvailable()) {
                         try {
                             Geocoder geoCoder = new Geocoder(context);
                             List<Address> matches = geoCoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
@@ -196,7 +196,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 else if (tripStartMarker == null) {
                     currentMarker.remove();
                     String s = currentMarker.getTitle();
-                    if (!Con.isNetworkAvailable()) {
+                    if (!isNetworkAvailable()) {
                         s = s.substring(9);
                     }
                     String address = getString(R.string.start_location) + ": " + (s);
@@ -216,7 +216,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
                 else if (tripEndMarker == null) {
                     currentMarker.remove();
                     String s = currentMarker.getTitle();
-                    if (!Con.isNetworkAvailable()) {
+                    if (!isNetworkAvailable()) {
                         s = s.substring(9);
                     }
                     String address = getString(R.string.end_location) + ": " + (s);
@@ -329,7 +329,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         fairEstimate.setText("Estimate Cost: **Requires internet**");
         distanceDlg.setText("Distance: **Requires internet**");
         //Set up info for dialog
-        if (Con.isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
             final double fairAmount = FairEstimation.estimateFair(distance);
             fairEstimate.setText("Estimate Cost: $"+ Double.toString(fairAmount));
             distanceDlg.setText("Distance: "+ distance);
@@ -398,7 +398,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
 //                startService(intent);
 
                 dialog.dismiss();
-                if (!Con.isNetworkAvailable())
+                if (!isNetworkAvailable())
                 {
                     Toast toast = Toast.makeText(getApplicationContext(),
                             "You are offline, request will be added when online!", Toast.LENGTH_LONG);
@@ -443,12 +443,12 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
             return rate;
         }
     }
-//    public boolean isNetworkAvailable() {
-//        ConnectivityManager connectivityManager
-//                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-//        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-//    }
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 }
 
