@@ -243,7 +243,7 @@ public class AddRequestActivity extends AppCompatActivity implements OnMapReadyC
         //Set the initial spot to edmonton for now
         LatLng edmonton = new LatLng(53.5444, -113.4909);
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mUiSettings.setZoomControlsEnabled(true);
         mUiSettings.setCompassEnabled(true);
         mUiSettings.setTiltGesturesEnabled(true);

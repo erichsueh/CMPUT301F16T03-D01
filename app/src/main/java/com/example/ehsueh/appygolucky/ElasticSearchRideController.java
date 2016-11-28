@@ -139,7 +139,7 @@ public class ElasticSearchRideController {
 
 
             //Will retrieve all rides within this distance from given location
-            String maxDistance = "1000km";
+            String maxDistance = "5km";
             String unit = "km";
 
             LatLng location = params[0];

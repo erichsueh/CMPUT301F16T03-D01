@@ -11,17 +11,21 @@ import java.util.List;
  */
 public class RideList {
     private List<Ride> rides;
+    private List<Listener> listeners;
 
     public RideList() {
         this.rides = new ArrayList<Ride>();
+        this.listeners = new ArrayList<Listener>();
     }
 
     public RideList(List<Ride> rides) {
         this.rides = rides;
+        this.listeners = new ArrayList<Listener>();
     }
 
     public void addRide(Ride ride) {
         this.rides.add(ride);
+        notifyListeners();
     }
 
     /**
@@ -29,7 +33,10 @@ public class RideList {
      * Can be used to update data with data from the server
      * @param rides A new list of rides to store
      */
-    public void setRides(List<Ride> rides) { this.rides = rides; }
+    public void setRides(List<Ride> rides) {
+        this.rides = rides;
+        notifyListeners();
+    }
 
     public List<Ride> getRides() {
         return this.rides;
@@ -59,5 +66,20 @@ public class RideList {
 
     public void deleteRide(Ride ride) {
         this.rides.remove(ride);
+        notifyListeners();
+    }
+
+    public void notifyListeners() {
+        for(Listener listener: listeners) {
+            listener.update();
+        }
+    }
+
+    public void addListener(Listener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeListener(Listener listener) {
+        listeners.remove(listener);
     }
 }
