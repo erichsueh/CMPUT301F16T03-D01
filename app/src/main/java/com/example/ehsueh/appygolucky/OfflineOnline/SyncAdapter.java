@@ -11,6 +11,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
+
 import android.util.Log;
 
 import com.example.ehsueh.appygolucky.ElasticSearchUserController;
@@ -29,11 +30,12 @@ import java.io.InputStreamReader;
 import io.searchbox.core.Delete;
 import io.searchbox.core.Index;
 
+
 /**
  * Handle the transfer of data between a server and an
  * app, using the Android sync adapter framework.
  *
- * Code was taken from:
+ * Portion of code was taken from:
  * https://developer.android.com/training/sync-adapters/creating-sync-adapter.html#CreateAccountTypeAccount
  */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
@@ -49,6 +51,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static JestDroidClient client;
     private static String teamName = "cmput301f16t03";
     private static String rideType = "ride";
+
     /**
      * Set up the sync adapter
      */
@@ -80,6 +83,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         //...
     }
 
+
     public void loadFromFile() {
         try {
             //Load the current user
@@ -104,6 +108,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     }
 
+
     /*
      * Specify the code you want to run in the sync adapter. The entire
      * sync adapter runs in a background thread, so you don't have to set
@@ -116,6 +121,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             String authority,
             ContentProviderClient provider,
             SyncResult syncResult) {
+
 
     /*
      * Put the data transfer code here.

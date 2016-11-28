@@ -43,6 +43,7 @@
         <activity
             android:name=".AddRequestActivity"
             android:label="@string/title_activity_add_request"></activity>
+
         <!-- AIzaSyCsF_t4VNATAc0QtC3jKPnpSglUWhpSwCM won't work for places idk why' -->
 
         <service
@@ -69,7 +70,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAiMeLL7CTYPq6LUWzkLh2HwvmCrz3xE2Q" />
-        content_copy
+        <!--content_copy-->
+
         <activity android:name=".MapSearchActivity" />
         <activity
             android:name=".ContactInfoActivity"
