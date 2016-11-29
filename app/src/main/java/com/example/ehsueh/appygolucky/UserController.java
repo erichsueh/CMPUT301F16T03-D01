@@ -454,8 +454,13 @@ public class UserController {
     public void deleteRequestedRide(Ride ride) {
         //Delete from the list of rides
         requestedRides.deleteRide(ride);
+        //Delete the ride from the server
+        new ElasticSearchRideController.DeleteRideTask().execute(ride.getId());
         //Delete from the user's list of ride IDs
         currentUser.deleteRideRequestID(ride);
+        //Update the user data online.
+        new ElasticSearchUserController.AddUsersTask().execute(currentUser);
+
 
         //This listener will delete the ride ID from every relevant driver,
         //once the query returns the needed list of drivers.
@@ -486,8 +491,6 @@ public class UserController {
         getUsersByUsernameTask.execute(usernamesArray);
 
         saveInFile();
-        //Update the user data online.
-        new ElasticSearchUserController.AddUsersTask().execute(currentUser);
     }
 
     public void deleteAcceptedRide(Ride ride) {

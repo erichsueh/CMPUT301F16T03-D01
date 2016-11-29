@@ -97,7 +97,9 @@ public class ElasticSearchRideController {
                 try {
                     JestResult result = client.execute(get);
                     Ride ride = result.getSourceAsObject(Ride.class);
-                    results.add(ride);
+                    if(result.isSucceeded()) {
+                        results.add(ride);
+                    }
                 } catch (IOException e) {
                     Log.e("ESRide", "Ran into a problem when trying to get rides");
                     e.printStackTrace();
