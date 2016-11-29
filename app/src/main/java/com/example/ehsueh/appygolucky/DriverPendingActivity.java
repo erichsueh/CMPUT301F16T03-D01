@@ -84,7 +84,7 @@ public class DriverPendingActivity extends ActionBarActivity {
             @Override
             public void update() {
                 list.clear();
-                list.addAll(uc.getRequestedRides().getRides());
+                list.addAll(uc.getAcceptedRides().getRides());
                 rideAdapter.notifyDataSetChanged();
             }
         };
