@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ehsueh.appygolucky.HomePageActivity"
-    android:background="@color/common_google_signin_btn_text_dark_focused">
+    android:background="@drawable/cityscape">
 
     <TextView
         android:text="Username"

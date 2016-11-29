@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/treea_at_night"
     tools:context="com.example.ehsueh.appygolucky.DriverPendingActivity">
 
     <TextView
@@ -37,6 +38,5 @@
         android:id="@+id/PendingList"
         android:layout_above="@+id/PendingBack"
         android:layout_alignParentEnd="true"
-        android:animateLayoutChanges="false"
-        android:background="?attr/actionModeSplitBackground" />
+        android:animateLayoutChanges="false"/>
 </RelativeLayout>

@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ehsueh.appygolucky.MainActivity"
-    android:background="@color/common_google_signin_btn_text_dark_focused">
+    android:background="@drawable/cityscape">
 
     <Button
         android:text="Login!"
@@ -36,17 +36,8 @@
         android:layout_marginTop="114dp"
         android:id="@+id/textView"
         android:layout_below="@+id/usernameInputTxt"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="Username:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        android:textSize="24sp"
-        android:layout_marginTop="51dp"
-        android:layout_below="@+id/textView5"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@android:color/holo_blue_bright"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -58,6 +49,18 @@
         android:layout_below="@+id/textView4"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:hint="Please Enter your username here" />
+        android:hint="Please Enter your username here"
+        android:textColor="@android:color/holo_blue_bright"/>
+
+    <TextView
+        android:text="Username:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:textSize="24sp"
+        android:layout_marginTop="43dp"
+        android:textColor="@android:color/holo_blue_bright"
+        android:layout_below="@+id/textView5"
+        android:layout_alignEnd="@+id/textView"/>
 
 </RelativeLayout>
