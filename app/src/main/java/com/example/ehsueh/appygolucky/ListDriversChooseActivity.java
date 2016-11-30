@@ -92,7 +92,7 @@ public class ListDriversChooseActivity extends ActionBarActivity {
                                                             //uc.existingUserLogin(newUser);
                                                             try {
                                                                 uc.confirmDriverAcceptance(ride, newUser);
-                                                                newUser.setNotification(true);
+                                                                //newUser.setNotification(true);
                                                                 finish();
                                                             }
                                                             catch (Exception e){
