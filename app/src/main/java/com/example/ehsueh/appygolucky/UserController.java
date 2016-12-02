@@ -299,6 +299,7 @@ public class UserController {
             throws DriverNotInListException {
         //Update the ride locally
         ride.riderConfirms(confirmedDriver);
+        requestedRides.notifyListeners();
 
         //Update the ride on the server
         new ElasticSearchRideController.AddRideTask(new ESQueryListener()).execute(ride);

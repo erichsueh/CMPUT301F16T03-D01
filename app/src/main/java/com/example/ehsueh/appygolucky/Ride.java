@@ -146,6 +146,7 @@ public class Ride implements Parcelable {
             }
         }
     }
+
     public void riderConfirms(User driver) throws DriverNotInListException {
         if(status != ACCEPTED) {
             throw new RuntimeException("Rider tried to confirm a ride that had the wrong status");
